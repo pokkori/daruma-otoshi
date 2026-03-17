@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 
 export default function HomePage() {
@@ -144,8 +146,19 @@ export default function HomePage() {
               </li>
             ))}
           </ul>
-          <p className="text-center text-xs" style={{ color: "rgba(167,139,250,0.6)" }}>
-            ※ プレミアムプランは準備中です。近日公開予定！
+          <button
+            onClick={() => window.location.href = '/game?upgrade=1'}
+            className="w-full py-3 rounded-xl text-sm font-black transition-all active:scale-95 hover:scale-105"
+            style={{
+              background: "linear-gradient(135deg, #7c3aed, #4c1d95)",
+              color: "#fff",
+              boxShadow: "0 0 20px rgba(124,58,237,0.4)",
+            }}
+          >
+            👑 プレミアムを今すぐ始める
+          </button>
+          <p className="text-center text-xs mt-2" style={{ color: "rgba(167,139,250,0.6)" }}>
+            いつでもキャンセル可 • PAY.JPで安全に決済
           </p>
         </div>
       </section>
