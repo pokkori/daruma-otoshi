@@ -1,17 +1,15 @@
-﻿"use client";
+"use client";
 
 import { useRef, useCallback, useState } from "react";
 
 export type GamePhase = "idle" | "playing" | "clear" | "failed";
 
-export interface DarumaState {
-  id: number;
+export interface SwipeFeedback {
+  direction: "left" | "right";
+  strength: "weak" | "medium" | "strong";
   x: number;
   y: number;
-  angle: number;
-  emoji: string;
-  color: string;
-  isTarget: boolean;
+  time: number;
 }
 
 interface UsePhysicsGameOptions {
@@ -32,6 +30,7 @@ const DARUMA_COLORS = ["#dc2626","#ea580c","#d97706","#16a34a","#2563eb","#7c3ae
 export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UsePhysicsGameOptions) {
   const [phase, setPhase] = useState<GamePhase>("idle");
   const [removedCount, setRemovedCount] = useState(0);
+  const [swipeFeedback, setSwipeFeedback] = useState<SwipeFeedback | null>(null);
   const engineRef = useRef<import("matter-js").Engine | null>(null);
   const runnerRef = useRef<import("matter-js").Runner | null>(null);
   const bodiesRef = useRef<import("matter-js").Body[]>([]);
@@ -41,6 +40,8 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
   const swipeStartRef = useRef<{ x: number; y: number; time: number } | null>(null);
   const isAnimatingRef = useRef(false);
   const rafRef = useRef<number>(0);
+  const matterRef = useRef<typeof import("matter-js") | null>(null);
+  const pendingRemovalRef = useRef(false);
 
   const updatePhase = (p: GamePhase) => {
     phaseRef.current = p;
@@ -49,6 +50,7 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
 
   const initGame = useCallback(async () => {
     const Matter = await import("matter-js");
+    matterRef.current = Matter;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -70,7 +72,8 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
     const darumas: import("matter-js").Body[] = [];
 
     for (let i = 0; i < darumaCount; i++) {
-      const y = GROUND_Y - DARUMA_H / 2 - i * DARUMA_H;      const body = Matter.Bodies.rectangle(centerX, y, DARUMA_W, DARUMA_H, {
+      const y = GROUND_Y - DARUMA_H / 2 - i * DARUMA_H;
+      const body = Matter.Bodies.rectangle(centerX, y, DARUMA_W, DARUMA_H, {
         restitution: 0.1,
         friction: 0.8,
         frictionAir: 0.05,
@@ -84,6 +87,7 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
     removedRef.current = 0;
     setRemovedCount(0);
     isAnimatingRef.current = false;
+    pendingRemovalRef.current = false;
 
     Matter.Composite.add(engine.world, [ground, wallL, wallR, ...darumas]);
 
@@ -155,7 +159,7 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
 
       if (phaseRef.current === "playing") {
         const targetBody = darumas[targetIndexRef.current];
-        if (targetBody) {
+        if (targetBody && !pendingRemovalRef.current) {
           const { x, y } = targetBody.position;
           ctx.fillStyle = "#ffff00";
           ctx.font = "bold 16px system-ui";
@@ -164,17 +168,50 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
         }
       }
 
+      // --- BUG FIX: Event-driven out-of-bounds detection per frame ---
+      if (phaseRef.current === "playing" && pendingRemovalRef.current) {
+        const targetBody = darumas[targetIndexRef.current];
+        if (targetBody) {
+          const { x, y } = targetBody.position;
+          const outOfBounds = x < -100 || x > CANVAS_W + 100 || y > GROUND_Y + 100;
+          // Also check if body has essentially stopped moving (failed to leave)
+          const vel = targetBody.velocity;
+          const speed = Math.sqrt(vel.x * vel.x + vel.y * vel.y);
+          const stopped = speed < 0.5 && !outOfBounds;
+
+          if (outOfBounds) {
+            Matter.Composite.remove(engine.world, targetBody);
+            const newRemoved = removedRef.current + 1;
+            removedRef.current = newRemoved;
+            setRemovedCount(newRemoved);
+            targetIndexRef.current++;
+            pendingRemovalRef.current = false;
+
+            if (newRemoved >= darumaCount) {
+              updatePhase("clear");
+              setTimeout(onClear, 500);
+            }
+            isAnimatingRef.current = false;
+          } else if (stopped) {
+            // Body didn't leave — swipe was too weak, allow retry
+            pendingRemovalRef.current = false;
+            isAnimatingRef.current = false;
+          }
+        }
+      }
+
+      // Fail detection for non-target darumas
       if (phaseRef.current === "playing") {
-        let failed = false;
+        let hasFailed = false;
         darumas.forEach((body, i) => {
-          if (i === targetIndexRef.current) return;
-          if (body.position.y > GROUND_Y + 50) failed = true;
+          if (i <= targetIndexRef.current) return;
+          if (body.position.y > GROUND_Y + 50) hasFailed = true;
           const normalizedAngle = Math.abs(body.angle % (Math.PI * 2));
           if (normalizedAngle > Math.PI / 4 && normalizedAngle < Math.PI * 7 / 4) {
-            if (i > targetIndexRef.current) failed = true;
+            hasFailed = true;
           }
         });
-        if (failed && !isAnimatingRef.current) {
+        if (hasFailed && !isAnimatingRef.current) {
           updatePhase("failed");
           setTimeout(onFail, 300);
         }
@@ -192,7 +229,7 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
 
   const handleSwipe = useCallback(async (startX: number, startY: number, endX: number, endY: number, duration: number) => {
     if (phaseRef.current !== "playing" || isAnimatingRef.current) return;
-    const Matter = await import("matter-js");
+    const Matter = matterRef.current || await import("matter-js");
 
     const dx = endX - startX;
     const dy = endY - startY;
@@ -210,26 +247,22 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
     const vy = (dy / dist) * speed * 0.3;
 
     isAnimatingRef.current = true;
+    pendingRemovalRef.current = true;
+
+    // Swipe visual feedback
+    const direction: "left" | "right" = dx < 0 ? "left" : "right";
+    const absSpeed = Math.abs(speed);
+    const strength: "weak" | "medium" | "strong" = absSpeed < 20 ? "weak" : absSpeed < 40 ? "medium" : "strong";
+    setSwipeFeedback({
+      direction,
+      strength,
+      x: targetBody.position.x,
+      y: targetBody.position.y,
+      time: Date.now(),
+    });
+    setTimeout(() => setSwipeFeedback(null), 500);
 
     Matter.Body.setVelocity(targetBody, { x: vx, y: vy });
-
-    setTimeout(() => {
-      if (targetBody.position.x < -100 || targetBody.position.x > CANVAS_W + 100 || targetBody.position.y > GROUND_Y + 100) {
-        Matter.Composite.remove(engine.world, targetBody);
-        const newRemoved = removedRef.current + 1;
-        removedRef.current = newRemoved;
-        setRemovedCount(newRemoved);
-        targetIndexRef.current++;
-
-        if (newRemoved >= darumaCount) {
-          updatePhase("clear");
-          setTimeout(onClear, 500);
-        }
-        isAnimatingRef.current = false;
-      } else {
-        isAnimatingRef.current = false;
-      }
-    }, 600);
   }, [darumaCount, onClear]);
 
   const onTouchStart = useCallback((e: React.TouchEvent) => {
@@ -259,6 +292,7 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
   return {
     phase,
     removedCount,
+    swipeFeedback,
     initGame,
     onTouchStart,
     onTouchEnd,
