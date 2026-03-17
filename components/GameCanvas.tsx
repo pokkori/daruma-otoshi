@@ -208,24 +208,32 @@ export default function GameCanvas() {
 
         {cleared && (
           <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bounce-in"
-            style={{ background: "rgba(0,0,0,0.8)" }}>
-            <div className="text-6xl mb-3">{isEndless ? "🔥" : "🎉"}</div>
-            <div className="text-3xl font-black mb-1" style={{ color: "#ff6b2b" }}>
+            style={{ background: "rgba(0,0,0,0.82)" }}>
+            {/* GIF感クリア演出 */}
+            <div className="text-6xl mb-2 animate-bounce">{isEndless ? "🔥" : "🎎"}</div>
+            <div className="text-4xl font-black mb-1"
+              style={{ color: "#ff6b2b", textShadow: "0 0 30px rgba(255,107,43,0.9)" }}>
               {isEndless ? `${currentDarumaCount}段クリア！` : "クリア！"}
             </div>
-            <div className="text-amber-300 mb-4">+{currentDarumaCount * 100}点</div>
+            <div className="text-2xl font-bold mb-1" style={{ color: "#fbbf24" }}>
+              +{currentDarumaCount * 100}点
+            </div>
+            <div className="mb-3 px-4 py-1 rounded-full text-xs font-bold"
+              style={{ background: "rgba(255,107,43,0.2)", color: "#ffb899" }}>
+              {isEndless ? `合計スコア: ${score + currentDarumaCount * 100}点` : `スコア: ${score + currentDarumaCount * 100}点`}
+            </div>
 
             {isEndless && (
-              <div className="text-amber-400 text-sm mb-3 font-bold">
-                次: {currentDarumaCount + 1}段タワーに挑戦！
+              <div className="text-amber-400 text-sm mb-3 font-bold animate-pulse">
+                次: {currentDarumaCount + 1}段タワーに挑戦！ 🔥
               </div>
             )}
 
-            <div className="space-y-2 w-48">
+            <div className="space-y-2 w-52">
               {isEndless ? (
                 <button onClick={handleEndlessNext}
                   className="w-full py-3 rounded-xl font-bold text-white text-sm transition-all active:scale-95"
-                  style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)" }}>
+                  style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)", boxShadow: "0 0 20px rgba(255,107,43,0.5)" }}>
                   次の段へ 🔥
                 </button>
               ) : levelIndex < LEVELS.length - 1 ? (
@@ -237,17 +245,17 @@ export default function GameCanvas() {
               ) : (
                 <button onClick={handleEnterEndless}
                   className="w-full py-3 rounded-xl font-bold text-white text-sm transition-all active:scale-95 animate-pulse"
-                  style={{ background: "linear-gradient(135deg, #ff6b2b, #7c3aed)" }}>
+                  style={{ background: "linear-gradient(135deg, #ff6b2b, #7c3aed)", boxShadow: "0 0 20px rgba(124,58,237,0.5)" }}>
                   🔥 エンドレスモード突入！
                 </button>
               )}
               <a href={shareUrl} target="_blank" rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-bold"
+                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
                 style={{ background: "#000", color: "#fff" }}>
                 <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
-                {isEndless ? `${currentDarumaCount}段達成をシェア` : "Xでシェア"}
+                {isEndless ? `${currentDarumaCount}段達成をシェア 🎯` : "クリアをXでシェア"}
               </a>
             </div>
           </div>
@@ -255,16 +263,34 @@ export default function GameCanvas() {
 
         {failed && (
           <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl shake"
-            style={{ background: "rgba(0,0,0,0.85)" }}>
-            <div className="text-6xl mb-3">💥</div>
-            <div className="text-2xl font-black mb-1 text-red-400">崩れた！</div>
-            {isEndless && (
-              <div className="text-amber-300 text-sm mb-1 font-bold">
-                最高記録: {9 + bestEndlessStage}段タワー
+            style={{ background: "rgba(0,0,0,0.88)" }}>
+            {/* GIF感スコア演出 */}
+            <div className="relative mb-4 text-center">
+              <div className="text-6xl mb-1 animate-bounce">💥</div>
+              <div className="text-4xl font-black animate-pulse"
+                style={{ color: "#ff6b2b", textShadow: "0 0 20px rgba(255,107,43,0.8)" }}>
+                {isEndless ? `${currentDarumaCount - 1}段` : `スコア ${score}`}
               </div>
-            )}
+              <div className="text-xl font-black mt-1" style={{ color: "#fca5a5" }}>
+                {isEndless ? "段積み達成！" : "点獲得！"}
+              </div>
+              {isEndless && (
+                <div className="mt-2 px-4 py-1.5 rounded-full text-xs font-bold inline-block"
+                  style={{ background: "rgba(255,107,43,0.2)", color: "#ffb899", border: "1px solid rgba(255,107,43,0.4)" }}>
+                  最高記録: {9 + bestEndlessStage}段タワー
+                </div>
+              )}
+            </div>
             <div className="text-amber-500 text-sm mb-4">タワーが倒れました</div>
             <div className="space-y-2 w-52">
+              <a href={shareUrl} target="_blank" rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-bold transition-all active:scale-95"
+                style={{ background: "linear-gradient(135deg, #1a1a2e, #000)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)" }}>
+                <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+                {isEndless ? `${currentDarumaCount - 1}段達成をシェア 🔥` : "結果をXでシェア"}
+              </a>
               <button onClick={handleRetry}
                 className="w-full px-8 py-4 rounded-2xl font-black text-lg text-white transition-all active:scale-95"
                 style={{
@@ -273,14 +299,6 @@ export default function GameCanvas() {
                 }}>
                 🎎 もう一度！
               </button>
-              <a href={shareUrl} target="_blank" rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-bold"
-                style={{ background: "#000", color: "#fff" }}>
-                <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
-                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                </svg>
-                {isEndless ? `${currentDarumaCount - 1}段達成をシェア` : "結果をXでシェア"}
-              </a>
               {isEndless && (
                 <button onClick={handleRetryFromStart}
                   className="w-full py-2 rounded-xl text-xs text-amber-600 underline">
