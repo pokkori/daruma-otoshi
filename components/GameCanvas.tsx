@@ -255,7 +255,7 @@ export default function GameCanvas() {
 
         {failed && (
           <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl shake"
-            style={{ background: "rgba(0,0,0,0.8)" }}>
+            style={{ background: "rgba(0,0,0,0.85)" }}>
             <div className="text-6xl mb-3">💥</div>
             <div className="text-2xl font-black mb-1 text-red-400">崩れた！</div>
             {isEndless && (
@@ -264,27 +264,28 @@ export default function GameCanvas() {
               </div>
             )}
             <div className="text-amber-500 text-sm mb-4">タワーが倒れました</div>
-            <div className="space-y-2 w-48">
+            <div className="space-y-2 w-52">
               <button onClick={handleRetry}
-                className="w-full px-8 py-3 rounded-xl font-bold text-white transition-all active:scale-95"
-                style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)" }}>
-                もう一度 🎎
+                className="w-full px-8 py-4 rounded-2xl font-black text-lg text-white transition-all active:scale-95"
+                style={{
+                  background: "linear-gradient(135deg, #ff6b2b, #dc2626)",
+                  boxShadow: "0 0 20px rgba(255,107,43,0.5)",
+                }}>
+                🎎 もう一度！
               </button>
+              <a href={shareUrl} target="_blank" rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-bold"
+                style={{ background: "#000", color: "#fff" }}>
+                <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+                {isEndless ? `${currentDarumaCount - 1}段達成をシェア` : "結果をXでシェア"}
+              </a>
               {isEndless && (
-                <>
-                  <a href={shareUrl} target="_blank" rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-bold"
-                    style={{ background: "#000", color: "#fff" }}>
-                    <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
-                      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                    </svg>
-                    記録をシェア
-                  </a>
-                  <button onClick={handleRetryFromStart}
-                    className="w-full py-2 rounded-xl text-xs text-amber-600 underline">
-                    最初からやり直す
-                  </button>
-                </>
+                <button onClick={handleRetryFromStart}
+                  className="w-full py-2 rounded-xl text-xs text-amber-600 underline">
+                  最初からやり直す
+                </button>
               )}
             </div>
           </div>
