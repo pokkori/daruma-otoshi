@@ -5,7 +5,7 @@ export default function HomePage() {
     <div className="min-h-dvh flex flex-col items-center justify-center px-4 py-12"
       style={{ background: "linear-gradient(160deg, #1a0a00, #2d1500, #1a0a00)" }}>
       <div className="text-center mb-8">
-        <div className="text-8xl mb-4" style={{ filter: "drop-shadow(0 0 20px rgba(255,100,0,0.6))" }}>🎎</div>
+        <img src="/images/daruma_stack.png" alt="ダルマ" className="w-28 h-28 mx-auto mb-4" style={{ filter: "drop-shadow(0 0 20px rgba(255,100,0,0.6))" }} />
         <h1 className="text-4xl font-black mb-3"
           style={{ color: "#ff6b2b", textShadow: "0 0 20px rgba(255,107,43,0.5)" }}>
           ダルマ落とし

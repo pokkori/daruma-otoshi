@@ -24,8 +24,17 @@ const CANVAS_H = 580;
 const DARUMA_W = 70;
 const DARUMA_H = 55;
 const GROUND_Y = CANVAS_H - 60;
-const DARUMA_EMOJIS = ["\u{1F38E}", "\u{1F604}", "\u{1F624}", "\u{1F631}", "\u{1F620}", "\u{1F97A}", "\u{1F60E}", "\u{1F47A}"];
 const DARUMA_COLORS = ["#dc2626","#ea580c","#d97706","#16a34a","#2563eb","#7c3aed","#db2777","#0f172a"];
+
+let darumaImgCache: HTMLImageElement | null = null;
+function getDarumaImg(): HTMLImageElement | null {
+  if (darumaImgCache?.complete && darumaImgCache.naturalWidth > 0) return darumaImgCache;
+  if (!darumaImgCache) {
+    darumaImgCache = new Image();
+    darumaImgCache.src = "/images/daruma_red.png";
+  }
+  return null;
+}
 
 export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UsePhysicsGameOptions) {
   const [phase, setPhase] = useState<GamePhase>("idle");
@@ -117,10 +126,10 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
       ctx.lineTo(CANVAS_W, GROUND_Y);
       ctx.stroke();
 
+      const darumaImg = getDarumaImg();
       darumas.forEach((body, i) => {
         const { x, y } = body.position;
         const angle = body.angle;
-        const emoji = DARUMA_EMOJIS[i % DARUMA_EMOJIS.length];
         const color = DARUMA_COLORS[i % DARUMA_COLORS.length];
         const isTarget = i === targetIndexRef.current;
 
@@ -149,10 +158,14 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
         ctx.shadowBlur = 0;
         ctx.shadowOffsetY = 0;
 
-        ctx.font = `${Math.min(DARUMA_W, DARUMA_H) * 0.65}px serif`;
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText(emoji, 0, 0);
+        if (darumaImg) {
+          ctx.drawImage(darumaImg, -rx * 0.8, -ry * 0.8, rx * 1.6, ry * 1.6);
+        } else {
+          ctx.font = `${Math.min(DARUMA_W, DARUMA_H) * 0.65}px serif`;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+          ctx.fillText("\u{1F38E}", 0, 0);
+        }
 
         ctx.restore();
       });
