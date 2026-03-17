@@ -41,6 +41,25 @@ export default function HomePage() {
           </div>
         ))}
       </div>
+      {/* SNS Share */}
+      <div className="w-full max-w-sm mt-8 rounded-2xl p-4 text-center"
+        style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
+        <p className="text-amber-300 font-bold text-sm mb-2">🎎 記録をXでシェアしよう</p>
+        <p className="text-amber-600 text-xs mb-3">クリア後にワンタップで投稿できます。友達と最高段数を競おう！</p>
+        <a
+          href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("ダルマ落としPHYSICSにハマってる🎎 物理演算でリアルな崩れ方が最高！ → https://daruma-physics.vercel.app #ダルマ落とし #物理パズル")}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-bold text-white transition-all active:scale-95"
+          style={{ background: "#000" }}
+        >
+          <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+          </svg>
+          Xで紹介する
+        </a>
+      </div>
+
       <footer className="mt-10 text-center text-xs text-amber-900 pb-6">
         <p>© 2026 ポッコリラボ</p>
         <p className="mt-1">
