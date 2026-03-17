@@ -220,7 +220,7 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
           if (i <= targetIndexRef.current) return;
           if (body.position.y > GROUND_Y + 50) hasFailed = true;
           const normalizedAngle = Math.abs(body.angle % (Math.PI * 2));
-          if (normalizedAngle > Math.PI / 4 && normalizedAngle < Math.PI * 7 / 4) {
+          if (normalizedAngle > Math.PI / 3 && normalizedAngle < Math.PI * 5 / 3) {
             hasFailed = true;
           }
         });
