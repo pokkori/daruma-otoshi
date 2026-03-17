@@ -5,6 +5,24 @@ import { usePhysicsGame } from "@/hooks/usePhysicsGame";
 import { LEVELS } from "@/lib/levels";
 import { useGameSounds } from "@/hooks/useGameSounds";
 
+// ─── ストリーク ─────────────────────────────────────────────────────────────
+
+function getDarumaStreakData(): { streak: number; lastDate: string } {
+  try {
+    return JSON.parse(localStorage.getItem("daruma_streak") ?? "{}") ?? { streak: 0, lastDate: "" };
+  } catch { return { streak: 0, lastDate: "" }; }
+}
+
+function updateDarumaStreak(): { streak: number; isNew: boolean } {
+  const today = new Date().toISOString().slice(0, 10);
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  const data = getDarumaStreakData();
+  if (data.lastDate === today) return { streak: data.streak, isNew: false };
+  const newStreak = data.lastDate === yesterday ? data.streak + 1 : 1;
+  localStorage.setItem("daruma_streak", JSON.stringify({ streak: newStreak, lastDate: today }));
+  return { streak: newStreak, isNew: true };
+}
+
 export default function GameCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [levelIndex, setLevelIndex] = useState(0);
@@ -15,6 +33,8 @@ export default function GameCanvas() {
   const [endlessMode, setEndlessMode] = useState(false);
   const [endlessStage, setEndlessStage] = useState(0);
   const [bestEndlessStage, setBestEndlessStage] = useState(0);
+  const [darumaStreak, setDarumaStreak] = useState(0);
+  const [showStreakBanner, setShowStreakBanner] = useState(false);
 
   // In endless mode, daruma count = 9 + endlessStage
   const isEndless = endlessMode;
@@ -30,6 +50,13 @@ export default function GameCanvas() {
     if (bs) setBestScore(parseInt(bs));
     const bes = localStorage.getItem("daruma_endless_best");
     if (bes) setBestEndlessStage(parseInt(bes));
+    // ストリーク更新
+    const { streak, isNew } = updateDarumaStreak();
+    setDarumaStreak(streak);
+    if (isNew && streak >= 2) {
+      setShowStreakBanner(true);
+      setTimeout(() => setShowStreakBanner(false), 3000);
+    }
   }, []);
 
   const handleClear = useCallback(() => {
@@ -139,10 +166,21 @@ export default function GameCanvas() {
     <div className="flex flex-col items-center min-h-dvh py-2 px-2"
       style={{ background: "linear-gradient(160deg, #1a0a00, #2d1500)" }}>
 
+      {/* ストリークバナー */}
+      {showStreakBanner && (
+        <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
+          <div className="px-6 py-3 rounded-2xl font-black text-lg shadow-2xl animate-bounce"
+            style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)", color: "#fff", boxShadow: "0 0 30px rgba(255,107,43,0.7)" }}>
+            🎎 {darumaStreak}日連続！叩き師の証！
+          </div>
+        </div>
+      )}
+
       <div className="w-full max-w-sm flex items-center justify-between mb-2">
         <a href="/" className="text-amber-500 text-sm">&larr; トップ</a>
         <span className="font-black text-lg" style={{ color: "#ff6b2b" }}>
           {isEndless ? "🔥" : "🎎"} {displayName}
+          {darumaStreak >= 2 && <span className="text-xs ml-1 text-amber-400">🔥{darumaStreak}日</span>}
         </span>
         <span className="text-xs text-amber-600">
           Best: {bestScore}
