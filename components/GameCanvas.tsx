@@ -337,6 +337,13 @@ export default function GameCanvas() {
                 }}>
                 🎎 もう一度！
               </button>
+              <button
+                onClick={() => window.dispatchEvent(new Event("daruma:openPayjp"))}
+                className="w-full py-2.5 rounded-xl font-bold text-sm transition-all active:scale-95"
+                style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#1a0a00" }}
+              >
+                ⭐ プレミアムで無制限プレイ ¥300/月
+              </button>
               {isEndless && (
                 <button onClick={handleRetryFromStart}
                   className="w-full py-2 rounded-xl text-xs text-amber-600 underline">

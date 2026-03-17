@@ -17,6 +17,10 @@ function GamePageInner() {
     if (searchParams.get("upgrade") === "1") {
       setShowUpgradeModal(true);
     }
+    // ゲーム内からの課金トリガーを受け取る
+    const handleOpenPayjp = () => setShowUpgradeModal(true);
+    window.addEventListener("daruma:openPayjp", handleOpenPayjp);
+    return () => window.removeEventListener("daruma:openPayjp", handleOpenPayjp);
   }, [searchParams]);
 
   return (
