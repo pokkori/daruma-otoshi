@@ -144,7 +144,7 @@ export default function GameCanvas() {
   };
 
   // Share text
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://daruma-physics.vercel.app";
+  const siteUrl = "https://daruma-otoshi.vercel.app";
   const shareText = isEndless
     ? `\u{1F38E} ダルマ落としPHYSICS エンドレスモード ${currentDarumaCount}段タワー攻略！\nスコア: ${score}点\n最高記録: ${9 + bestEndlessStage}段\n#ダルマ落とし #物理パズル\n${siteUrl}`
     : `\u{1F38E} ダルマ落としPHYSICSで${level.name}レベルクリア！\nスコア: ${score}点\n#ダルマ落とし #物理パズル\n${siteUrl}`;
