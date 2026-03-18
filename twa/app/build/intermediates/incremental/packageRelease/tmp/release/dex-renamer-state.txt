@@ -1,0 +1,4 @@
+#Wed Mar 18 22:52:46 JST 2026
+base.0=D\:\\99_Webアプリ\\ダルマ落とし\\twa\\app\\build\\intermediates\\dex\\release\\minifyReleaseWithR8\\classes.dex
+path.0=classes.dex
+renamed.0=classes.dex
