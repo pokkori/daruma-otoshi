@@ -202,6 +202,27 @@ export default function HomePage() {
         </p>
       </section>
 
+      {/* 感情フック */}
+<section className="py-12 px-6 max-w-3xl mx-auto">
+  <h2 className="text-xl font-bold text-center text-gray-800 mb-6">こんな経験ありませんか？</h2>
+  <div className="space-y-4">
+    {[
+      { icon: "😓", text: "スマホゲームに疲れて、もっとシンプルなゲームが欲しい..." },
+      { icon: "😤", text: "暇つぶしに気軽に遊べるゲームがなかなか見つからない..." },
+      { icon: "💭", text: "友達や家族と一緒に楽しめるゲームが欲しい..." },
+    ].map((item, i) => (
+      <div key={i} className="flex items-center gap-4 bg-orange-50 border border-orange-200 rounded-xl p-4">
+        <span className="text-2xl">{item.icon}</span>
+        <p className="text-gray-700 text-sm font-medium">{item.text}</p>
+      </div>
+    ))}
+  </div>
+  <div className="mt-6 bg-orange-500 text-white rounded-2xl p-5 text-center">
+    <p className="font-bold text-base mb-1">ダルマ落としがその悩みを解決します</p>
+    <p className="text-orange-100 text-sm">ブラウザでスグ遊べるシンプル爽快ゲーム。老若男女OK！</p>
+  </div>
+</section>
+
       {/* FAQ */}
       <section className="w-full max-w-sm px-4 pb-8">
         <h2 className="text-center text-base font-bold mb-4" style={{ color: "rgba(255,150,100,0.8)" }}>よくある質問</h2>
