@@ -137,6 +137,7 @@ export default function HomePage() {
           <div className="text-center mb-3">
             <span className="text-2xl">👑</span>
             <h2 className="text-base font-black mt-1" style={{ color: "#c4b5fd" }}>プレミアムプラン</h2>
+            <div style={{ display: "inline-block", background: "#16a34a", color: "#fff", fontSize: "10px", fontWeight: "700", padding: "2px 10px", borderRadius: "999px", margin: "6px 0" }}>🛡️ 30日返金保証</div>
             <p className="text-2xl font-black mt-1" style={{ color: "#fff" }}>¥300<span className="text-sm font-normal" style={{ color: "#a78bfa" }}>/月</span></p>
           </div>
           <ul className="space-y-1.5 text-sm mb-4">
