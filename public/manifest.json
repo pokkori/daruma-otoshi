@@ -3,16 +3,14 @@
   "short_name": "ダルマ落とし",
   "description": "だるまタワーを崩さずに下から叩け！本格物理演算パズルゲーム。",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
-  "background_color": "#1a0a00",
-  "theme_color": "#ff6b2b",
+  "background_color": "#1a0000",
+  "theme_color": "#cc2200",
   "orientation": "portrait",
+  "lang": "ja",
   "icons": [
-    {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎎</text></svg>",
-      "sizes": "any",
-      "type": "image/svg+xml",
-      "purpose": "any maskable"
-    }
+    {"src":"/icons/icon-192x192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"/icons/icon-512x512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
   ]
 }
