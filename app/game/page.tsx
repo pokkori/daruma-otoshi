@@ -3,11 +3,9 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
-import PayjpModal from "@/components/PayjpModal";
+import KomojuButton from "@/components/KomojuButton";
 
 const GameCanvas = dynamic(() => import("@/components/GameCanvas"), { ssr: false });
-
-const PAYJP_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYJP_PUBLIC_KEY ?? "";
 
 function GamePageInner() {
   const searchParams = useSearchParams();
@@ -26,16 +24,29 @@ function GamePageInner() {
   return (
     <>
       {showUpgradeModal && (
-        <PayjpModal
-          publicKey={PAYJP_PUBLIC_KEY}
-          planLabel="プレミアムプラン ¥300/月 — 無制限プレイ・記録保存・新レベル優先解放"
-          plan="standard"
-          onSuccess={() => {
-            setShowUpgradeModal(false);
-            window.location.href = "/game?premium=1";
-          }}
-          onClose={() => setShowUpgradeModal(false)}
-        />
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 px-4">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full text-center shadow-xl relative">
+            <button
+              onClick={() => setShowUpgradeModal(false)}
+              className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl"
+            >
+              ✕
+            </button>
+            <div className="text-4xl mb-3">🎯</div>
+            <h2 className="text-lg font-bold text-gray-900 mb-2">プレミアムプラン</h2>
+            <p className="text-sm text-gray-500 mb-4">月額¥300で無制限プレイ・記録保存・新レベル優先解放</p>
+            <ul className="text-sm text-gray-600 space-y-1 mb-5 text-left">
+              <li>✓ 無制限プレイ（制限なし）</li>
+              <li>✓ スコア記録・ランキング</li>
+              <li>✓ 新レベル優先解放</li>
+            </ul>
+            <KomojuButton
+              planId="standard"
+              planLabel="¥300/月で始める"
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition-colors disabled:opacity-50"
+            />
+          </div>
+        </div>
       )}
       <GameCanvas />
     </>
