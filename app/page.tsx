@@ -269,6 +269,29 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* BASE A8.netアフィリエイト */}
+      <section className="w-full max-w-sm px-4 pb-8">
+        <div className="rounded-2xl p-4"
+          style={{ background: "rgba(255,107,43,0.07)", border: "1px solid rgba(255,107,43,0.2)" }}>
+          <p className="text-sm font-bold mb-3" style={{ color: "#ffb899" }}>🛍️ ゲームが好きなら、グッズ販売も。</p>
+          <a
+            href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+8ZAE9E+2QQG+62MDD"
+            target="_blank"
+            rel="noopener noreferrer sponsored"
+            className="flex items-center justify-between rounded-xl px-4 py-3 transition-all"
+            style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,107,43,0.3)" }}
+          >
+            <div>
+              <div className="text-sm font-bold" style={{ color: "#fff" }}>BASE — 無料でネットショップ開業</div>
+              <div className="text-xs mt-0.5" style={{ color: "rgba(255,180,120,0.7)" }}>¥400 • ゲームグッズ・オリジナル商品を販売しよう</div>
+            </div>
+            <span className="text-xs font-bold px-2 py-1 rounded-full shrink-0 ml-2"
+              style={{ background: "rgba(255,107,43,0.3)", color: "#ff6b2b" }}>無料開業 →</span>
+          </a>
+          <p className="text-xs text-center mt-2" style={{ color: "rgba(255,100,50,0.35)" }}>※ 広告・PR（外部サービスサイトに遷移します）</p>
+        </div>
+      </section>
+
       {/* もっと楽しむ3選 */}
       <section className="w-full max-w-sm px-4 pb-8">
         <h2 className="text-center font-black text-sm mb-4 tracking-widest" style={{ color: "rgba(255,150,100,0.7)" }}>
