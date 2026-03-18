@@ -269,6 +269,28 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* もっと楽しむ3選 */}
+      <section className="w-full max-w-sm px-4 pb-8">
+        <h2 className="text-center font-black text-sm mb-4 tracking-widest" style={{ color: "rgba(255,150,100,0.7)" }}>
+          もっと楽しむ3選
+        </h2>
+        <ol className="space-y-3">
+          {[
+            { icon: "⚔️", title: "叩き師ランクを全制覇", desc: "見習い→叩き師→名人の3段階ランク。10段に挑戦して伝説の叩き師を目指せ！" },
+            { icon: "🏆", title: "友達と最高段位を競争", desc: "ゲームオーバー後にXでスコアシェアして誰が名人になれるか競争しよう。" },
+            { icon: "🎯", title: "物理演算パズルを極める", desc: "毎回違う挙動が楽しい。木槌の角度・力加減で無限のパターンを体験！" },
+          ].map((item, i) => (
+            <li key={i} className="flex items-start gap-3" style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)", borderRadius: "12px", padding: "12px 14px" }}>
+              <span style={{ fontSize: "22px", lineHeight: "1" }}>{item.icon}</span>
+              <div>
+                <div style={{ color: "#ff6b2b", fontWeight: "700", fontSize: "13px" }}>{i + 1}. {item.title}</div>
+                <div style={{ color: "rgba(255,150,80,0.7)", fontSize: "12px", marginTop: "2px" }}>{item.desc}</div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+
       <footer className="mt-2 text-center text-xs pb-6" style={{ color: "rgba(255,100,50,0.4)" }}>
         <p>© 2026 ポッコリラボ</p>
         <div className="flex justify-center gap-4 mt-1">
