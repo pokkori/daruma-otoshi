@@ -202,6 +202,24 @@ export default function HomePage() {
         </p>
       </section>
 
+      {/* FAQ */}
+      <section className="w-full max-w-sm px-4 pb-8">
+        <h2 className="text-center text-base font-bold mb-4" style={{ color: "rgba(255,150,100,0.8)" }}>よくある質問</h2>
+        <div className="space-y-3">
+          {[
+            { q: "どうやって遊ぶの？", a: "横から木槌を叩いてダルマを落とします。一番上のダルマを落とさずに下を全部消すのが目標！難易度が上がるほど積み重なります。" },
+            { q: "何段まで積めますか？", a: "ゲームが進むと最大10段まで積み重なります。物理演算により毎回違う挙動になるので何度でも楽しめます。" },
+            { q: "スコアは記録されますか？", a: "ハイスコアはブラウザに自動保存されます。友達との対戦記録はXでシェアできます。" },
+            { q: "スマホでも遊べますか？", a: "スマホ・タブレット・PCすべてに対応しています。タップ操作でも快適に遊べます。" },
+          ].map((faq, i) => (
+            <div key={i} style={{ background: "rgba(255,80,0,0.08)", border: "1px solid rgba(255,80,0,0.2)", borderRadius: "12px", padding: "12px 14px" }}>
+              <p style={{ color: "rgba(255,150,100,0.9)", fontWeight: "600", fontSize: "12px", marginBottom: "5px" }}>Q. {faq.q}</p>
+              <p style={{ color: "rgba(255,120,70,0.6)", fontSize: "11px" }}>A. {faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       <footer className="mt-2 text-center text-xs pb-6" style={{ color: "rgba(255,100,50,0.4)" }}>
         <p>© 2026 ポッコリラボ</p>
         <div className="flex justify-center gap-4 mt-1">
