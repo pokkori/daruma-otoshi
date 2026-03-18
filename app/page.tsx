@@ -203,26 +203,53 @@ export default function HomePage() {
         </p>
       </section>
 
+      {/* 叩き師ランクシステム */}
+      <section className="w-full max-w-sm px-4 pb-10">
+        <h2 className="text-center font-black text-sm mb-5 tracking-widest"
+          style={{ color: "rgba(255,150,100,0.7)" }}>
+          叩き師ランクシステム
+        </h2>
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            { badge: "🥋", rank: "見習い", condition: "1面クリア" },
+            { badge: "⚔️", rank: "叩き師", condition: "全面クリア" },
+            { badge: "🏆", rank: "名人", condition: "10段達成" },
+          ].map((r) => (
+            <div key={r.rank} className="rounded-2xl p-3 text-center"
+              style={{ background: "rgba(255,107,43,0.1)", border: "1px solid rgba(255,107,43,0.3)" }}>
+              <div className="text-3xl mb-1">{r.badge}</div>
+              <div className="font-black text-xs mb-0.5" style={{ color: "#ff6b2b" }}>{r.rank}</div>
+              <div className="text-xs" style={{ color: "rgba(255,180,120,0.6)" }}>{r.condition}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* 感情フック */}
-<section className="py-12 px-6 max-w-3xl mx-auto">
-  <h2 className="text-xl font-bold text-center text-gray-800 mb-6">こんな経験ありませんか？</h2>
-  <div className="space-y-4">
-    {[
-      { icon: "😓", text: "スマホゲームに疲れて、もっとシンプルなゲームが欲しい..." },
-      { icon: "😤", text: "暇つぶしに気軽に遊べるゲームがなかなか見つからない..." },
-      { icon: "💭", text: "友達や家族と一緒に楽しめるゲームが欲しい..." },
-    ].map((item, i) => (
-      <div key={i} className="flex items-center gap-4 bg-orange-50 border border-orange-200 rounded-xl p-4">
-        <span className="text-2xl">{item.icon}</span>
-        <p className="text-gray-700 text-sm font-medium">{item.text}</p>
-      </div>
-    ))}
-  </div>
-  <div className="mt-6 bg-orange-500 text-white rounded-2xl p-5 text-center">
-    <p className="font-bold text-base mb-1">ダルマ落としがその悩みを解決します</p>
-    <p className="text-orange-100 text-sm">ブラウザでスグ遊べるシンプル爽快ゲーム。老若男女OK！</p>
-  </div>
-</section>
+      <section className="w-full max-w-sm px-4 pb-10">
+        <h2 className="text-center font-black text-sm mb-5 tracking-widest"
+          style={{ color: "rgba(255,150,100,0.7)" }}>
+          こんな経験ありませんか？
+        </h2>
+        <div className="space-y-3">
+          {[
+            { icon: "😓", text: "スマホゲームが複雑すぎて、シンプルに楽しめるものが欲しい..." },
+            { icon: "😤", text: "暇つぶしに気軽に遊べるゲームがなかなか見つからない..." },
+            { icon: "💭", text: "友達や家族と一緒に盛り上がれるゲームが欲しい..." },
+          ].map((item, i) => (
+            <div key={i} className="flex items-center gap-3 p-3 rounded-xl"
+              style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
+              <span className="text-2xl">{item.icon}</span>
+              <p className="text-sm font-medium" style={{ color: "rgba(255,200,150,0.85)" }}>{item.text}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-4 rounded-2xl p-4 text-center"
+          style={{ background: "linear-gradient(135deg, rgba(255,107,43,0.3), rgba(220,38,38,0.2))", border: "1px solid rgba(255,107,43,0.4)" }}>
+          <p className="font-bold text-sm mb-1" style={{ color: "#ff6b2b" }}>ダルマ落としPHYSICSが解決します</p>
+          <p className="text-xs" style={{ color: "rgba(255,180,120,0.8)" }}>ブラウザでスグ遊べる本格物理パズル。老若男女みんなで楽しめる！</p>
+        </div>
+      </section>
 
       {/* FAQ */}
       <section className="w-full max-w-sm px-4 pb-8">
