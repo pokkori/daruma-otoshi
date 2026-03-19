@@ -5,6 +5,24 @@ import { usePhysicsGame } from "@/hooks/usePhysicsGame";
 import { LEVELS } from "@/lib/levels";
 import { useGameSounds } from "@/hooks/useGameSounds";
 
+// ─── 段位認定 ──────────────────────────────────────────────────────────────
+type DanRank = { name: string; nameEn: string; emoji: string; color: string; minStage: number };
+const DAN_RANKS: DanRank[] = [
+  { name: "見習い叩き師", nameEn: "Apprentice", emoji: "🥋", color: "#94a3b8", minStage: 0 },
+  { name: "初段", nameEn: "1st Dan", emoji: "⚡", color: "#f97316", minStage: 1 },
+  { name: "二段", nameEn: "2nd Dan", emoji: "🔥", color: "#ef4444", minStage: 3 },
+  { name: "三段", nameEn: "3rd Dan", emoji: "💥", color: "#a855f7", minStage: 6 },
+  { name: "四段", nameEn: "4th Dan", emoji: "🌟", color: "#f59e0b", minStage: 10 },
+  { name: "師範代", nameEn: "Senior", emoji: "🏆", color: "#d97706", minStage: 15 },
+  { name: "師範", nameEn: "Master", emoji: "👑", color: "#fbbf24", minStage: 21 },
+];
+function getDanRank(bestEndlessStage: number): DanRank {
+  for (let i = DAN_RANKS.length - 1; i >= 0; i--) {
+    if (bestEndlessStage >= DAN_RANKS[i].minStage) return DAN_RANKS[i];
+  }
+  return DAN_RANKS[0];
+}
+
 // ─── ストリーク ─────────────────────────────────────────────────────────────
 
 function getDarumaStreakData(): { streak: number; lastDate: string } {
@@ -145,9 +163,10 @@ export default function GameCanvas() {
 
   // Share text
   const siteUrl = "https://daruma-otoshi.vercel.app";
+  const danRank = getDanRank(bestEndlessStage);
   const shareText = isEndless
-    ? `\u{1F38E} ダルマ落としPHYSICS エンドレスモード ${currentDarumaCount}段タワー攻略！\nスコア: ${score}点\n最高記録: ${9 + bestEndlessStage}段\n#ダルマ落とし #物理パズル\n${siteUrl}`
-    : `\u{1F38E} ダルマ落としPHYSICSで${level.name}レベルクリア！\nスコア: ${score}点\n#ダルマ落とし #物理パズル\n${siteUrl}`;
+    ? `🎎 ダルマ落としPHYSICS【${danRank.name} ${danRank.emoji}】エンドレスモード ${currentDarumaCount}段タワー攻略！\nスコア: ${score}点 / 最高: ${9 + bestEndlessStage}段\n#ダルマ落とし #物理パズル #${danRank.name}\n${siteUrl}`
+    : `🎎 ダルマ落としPHYSICSで${level.name}レベルクリア！\nスコア: ${score}点\n段位: ${danRank.name} ${danRank.emoji}\n#ダルマ落とし #物理パズル\n${siteUrl}`;
   const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
 
   // Display name
@@ -267,6 +286,14 @@ export default function GameCanvas() {
               </div>
             )}
 
+            {/* 段位バッジ */}
+            <div className="mb-3 px-5 py-2 rounded-full font-black text-sm flex items-center gap-2"
+              style={{ background: "rgba(0,0,0,0.5)", border: `2px solid ${danRank.color}`, color: danRank.color, boxShadow: `0 0 15px ${danRank.color}40` }}>
+              <span>{danRank.emoji}</span>
+              <span>{danRank.name}</span>
+              <span className="text-xs opacity-70">/ {danRank.nameEn}</span>
+            </div>
+
             <div className="space-y-2 w-52">
               {isEndless ? (
                 <button onClick={handleEndlessNext}
@@ -319,7 +346,16 @@ export default function GameCanvas() {
                 </div>
               )}
             </div>
-            <div className="text-amber-500 text-sm mb-4">タワーが倒れました</div>
+            <div className="text-amber-500 text-sm mb-2">タワーが倒れました</div>
+            {/* 段位バッジ */}
+            <div className="mb-4 px-5 py-2 rounded-full font-black text-sm flex items-center gap-2"
+              style={{ background: "rgba(0,0,0,0.5)", border: `2px solid ${danRank.color}`, color: danRank.color, boxShadow: `0 0 15px ${danRank.color}40` }}>
+              <span>{danRank.emoji}</span>
+              <span>現在: {danRank.name}</span>
+              {danRank.minStage < DAN_RANKS[DAN_RANKS.length - 1].minStage && (
+                <span className="text-xs opacity-60">次段まであと{(DAN_RANKS[Math.min(DAN_RANKS.findIndex(d => d.name === danRank.name) + 1, DAN_RANKS.length - 1)].minStage - bestEndlessStage)}段</span>
+              )}
+            </div>
             <div className="space-y-2 w-52">
               <a href={shareUrl} target="_blank" rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-bold transition-all active:scale-95"
