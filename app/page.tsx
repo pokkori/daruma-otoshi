@@ -138,7 +138,7 @@ export default function HomePage() {
             <span className="text-2xl">👑</span>
             <h2 className="text-base font-black mt-1" style={{ color: "#c4b5fd" }}>プレミアムプラン</h2>
             <div style={{ display: "inline-block", background: "#16a34a", color: "#fff", fontSize: "10px", fontWeight: "700", padding: "2px 10px", borderRadius: "999px", margin: "6px 0" }}>🛡️ 30日返金保証</div>
-            <p className="text-2xl font-black mt-1" style={{ color: "#fff" }}>¥300<span className="text-sm font-normal" style={{ color: "#a78bfa" }}>/月</span></p>
+            <p className="text-2xl font-black mt-1" style={{ color: "#fff" }}>¥480<span className="text-sm font-normal" style={{ color: "#a78bfa" }}>/月</span></p>
           </div>
           <ul className="space-y-1.5 text-sm mb-4">
             {["無制限プレイ（無料は1日3回）", "エンドレスモードのベスト記録保存", "新レベル優先解放"].map(f => (
@@ -159,7 +159,7 @@ export default function HomePage() {
             👑 プレミアムを今すぐ始める
           </button>
           <p className="text-center text-xs mt-2" style={{ color: "rgba(167,139,250,0.6)" }}>
-            いつでもキャンセル可 • PAY.JPで安全に決済
+            いつでもキャンセル可 • 安全に決済
           </p>
         </div>
       </section>
@@ -173,7 +173,7 @@ export default function HomePage() {
             クリア後にワンタップで投稿できます。友達と最高段数を競おう！
           </p>
           <a
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("ダルマ落としPHYSICSにハマってる🎎 本格物理演算でリアルな崩れ方が最高！ → https://daruma-physics.vercel.app #ダルマ落とし #物理パズル")}`}
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("ダルマ落としPHYSICSにハマってる🎎 本格物理演算でリアルな崩れ方が最高！ → https://daruma-otoshi.vercel.app #ダルマ落とし #物理パズル")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-bold text-white transition-all active:scale-95"
