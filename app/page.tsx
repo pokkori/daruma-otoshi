@@ -1,11 +1,42 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState, Suspense } from "react";
+import { useSearchParams } from "next/navigation";
+
+function ChallengeBanner() {
+  const searchParams = useSearchParams();
+  const [challenge, setChallenge] = useState<{ score: number; rank: string } | null>(null);
+  useEffect(() => {
+    const cs = searchParams.get("challenge");
+    const cr = searchParams.get("rank");
+    if (cs) setChallenge({ score: parseInt(cs), rank: cr ?? "叩き師" });
+  }, [searchParams]);
+
+  if (!challenge) return null;
+  return (
+    <div className="w-full px-4 pt-4">
+      <div className="rounded-2xl p-4 text-center font-black"
+        style={{ background: "linear-gradient(135deg, #7c3aed, #dc2626)", color: "#fff", boxShadow: "0 0 30px rgba(124,58,237,0.7)" }}>
+        <div className="text-sm mb-1">⚔️ 挑戦状が届いた！</div>
+        <div className="text-lg">{challenge.rank} のスコア <span style={{ color: "#fbbf24" }}>{challenge.score.toLocaleString()}点</span> を超えろ！</div>
+        <Link href="/game"
+          className="inline-block mt-2 px-6 py-2 rounded-full text-sm font-bold"
+          style={{ background: "#fbbf24", color: "#1a0a00" }}>
+          今すぐ挑戦する ⚡
+        </Link>
+      </div>
+    </div>
+  );
+}
 
 export default function HomePage() {
   return (
     <div className="min-h-dvh flex flex-col items-center"
       style={{ background: "linear-gradient(160deg, #1a0005, #3b0010, #1a0a00)" }}>
+      <Suspense fallback={null}>
+        <ChallengeBanner />
+      </Suspense>
 
       {/* Hero Section */}
       <section className="w-full text-center px-4 pt-14 pb-10"
@@ -198,20 +229,27 @@ export default function HomePage() {
           style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
           <p className="font-bold text-sm mb-2" style={{ color: "#ffb899" }}>⚔️ 友達に挑戦状を送ろう</p>
           <p className="text-xs mb-3" style={{ color: "rgba(255,180,120,0.65)" }}>
-            ゲーム後に「友達に挑戦状を送る」ボタンでスコア入りURLをシェア。友達が開くとあなたのスコアが表示されます！
+            ゲーム後に「友達に挑戦状を送る」ボタンでスコア入りURLをシェア。<br/>友達が開くとあなたのスコアが表示されます！
           </p>
-          <a
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("ダルマ落としPHYSICSにハマってる🎎⚔️ 友達よ、このスコアに勝ってみろ！ → https://daruma-otoshi.vercel.app #ダルマ落とし #物理パズル #挑戦状")}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-bold text-white transition-all active:scale-95"
-            style={{ background: "#000" }}
-          >
-            <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-            </svg>
-            Xで紹介する
-          </a>
+          <div className="space-y-2">
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("ダルマ落としPHYSICSにハマってる🎎⚔️ 友達よ、このスコアに勝ってみろ！ → https://daruma-otoshi.vercel.app #ダルマ落とし #物理パズル #挑戦状")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-bold text-white transition-all active:scale-95"
+              style={{ background: "#000" }}
+            >
+              <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+              Xで紹介する
+            </a>
+            <Link href="/game"
+              className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
+              style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)", color: "#fff" }}>
+              🎮 今すぐプレイしてスコアを作る →
+            </Link>
+          </div>
         </div>
       </section>
 
