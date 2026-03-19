@@ -23,6 +23,28 @@ function getDanRank(bestEndlessStage: number): DanRank {
   return DAN_RANKS[0];
 }
 
+// ─── デイリーチャレンジ ─────────────────────────────────────────────────────
+type DailyChallenge = { target: number; label: string; key: string };
+function getDailyChallenge(): DailyChallenge {
+  const d = new Date();
+  const dayKey = d.toISOString().slice(0, 10);
+  const targets = [3, 4, 5, 3, 6, 4, 5, 3, 4, 6, 5, 3, 4, 5, 6, 3, 4, 5, 3, 4, 6, 5, 3, 5, 4, 6, 3, 4, 5, 6, 3];
+  const target = targets[d.getDate() % targets.length];
+  return { target, label: `エンドレス${target}段クリア`, key: dayKey };
+}
+function isDailyChallengeCleared(): boolean {
+  try {
+    const { key } = getDailyChallenge();
+    return localStorage.getItem(`daruma_daily_${key}`) === "1";
+  } catch { return false; }
+}
+function markDailyChallengeCleared(): void {
+  try {
+    const { key } = getDailyChallenge();
+    localStorage.setItem(`daruma_daily_${key}`, "1");
+  } catch { /* ignore */ }
+}
+
 // ─── ストリーク ─────────────────────────────────────────────────────────────
 
 function getDarumaStreakData(): { streak: number; lastDate: string } {
@@ -53,6 +75,8 @@ export default function GameCanvas() {
   const [bestEndlessStage, setBestEndlessStage] = useState(0);
   const [darumaStreak, setDarumaStreak] = useState(0);
   const [showStreakBanner, setShowStreakBanner] = useState(false);
+  const [dailyChallenge] = useState<DailyChallenge>(getDailyChallenge);
+  const [dailyChallengeCleared, setDailyChallengeCleared] = useState(false);
 
   // In endless mode, daruma count = 9 + endlessStage
   const isEndless = endlessMode;
@@ -75,6 +99,8 @@ export default function GameCanvas() {
       setShowStreakBanner(true);
       setTimeout(() => setShowStreakBanner(false), 3000);
     }
+    // デイリーチャレンジ状態
+    setDailyChallengeCleared(isDailyChallengeCleared());
   }, []);
 
   const handleClear = useCallback(() => {
@@ -92,8 +118,13 @@ export default function GameCanvas() {
         setBestEndlessStage(reachedStage);
         localStorage.setItem("daruma_endless_best", String(reachedStage));
       }
+      // デイリーチャレンジ達成チェック
+      if (!isDailyChallengeCleared() && reachedStage >= dailyChallenge.target) {
+        markDailyChallengeCleared();
+        setDailyChallengeCleared(true);
+      }
     }
-  }, [score, currentDarumaCount, bestScore, isEndless, endlessStage, bestEndlessStage]);
+  }, [score, currentDarumaCount, bestScore, isEndless, endlessStage, bestEndlessStage, dailyChallenge.target]);
 
   const handleFail = useCallback(() => {
     playFail();
@@ -204,6 +235,18 @@ export default function GameCanvas() {
         <span className="text-xs text-amber-600">
           Best: {bestScore}
         </span>
+      </div>
+
+      {/* デイリーチャレンジバナー */}
+      <div className="w-full max-w-sm mb-2">
+        <div className={`flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-bold ${dailyChallengeCleared ? "bg-amber-900/60 border border-amber-500" : "bg-orange-950/60 border border-orange-700/50"}`}>
+          <span>{dailyChallengeCleared ? "✅" : "🎯"} 今日のチャレンジ: {dailyChallenge.label}</span>
+          {dailyChallengeCleared ? (
+            <span className="text-amber-400 font-black">達成！</span>
+          ) : (
+            <span className="text-orange-400">未達成</span>
+          )}
+        </div>
       </div>
 
       {isEndless && (
