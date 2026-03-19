@@ -195,10 +195,20 @@ export default function GameCanvas() {
   // Share text
   const siteUrl = "https://daruma-otoshi.vercel.app";
   const danRank = getDanRank(bestEndlessStage);
+
+  // エンドレスモード時: 段位認定証OGP画像URLを生成
+  const ogImageUrl = isEndless
+    ? `${siteUrl}/api/og?rank=${encodeURIComponent(danRank.name)}&emoji=${encodeURIComponent(danRank.emoji)}&stage=${encodeURIComponent(String(9 + bestEndlessStage))}&color=${encodeURIComponent(danRank.color)}`
+    : null;
+
   const shareText = isEndless
-    ? `🎎 ダルマ落としPHYSICS【${danRank.name} ${danRank.emoji}】エンドレスモード ${currentDarumaCount}段タワー攻略！\nスコア: ${score}点 / 最高: ${9 + bestEndlessStage}段\n#ダルマ落とし #物理パズル #${danRank.name}\n${siteUrl}`
+    ? `🎎 ダルマ落としPHYSICS【${danRank.name} ${danRank.emoji}】エンドレスモード ${currentDarumaCount}段タワー攻略！\nスコア: ${score}点 / 最高: ${9 + bestEndlessStage}段\n#ダルマ落とし #物理パズル #${danRank.name}`
     : `🎎 ダルマ落としPHYSICSで${level.name}レベルクリア！\nスコア: ${score}点\n段位: ${danRank.name} ${danRank.emoji}\n#ダルマ落とし #物理パズル\n${siteUrl}`;
-  const shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
+
+  // エンドレスモード時はOGP画像URLをurlパラメータとして渡す（Twitter Cardに表示）
+  const shareUrl = isEndless && ogImageUrl
+    ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(ogImageUrl)}`
+    : `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
 
   // Display name
   const displayName = isEndless
