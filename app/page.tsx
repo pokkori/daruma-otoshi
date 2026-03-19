@@ -130,6 +130,34 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 新機能: デイリーチャレンジ・ランキング・ストリーク訴求 */}
+      <section className="w-full max-w-sm px-4 pb-10">
+        <div className="rounded-2xl p-5"
+          style={{ background: "linear-gradient(135deg, rgba(255,107,43,0.12), rgba(220,38,38,0.08))", border: "1px solid rgba(255,107,43,0.3)" }}>
+          <div className="text-center mb-4">
+            <span className="inline-block text-xs font-black px-3 py-1 rounded-full mb-2"
+              style={{ background: "rgba(255,107,43,0.3)", color: "#ff6b2b" }}>新機能3選</span>
+            <h2 className="text-base font-black" style={{ color: "#fff" }}>毎日遊びたくなる仕掛け</h2>
+          </div>
+          <div className="space-y-3">
+            {[
+              { icon: "📅", title: "デイリーチャレンジ", desc: "毎日違う目標（例：3段クリア）が出現。達成すると特別な報酬が解放！" },
+              { icon: "🏆", title: "ローカルランキング", desc: "自分のプレイ記録TOP10を自動保存。過去の自己ベストに挑戦し続けよう。" },
+              { icon: "🔥", title: "連続プレイストリーク", desc: "毎日プレイするとストリークが積み上がる。何日連続でプレイできるか挑戦！" },
+            ].map((item) => (
+              <div key={item.title} className="flex gap-3 items-start p-3 rounded-xl"
+                style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
+                <span className="text-xl flex-shrink-0">{item.icon}</span>
+                <div>
+                  <div className="font-bold text-sm mb-0.5" style={{ color: "#ff6b2b" }}>{item.title}</div>
+                  <div className="text-xs leading-relaxed" style={{ color: "rgba(255,180,120,0.8)" }}>{item.desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Premium Section */}
       <section className="w-full max-w-sm px-4 pb-10">
         <div className="rounded-2xl p-5"
@@ -207,22 +235,31 @@ export default function HomePage() {
       <section className="w-full max-w-sm px-4 pb-10">
         <h2 className="text-center font-black text-sm mb-5 tracking-widest"
           style={{ color: "rgba(255,150,100,0.7)" }}>
-          叩き師ランクシステム
+          叩き師ランクシステム（全7段位）
         </h2>
-        <div className="grid grid-cols-3 gap-2">
+        <div className="space-y-2">
           {[
-            { badge: "🥋", rank: "見習い", condition: "1面クリア" },
-            { badge: "⚔️", rank: "叩き師", condition: "全面クリア" },
-            { badge: "🏆", rank: "名人", condition: "10段達成" },
+            { badge: "🥋", rank: "見習い叩き師", condition: "エンドレス0段〜", color: "#94a3b8" },
+            { badge: "⚡", rank: "初段", condition: "エンドレス1段達成", color: "#f97316" },
+            { badge: "🔥", rank: "二段", condition: "エンドレス3段達成", color: "#ef4444" },
+            { badge: "💥", rank: "三段", condition: "エンドレス6段達成", color: "#a855f7" },
+            { badge: "🌟", rank: "四段", condition: "エンドレス10段達成", color: "#f59e0b" },
+            { badge: "🏆", rank: "師範代", condition: "エンドレス15段達成", color: "#d97706" },
+            { badge: "👑", rank: "師範（最高位）", condition: "エンドレス21段達成", color: "#fbbf24" },
           ].map((r) => (
-            <div key={r.rank} className="rounded-2xl p-3 text-center"
-              style={{ background: "rgba(255,107,43,0.1)", border: "1px solid rgba(255,107,43,0.3)" }}>
-              <div className="text-3xl mb-1">{r.badge}</div>
-              <div className="font-black text-xs mb-0.5" style={{ color: "#ff6b2b" }}>{r.rank}</div>
-              <div className="text-xs" style={{ color: "rgba(255,180,120,0.6)" }}>{r.condition}</div>
+            <div key={r.rank} className="flex items-center gap-3 rounded-xl px-4 py-2.5"
+              style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
+              <span className="text-2xl flex-shrink-0">{r.badge}</span>
+              <div className="flex-1">
+                <div className="font-black text-sm" style={{ color: r.color }}>{r.rank}</div>
+                <div className="text-xs" style={{ color: "rgba(255,180,120,0.6)" }}>{r.condition}</div>
+              </div>
             </div>
           ))}
         </div>
+        <p className="text-center text-xs mt-3" style={{ color: "rgba(255,120,70,0.5)" }}>
+          段位認定証はSNSでシェアできます
+        </p>
       </section>
 
       {/* 感情フック */}
