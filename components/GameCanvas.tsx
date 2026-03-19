@@ -224,6 +224,13 @@ export default function GameCanvas() {
   const siteUrl = "https://daruma-otoshi.vercel.app";
   const danRank = getDanRank(bestEndlessStage);
 
+  // 挑戦状URL生成（友達がこのURLを開くとスコアとランクが表示される）
+  const challengeUrl = `${siteUrl}/game?challenge_score=${score}&challenge_rank=${encodeURIComponent(danRank.name)}`;
+  const challengeShareText = isEndless
+    ? `🎎 ${danRank.name} ${danRank.emoji} のオレに勝てるか？\nダルマ落としPHYSICS エンドレス${currentDarumaCount}段・スコア${score}点\n挑戦受付中👇\n#ダルマ落とし #物理パズル`
+    : `🎎 ${danRank.name} ${danRank.emoji} のオレのスコア${score}点に勝てるか？\nダルマ落としPHYSICS\n挑戦受付中👇\n#ダルマ落とし #物理パズル`;
+  const challengeShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(challengeShareText)}&url=${encodeURIComponent(challengeUrl)}`;
+
   // エンドレスモード時: 段位認定証OGP画像URLを生成
   const ogImageUrl = isEndless
     ? `${siteUrl}/api/og?rank=${encodeURIComponent(danRank.name)}&emoji=${encodeURIComponent(danRank.emoji)}&stage=${encodeURIComponent(String(9 + bestEndlessStage))}&color=${encodeURIComponent(danRank.color)}`
@@ -277,12 +284,22 @@ export default function GameCanvas() {
 
       {/* デイリーチャレンジバナー */}
       <div className="w-full max-w-sm mb-2">
-        <div className={`flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-bold ${dailyChallengeCleared ? "bg-amber-900/60 border border-amber-500" : "bg-orange-950/60 border border-orange-700/50"}`}>
+        <div className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold transition-all ${
+          dailyChallengeCleared
+            ? "border-2 border-amber-400"
+            : "border border-orange-700/50"
+          }`}
+          style={{
+            background: dailyChallengeCleared
+              ? "linear-gradient(135deg, rgba(245,158,11,0.3), rgba(180,83,9,0.2))"
+              : "rgba(120,53,15,0.4)",
+            boxShadow: dailyChallengeCleared ? "0 0 12px rgba(245,158,11,0.4)" : "none",
+          }}>
           <span>{dailyChallengeCleared ? "✅" : "🎯"} 今日のチャレンジ: {dailyChallenge.label}</span>
           {dailyChallengeCleared ? (
-            <span className="text-amber-400 font-black">達成！</span>
+            <span className="text-amber-300 font-black animate-pulse">達成！🎉</span>
           ) : (
-            <span className="text-orange-400">未達成</span>
+            <span className="text-orange-400">挑戦中</span>
           )}
         </div>
       </div>
@@ -395,6 +412,12 @@ export default function GameCanvas() {
                   🔥 エンドレスモード突入！
                 </button>
               )}
+              {/* 挑戦状ボタン */}
+              <a href={challengeShareUrl} target="_blank" rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
+                style={{ background: "linear-gradient(135deg, #7c3aed, #4c1d95)", color: "#fff", boxShadow: "0 0 12px rgba(124,58,237,0.5)" }}>
+                ⚔️ 友達に挑戦状を送る
+              </a>
               <a href={shareUrl} target="_blank" rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
                 style={{ background: "#000", color: "#fff" }}>
@@ -463,8 +486,14 @@ export default function GameCanvas() {
               );
             })()}
             <div className="space-y-2 w-52">
-              <a href={shareUrl} target="_blank" rel="noopener noreferrer"
+              {/* 挑戦状ボタン */}
+              <a href={challengeShareUrl} target="_blank" rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-bold transition-all active:scale-95"
+                style={{ background: "linear-gradient(135deg, #7c3aed, #4c1d95)", color: "#fff", boxShadow: "0 0 15px rgba(124,58,237,0.5)" }}>
+                ⚔️ 友達に挑戦状を送る
+              </a>
+              <a href={shareUrl} target="_blank" rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
                 style={{ background: "linear-gradient(135deg, #1a1a2e, #000)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)" }}>
                 <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
@@ -484,7 +513,7 @@ export default function GameCanvas() {
                 className="w-full py-2.5 rounded-xl font-bold text-sm transition-all active:scale-95"
                 style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#1a0a00" }}
               >
-                ⭐ プレミアムで無制限プレイ ¥300/月
+                ⭐ プレミアムで無制限プレイ ¥480/月
               </button>
               {isEndless && (
                 <button onClick={handleRetryFromStart}

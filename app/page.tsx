@@ -141,7 +141,7 @@ export default function HomePage() {
             <p className="text-2xl font-black mt-1" style={{ color: "#fff" }}>¥480<span className="text-sm font-normal" style={{ color: "#a78bfa" }}>/月</span></p>
           </div>
           <ul className="space-y-1.5 text-sm mb-4">
-            {["無制限プレイ（無料は1日3回）", "エンドレスモードのベスト記録保存", "新レベル優先解放"].map(f => (
+            {["無制限プレイ（無料は1日3回まで）", "エンドレスモードのベスト記録保存", "新レベル優先解放", "段位認定証SNSシェア"].map(f => (
               <li key={f} className="flex items-center gap-2" style={{ color: "#ddd6fe" }}>
                 <span style={{ color: "#a78bfa" }}>✓</span>{f}
               </li>
@@ -168,12 +168,12 @@ export default function HomePage() {
       <section className="w-full max-w-sm px-4 pb-10">
         <div className="rounded-2xl p-4 text-center"
           style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
-          <p className="font-bold text-sm mb-2" style={{ color: "#ffb899" }}>🎎 記録をXでシェアしよう</p>
+          <p className="font-bold text-sm mb-2" style={{ color: "#ffb899" }}>⚔️ 友達に挑戦状を送ろう</p>
           <p className="text-xs mb-3" style={{ color: "rgba(255,180,120,0.65)" }}>
-            クリア後にワンタップで投稿できます。友達と最高段数を競おう！
+            ゲーム後に「友達に挑戦状を送る」ボタンでスコア入りURLをシェア。友達が開くとあなたのスコアが表示されます！
           </p>
           <a
-            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("ダルマ落としPHYSICSにハマってる🎎 本格物理演算でリアルな崩れ方が最高！ → https://daruma-otoshi.vercel.app #ダルマ落とし #物理パズル")}`}
+            href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("ダルマ落としPHYSICSにハマってる🎎⚔️ 友達よ、このスコアに勝ってみろ！ → https://daruma-otoshi.vercel.app #ダルマ落とし #物理パズル #挑戦状")}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-bold text-white transition-all active:scale-95"
