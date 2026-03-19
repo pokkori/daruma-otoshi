@@ -45,6 +45,26 @@ function markDailyChallengeCleared(): void {
   } catch { /* ignore */ }
 }
 
+// ─── ローカルランキング ──────────────────────────────────────────────────────
+type RankEntry = { stage: number; mode: "normal" | "endless"; date: string };
+const RANKING_KEY = "daruma_ranking";
+const RANKING_MAX = 10;
+
+function loadRanking(): RankEntry[] {
+  try {
+    return JSON.parse(localStorage.getItem(RANKING_KEY) ?? "[]") ?? [];
+  } catch { return []; }
+}
+
+function saveRanking(entry: RankEntry): RankEntry[] {
+  const current = loadRanking();
+  const next = [entry, ...current]
+    .sort((a, b) => b.stage - a.stage)
+    .slice(0, RANKING_MAX);
+  try { localStorage.setItem(RANKING_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+  return next;
+}
+
 // ─── ストリーク ─────────────────────────────────────────────────────────────
 
 function getDarumaStreakData(): { streak: number; lastDate: string } {
@@ -77,6 +97,7 @@ export default function GameCanvas() {
   const [showStreakBanner, setShowStreakBanner] = useState(false);
   const [dailyChallenge] = useState<DailyChallenge>(getDailyChallenge);
   const [dailyChallengeCleared, setDailyChallengeCleared] = useState(false);
+  const [ranking, setRanking] = useState<RankEntry[]>([]);
 
   // In endless mode, daruma count = 9 + endlessStage
   const isEndless = endlessMode;
@@ -101,6 +122,8 @@ export default function GameCanvas() {
     }
     // デイリーチャレンジ状態
     setDailyChallengeCleared(isDailyChallengeCleared());
+    // ランキング読み込み
+    setRanking(loadRanking());
   }, []);
 
   const handleClear = useCallback(() => {
@@ -129,7 +152,12 @@ export default function GameCanvas() {
   const handleFail = useCallback(() => {
     playFail();
     setFailed(true);
-  }, [playFail]);
+    // ランキング保存
+    const today = new Date().toISOString().slice(0, 10);
+    const stage = isEndless ? endlessStage : levelIndex;
+    const entry: RankEntry = { stage, mode: isEndless ? "endless" : "normal", date: today };
+    setRanking(saveRanking(entry));
+  }, [playFail, isEndless, endlessStage, levelIndex]);
 
   const { phase, removedCount, swipeFeedback, initGame, onTouchStart, onTouchEnd, onMouseDown, onMouseUp } =
     usePhysicsGame({
@@ -409,6 +437,31 @@ export default function GameCanvas() {
                 <span className="text-xs opacity-60">次段まであと{(DAN_RANKS[Math.min(DAN_RANKS.findIndex(d => d.name === danRank.name) + 1, DAN_RANKS.length - 1)].minStage - bestEndlessStage)}段</span>
               )}
             </div>
+            {/* 🏆 ハイスコアTOP5 */}
+            {(() => {
+              const modeKey: "endless" | "normal" = isEndless ? "endless" : "normal";
+              const modeLabel = isEndless ? "エンドレス" : "通常";
+              const top5 = ranking.filter(r => r.mode === modeKey).slice(0, 5);
+              if (top5.length === 0) return null;
+              return (
+                <div className="w-52 mb-3 rounded-xl overflow-hidden" style={{ border: "1px solid rgba(251,191,36,0.4)", background: "rgba(0,0,0,0.5)" }}>
+                  <div className="px-3 py-1.5 text-xs font-black flex items-center gap-1" style={{ background: "rgba(251,191,36,0.15)", color: "#fbbf24" }}>
+                    🏆 ハイスコアTOP5（{modeLabel}）
+                  </div>
+                  {top5.map((r, i) => (
+                    <div key={i} className="flex items-center justify-between px-3 py-1 text-xs" style={{ borderTop: i > 0 ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
+                      <span style={{ color: i === 0 ? "#fbbf24" : i === 1 ? "#94a3b8" : i === 2 ? "#d97706" : "#6b7280", fontWeight: "bold" }}>
+                        {i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `${i + 1}.`}
+                      </span>
+                      <span className="font-bold" style={{ color: "#fde68a" }}>
+                        {isEndless ? `${r.stage}段` : `Lv.${r.stage + 1}`}
+                      </span>
+                      <span style={{ color: "#6b7280" }}>{r.date}</span>
+                    </div>
+                  ))}
+                </div>
+              );
+            })()}
             <div className="space-y-2 w-52">
               <a href={shareUrl} target="_blank" rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-bold transition-all active:scale-95"
