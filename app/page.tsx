@@ -412,6 +412,52 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 競合比較表 */}
+      <section className="w-full max-w-sm px-4 pb-10">
+        <div className="rounded-2xl overflow-hidden" style={{ border: "1px solid rgba(255,107,43,0.3)" }}>
+          <div className="px-4 py-3 text-center" style={{ background: "rgba(220,38,38,0.2)" }}>
+            <h2 className="text-sm font-black" style={{ color: "#ff6b2b" }}>他のブラウザゲームと比べてみた</h2>
+            <p className="text-xs mt-0.5" style={{ color: "rgba(255,180,120,0.7)" }}>ダルマ落としPHYSICSが選ばれる理由</p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead>
+                <tr style={{ background: "rgba(153,27,27,0.8)" }}>
+                  <th className="px-3 py-2.5 text-left font-bold" style={{ color: "#fca5a5" }}>機能</th>
+                  <th className="px-3 py-2.5 text-center font-bold" style={{ color: "#fbbf24" }}>ダルマ落とし<br/>PHYSICS</th>
+                  <th className="px-3 py-2.5 text-center font-semibold" style={{ color: "rgba(252,165,165,0.6)" }}>一般的な<br/>パズルゲーム</th>
+                  <th className="px-3 py-2.5 text-center font-semibold" style={{ color: "rgba(252,165,165,0.6)" }}>アプリゲーム</th>
+                </tr>
+              </thead>
+              <tbody>
+                {[
+                  { feature: "インストール不要", us: "✅ ブラウザのみ", a: "⚠️ 一部", b: "❌ DL必須" },
+                  { feature: "本格物理演算", us: "✅ Matter.js", a: "❌ 簡易のみ", b: "⚠️ まちまち" },
+                  { feature: "段位・称号制", us: "✅ 7段位", a: "❌ なし", b: "⚠️ レベル制" },
+                  { feature: "友達挑戦状", us: "✅ URLシェア", a: "❌ なし", b: "⚠️ 要アカウント" },
+                  { feature: "デイリー更新", us: "✅ 毎日目標", a: "❌ なし", b: "⚠️ 一部" },
+                  { feature: "完全無料", us: "✅ 無料プレイ", a: "⚠️ 広告多い", b: "❌ 課金前提" },
+                ].map((row, i) => (
+                  <tr key={i} style={{ background: i % 2 === 0 ? "rgba(68,64,60,0.5)" : "rgba(68,64,60,0.3)", borderBottom: "1px solid rgba(255,107,43,0.1)" }}>
+                    <td className="px-3 py-2.5 font-semibold" style={{ color: "#e7e5e4" }}>{row.feature}</td>
+                    <td className="px-3 py-2.5 text-center font-bold" style={{ color: "#fbbf24" }}>{row.us}</td>
+                    <td className="px-3 py-2.5 text-center" style={{ color: "rgba(252,165,165,0.6)" }}>{row.a}</td>
+                    <td className="px-3 py-2.5 text-center" style={{ color: "rgba(252,165,165,0.6)" }}>{row.b}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <div className="px-4 py-3 text-center" style={{ background: "rgba(220,38,38,0.12)" }}>
+            <p className="text-xs mb-2" style={{ color: "rgba(252,165,165,0.7)" }}>※ 2026年3月調査。各サービスの内容は変更になる場合があります</p>
+            <Link href="/game" className="inline-block font-black py-2 px-6 rounded-xl text-xs active:scale-95 transition-transform"
+              style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)", color: "#fff" }}>
+              無料でプレイする →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="w-full max-w-sm px-4 pb-8">
         <h2 className="text-center text-base font-bold mb-4" style={{ color: "rgba(255,150,100,0.8)" }}>よくある質問</h2>
