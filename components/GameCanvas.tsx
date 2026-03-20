@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState, useCallback } from "react";
-import { usePhysicsGame } from "@/hooks/usePhysicsGame";
+import { usePhysicsGame, DifficultyLevel } from "@/hooks/usePhysicsGame";
 import { LEVELS } from "@/lib/levels";
 import { useGameSounds } from "@/hooks/useGameSounds";
 
@@ -83,6 +83,22 @@ function updateDarumaStreak(): { streak: number; isNew: boolean } {
   return { streak: newStreak, isNew: true };
 }
 
+const DIFFICULTY_LABELS: Record<DifficultyLevel, string> = {
+  easy: "かんたん",
+  normal: "ふつう",
+  hard: "むずかしい",
+};
+const DIFFICULTY_COLORS: Record<DifficultyLevel, string> = {
+  easy: "#22c55e",
+  normal: "#f59e0b",
+  hard: "#ef4444",
+};
+const DIFFICULTY_EMOJIS: Record<DifficultyLevel, string> = {
+  easy: "🟢",
+  normal: "🟡",
+  hard: "🔴",
+};
+
 export default function GameCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [levelIndex, setLevelIndex] = useState(0);
@@ -98,6 +114,8 @@ export default function GameCanvas() {
   const [dailyChallenge] = useState<DailyChallenge>(getDailyChallenge);
   const [dailyChallengeCleared, setDailyChallengeCleared] = useState(false);
   const [ranking, setRanking] = useState<RankEntry[]>([]);
+  const [difficulty, setDifficulty] = useState<DifficultyLevel>("normal");
+  const [showDifficultySelect, setShowDifficultySelect] = useState(true);
 
   // In endless mode, daruma count = 9 + endlessStage
   const isEndless = endlessMode;
@@ -163,6 +181,7 @@ export default function GameCanvas() {
     usePhysicsGame({
       canvasRef,
       darumaCount: currentDarumaCount,
+      difficulty,
       onClear: handleClear,
       onFail: handleFail,
     });
@@ -176,15 +195,16 @@ export default function GameCanvas() {
   }, [removedCount, playKnock]);
 
   // Re-init game when level or endless stage changes
-  const gameKey = isEndless ? `endless_${endlessStage}` : `level_${levelIndex}`;
+  const gameKey = isEndless ? `endless_${endlessStage}_${difficulty}` : `level_${levelIndex}_${difficulty}`;
   useEffect(() => {
+    if (showDifficultySelect) return; // 難易度選択中はゲームを初期化しない
     let cleanup: (() => void) | undefined;
     setCleared(false);
     setFailed(false);
     prevRemovedRef.current = 0;
     initGame().then((c) => { cleanup = c; });
     return () => { cleanup?.(); };
-  }, [gameKey]);
+  }, [gameKey, showDifficultySelect]);
 
   const handleNext = () => {
     if (levelIndex < LEVELS.length - 1) {
@@ -257,6 +277,57 @@ export default function GameCanvas() {
       : "#ef4444"
     : "";
 
+  // 難易度選択スタート画面
+  if (showDifficultySelect) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-dvh py-4 px-4"
+        style={{ background: "linear-gradient(160deg, #1a0a00, #2d1500)" }}>
+        <div className="w-full max-w-sm">
+          <div className="text-center mb-8">
+            <div className="text-6xl mb-3">🎎</div>
+            <h1 className="text-3xl font-black mb-2" style={{ color: "#ff6b2b" }}>ダルマ落とし</h1>
+            <p className="text-sm" style={{ color: "rgba(255,180,120,0.7)" }}>難易度を選んでスタート！</p>
+          </div>
+          <div className="space-y-3 mb-6">
+            {(["easy", "normal", "hard"] as DifficultyLevel[]).map((d) => (
+              <button
+                key={d}
+                onClick={() => {
+                  setDifficulty(d);
+                  setShowDifficultySelect(false);
+                }}
+                className="w-full py-4 rounded-2xl font-black text-lg transition-all active:scale-95 hover:scale-105 flex items-center justify-between px-6"
+                style={{
+                  background: difficulty === d
+                    ? `linear-gradient(135deg, ${DIFFICULTY_COLORS[d]}22, ${DIFFICULTY_COLORS[d]}11)`
+                    : "rgba(255,107,43,0.08)",
+                  border: `2px solid ${DIFFICULTY_COLORS[d]}${difficulty === d ? "aa" : "44"}`,
+                  color: DIFFICULTY_COLORS[d],
+                  boxShadow: difficulty === d ? `0 0 20px ${DIFFICULTY_COLORS[d]}33` : "none",
+                }}
+              >
+                <span>{DIFFICULTY_EMOJIS[d]} {DIFFICULTY_LABELS[d]}</span>
+                <span className="text-sm font-normal" style={{ color: "rgba(255,200,150,0.6)" }}>
+                  {d === "easy" ? "ゆっくり・安定" : d === "normal" ? "標準・バランス" : "速い・高難度"}
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className="rounded-xl p-4 text-xs space-y-1.5"
+            style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
+            <div className="font-bold mb-2" style={{ color: "#ffb899" }}>難易度の違い</div>
+            <div style={{ color: "rgba(255,180,120,0.7)" }}>🟢 かんたん — 重力弱め・摩擦大。初心者・子どもにおすすめ</div>
+            <div style={{ color: "rgba(255,180,120,0.7)" }}>🟡 ふつう — バランス型。物理演算の醍醐味を楽しめる</div>
+            <div style={{ color: "rgba(255,180,120,0.7)" }}>🔴 むずかしい — 重力強め・滑りやすい。上級者向け</div>
+          </div>
+          <p className="text-center text-xs mt-4" style={{ color: "rgba(255,120,70,0.5)" }}>
+            ゲーム中も設定から難易度変更できます
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col items-center min-h-dvh py-2 px-2"
       style={{ background: "linear-gradient(160deg, #1a0a00, #2d1500)" }}>
@@ -277,9 +348,13 @@ export default function GameCanvas() {
           {isEndless ? "🔥" : "🎎"} {displayName}
           {darumaStreak >= 2 && <span className="text-xs ml-1 text-amber-400">🔥{darumaStreak}日</span>}
         </span>
-        <span className="text-xs text-amber-600">
-          Best: {bestScore}
-        </span>
+        <button
+          onClick={() => setShowDifficultySelect(true)}
+          className="text-xs px-2 py-1 rounded-full font-bold"
+          style={{ background: `${DIFFICULTY_COLORS[difficulty]}22`, color: DIFFICULTY_COLORS[difficulty], border: `1px solid ${DIFFICULTY_COLORS[difficulty]}55` }}
+        >
+          {DIFFICULTY_EMOJIS[difficulty]} {DIFFICULTY_LABELS[difficulty]}
+        </button>
       </div>
 
       {/* デイリーチャレンジバナー */}

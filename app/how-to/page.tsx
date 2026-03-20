@@ -194,6 +194,48 @@ export default function HowToPage() {
           </div>
         </section>
 
+        {/* 難易度ガイド */}
+        <section className="mb-12">
+          <h2 className="text-xl font-black mb-6" style={{ color: "#ff6b2b" }}>難易度の選び方</h2>
+          <div className="space-y-4">
+            {[
+              {
+                emoji: "🟢",
+                label: "かんたん",
+                color: "#22c55e",
+                for: "初心者・お子さま向け",
+                desc: "重力が弱くだるまが安定します。摩擦が大きいためスワイプ後のだるまが滑りにくく、コントロールしやすい。まず「かんたん」で遊び方をマスターしよう。",
+              },
+              {
+                emoji: "🟡",
+                label: "ふつう",
+                color: "#f59e0b",
+                for: "標準・バランス型",
+                desc: "物理演算の醍醐味を最もバランスよく楽しめる難易度。程よい重力と摩擦で、スピードと角度の判断が問われます。物理パズルを本格的に楽しみたい方に。",
+              },
+              {
+                emoji: "🔴",
+                label: "むずかしい",
+                color: "#ef4444",
+                for: "上級者・段位認定狙い向け",
+                desc: "重力が強くだるまが滑りやすいため、タワーが不安定になりやすい。少しのミスで崩れる本格仕様。師範・師範代を目指す上級者に挑戦してほしい難易度。",
+              },
+            ].map((item) => (
+              <div key={item.label} className="flex gap-4 rounded-2xl p-5"
+                style={{ background: `${item.color}11`, border: `1px solid ${item.color}44` }}>
+                <span className="text-3xl flex-shrink-0">{item.emoji}</span>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="font-black text-base" style={{ color: item.color }}>{item.label}</span>
+                    <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: `${item.color}22`, color: item.color }}>{item.for}</span>
+                  </div>
+                  <p className="text-xs leading-relaxed" style={{ color: "rgba(255,165,130,0.75)" }}>{item.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* デイリーチャレンジ */}
         <section className="mb-12 rounded-2xl p-6"
           style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.25)" }}>

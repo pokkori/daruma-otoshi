@@ -12,9 +12,12 @@ export interface SwipeFeedback {
   time: number;
 }
 
+export type DifficultyLevel = "easy" | "normal" | "hard";
+
 interface UsePhysicsGameOptions {
   canvasRef: React.RefObject<HTMLCanvasElement | null>;
   darumaCount: number;
+  difficulty?: DifficultyLevel;
   onClear: () => void;
   onFail: () => void;
 }
@@ -36,7 +39,7 @@ function getDarumaImg(): HTMLImageElement | null {
   return null;
 }
 
-export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UsePhysicsGameOptions) {
+export function usePhysicsGame({ canvasRef, darumaCount, difficulty = "normal", onClear, onFail }: UsePhysicsGameOptions) {
   const [phase, setPhase] = useState<GamePhase>("idle");
   const [removedCount, setRemovedCount] = useState(0);
   const [swipeFeedback, setSwipeFeedback] = useState<SwipeFeedback | null>(null);
@@ -70,7 +73,10 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
       cancelAnimationFrame(rafRef.current);
     }
 
-    const engine = Matter.Engine.create({ gravity: { y: 1.5 } });
+    // 難易度設定: easy=重力弱め・空気抵抗大, hard=重力強め・空気抵抗小
+    const gravityMap: Record<DifficultyLevel, number> = { easy: 1.0, normal: 1.5, hard: 2.2 };
+    const frictionAirMap: Record<DifficultyLevel, number> = { easy: 0.12, normal: 0.05, hard: 0.02 };
+    const engine = Matter.Engine.create({ gravity: { y: gravityMap[difficulty] } });
     engineRef.current = engine;
 
     const ground = Matter.Bodies.rectangle(CANVAS_W / 2, GROUND_Y + 25, CANVAS_W, 50, { isStatic: true, label: "ground" });
@@ -84,8 +90,8 @@ export function usePhysicsGame({ canvasRef, darumaCount, onClear, onFail }: UseP
       const y = GROUND_Y - DARUMA_H / 2 - i * DARUMA_H;
       const body = Matter.Bodies.rectangle(centerX, y, DARUMA_W, DARUMA_H, {
         restitution: 0.1,
-        friction: 0.8,
-        frictionAir: 0.05,
+        friction: difficulty === "easy" ? 1.2 : difficulty === "hard" ? 0.4 : 0.8,
+        frictionAir: frictionAirMap[difficulty],
         label: `daruma_${i}`,
         collisionFilter: { category: 0x0001, mask: 0x0001 | 0x0002 },
       });

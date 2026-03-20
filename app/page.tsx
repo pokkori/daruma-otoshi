@@ -92,6 +92,20 @@ export default function HomePage() {
         <p className="mt-3 text-xs" style={{ color: "rgba(255,150,100,0.6)" }}>
           インストール不要 • ブラウザで今すぐ遊べる
         </p>
+        {/* 難易度バッジ訴求 */}
+        <div className="mt-3 flex gap-2 justify-center">
+          {[
+            { label: "かんたん", color: "#22c55e", emoji: "🟢" },
+            { label: "ふつう", color: "#f59e0b", emoji: "🟡" },
+            { label: "むずかしい", color: "#ef4444", emoji: "🔴" },
+          ].map((d) => (
+            <span key={d.label} className="text-xs font-bold px-2.5 py-1 rounded-full"
+              style={{ background: `${d.color}22`, color: d.color, border: `1px solid ${d.color}44` }}>
+              {d.emoji} {d.label}
+            </span>
+          ))}
+        </div>
+        <p className="mt-1 text-xs" style={{ color: "rgba(255,120,70,0.5)" }}>3段階の難易度から選択できます</p>
         <div className="mt-4 flex flex-wrap gap-2 justify-center">
           <Link href="/ranking"
             className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold transition-all hover:scale-105"
@@ -386,6 +400,38 @@ export default function HomePage() {
         </p>
       </section>
 
+      {/* SEOテキスト: 攻略のコツ */}
+      <section className="w-full max-w-sm px-4 pb-10">
+        <h2 className="text-center font-black text-base mb-5"
+          style={{ color: "#ff6b2b" }}>
+          ダルマ落とし攻略のコツ
+        </h2>
+        <div className="space-y-3">
+          {[
+            { icon: "⚡", title: "スピードが命", desc: "スワイプが速いほど上のだるまへの衝撃が少なくなります。ゆっくり叩くとタワーが崩れやすいので、素早くスワイプしましょう。" },
+            { icon: "📐", title: "真横を狙う", desc: "だるまの中心を正確に真横にスワイプすることで、安定してだるまを抜き取れます。斜めに当たると回転が生じて崩れやすくなります。" },
+            { icon: "🎯", title: "下から順番に", desc: "基本は下のだるまから順番に叩き抜くのが安定します。ただし、タワーのバランスによっては柔軟に対応しましょう。" },
+            { icon: "🟢", title: "初心者はかんたんモードから", desc: "難易度「かんたん」では重力が弱く摩擦が大きいため、タワーが安定します。まずかんたんモードでコツをつかみましょう。" },
+          ].map((tip, i) => (
+            <div key={i} className="flex gap-3 items-start p-3 rounded-xl"
+              style={{ background: "rgba(255,107,43,0.06)", border: "1px solid rgba(255,107,43,0.15)" }}>
+              <span className="text-xl flex-shrink-0">{tip.icon}</span>
+              <div>
+                <div className="font-bold text-sm mb-0.5" style={{ color: "#ffb899" }}>{tip.title}</div>
+                <div className="text-xs leading-relaxed" style={{ color: "rgba(255,180,120,0.65)" }}>{tip.desc}</div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="text-center mt-5">
+          <Link href="/how-to"
+            className="inline-block font-bold text-xs px-5 py-2.5 rounded-xl transition-all hover:scale-105"
+            style={{ background: "rgba(255,107,43,0.15)", color: "#ffb899", border: "1px solid rgba(255,107,43,0.35)" }}>
+            📖 完全攻略ガイドを読む →
+          </Link>
+        </div>
+      </section>
+
       {/* 感情フック */}
       <section className="w-full max-w-sm px-4 pb-10">
         <h2 className="text-center font-black text-sm mb-5 tracking-widest"
@@ -467,6 +513,7 @@ export default function HomePage() {
             { q: "何段まで積めますか？", a: "ゲームが進むと最大10段まで積み重なります。物理演算により毎回違う挙動になるので何度でも楽しめます。" },
             { q: "スコアは記録されますか？", a: "ハイスコアはブラウザに自動保存されます。友達との対戦記録はXでシェアできます。" },
             { q: "スマホでも遊べますか？", a: "スマホ・タブレット・PCすべてに対応しています。タップ操作でも快適に遊べます。" },
+            { q: "難易度は選べますか？", a: "かんたん・ふつう・むずかしいの3段階から選べます。重力・摩擦・滑りやすさが変わるので初心者から上級者まで楽しめます。" },
           ].map((faq, i) => (
             <div key={i} style={{ background: "rgba(255,80,0,0.08)", border: "1px solid rgba(255,80,0,0.2)", borderRadius: "12px", padding: "12px 14px" }}>
               <p style={{ color: "rgba(255,150,100,0.9)", fontWeight: "600", fontSize: "12px", marginBottom: "5px" }}>Q. {faq.q}</p>
