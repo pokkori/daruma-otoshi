@@ -128,6 +128,34 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 口コミ・体験談 */}
+      <section className="w-full max-w-sm px-4 pb-10">
+        <h2 className="text-center font-black text-sm mb-5 tracking-widest"
+          style={{ color: "rgba(255,150,100,0.7)" }}>
+          みんなの声
+        </h2>
+        <div className="space-y-3">
+          {[
+            { star: 5, text: "物理演算がリアルで気持ちいい！タワーが崩れる瞬間がたまらない。毎日プレイしてます。", name: "20代・男性" },
+            { star: 5, text: "シンプルなのにめちゃくちゃハマった。エンドレスモードで師範代まで達成！家族でスコアを競ってます。", name: "30代・主婦" },
+            { star: 4, text: "友達と挑戦状を送り合うのが楽しい。スワイプの角度と力加減が奥深い。", name: "高校生" },
+            { star: 5, text: "インストール不要でブラウザですぐ遊べるのが最高。通勤中の暇つぶしにぴったり。", name: "40代・会社員" },
+          ].map((v, i) => (
+            <div key={i} className="rounded-2xl p-4"
+              style={{ background: "rgba(255,107,43,0.07)", border: "1px solid rgba(255,107,43,0.2)" }}>
+              <div className="flex items-center gap-1 mb-2">
+                {Array.from({ length: v.star }).map((_, si) => (
+                  <span key={si} style={{ color: "#fbbf24", fontSize: "14px" }}>★</span>
+                ))}
+              </div>
+              <p className="text-xs leading-relaxed mb-2" style={{ color: "rgba(255,200,150,0.85)" }}>「{v.text}」</p>
+              <p className="text-xs" style={{ color: "rgba(255,150,100,0.5)" }}>— {v.name}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-center text-xs mt-3" style={{ color: "rgba(255,100,50,0.35)" }}>※個人の感想です</p>
+      </section>
+
       {/* Story / Character Section */}
       <section className="w-full max-w-sm px-4 pb-10">
         <div className="rounded-2xl p-5 text-center"
