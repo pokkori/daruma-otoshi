@@ -2,24 +2,61 @@ import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
+const SITE_URL = "https://daruma-otoshi.vercel.app";
+const TITLE = "ダルマ落とし PHYSICS | 物理だるまタワー — 毎日プレイで段位認定";
+const DESC = "だるまタワーを下から叩いて抜く本格物理パズル。Matter.js物理演算で毎回違う崩れ方。デイリーチャレンジ・ランキング・段位認定。無料プレイ！";
+
 export const metadata: Metadata = {
-  title: "ダルマ落とし PHYSICS | 物理だるまタワー",
-  description: "だるまタワーを下から叩いて抜く物理パズル。Matter.js本格物理演算で毎回異なる崩れ方が映える！",
-  metadataBase: new URL("https://daruma-otoshi.vercel.app"),
+  title: TITLE,
+  description: DESC,
+  keywords: ["ダルマ落とし", "物理パズル", "ブラウザゲーム", "だるまゲーム", "無料ゲーム", "物理演算ゲーム", "脳トレ", "暇つぶしゲーム"],
+  metadataBase: new URL(SITE_URL),
   openGraph: {
-    title: "ダルマ落とし PHYSICS — 本格物理演算パズル",
-    description: "タワーを崩さず下のだるまを叩き抜け！本格物理演算で毎回違う崩れ方。無料プレイ！",
-    url: "https://daruma-otoshi.vercel.app",
+    title: TITLE,
+    description: DESC,
+    url: SITE_URL,
     siteName: "ダルマ落とし PHYSICS",
     type: "website",
     locale: "ja_JP",
+    images: [{ url: `${SITE_URL}/og.png`, width: 1200, height: 630, alt: "ダルマ落とし PHYSICS" }],
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", title: TITLE, description: DESC },
+  alternates: { canonical: SITE_URL },
+  robots: { index: true, follow: true },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "VideoGame",
+      "name": "ダルマ落とし PHYSICS",
+      "url": SITE_URL,
+      "description": DESC,
+      "genre": "Puzzle",
+      "gamePlatform": "Web Browser",
+      "applicationCategory": "Game",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY", "description": "無料プレイ" },
+      "publisher": { "@type": "Organization", "name": "ポッコリラボ" },
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "ダルマ落としPHYSICSはどうやって遊ぶの？", "acceptedAnswer": { "@type": "Answer", "text": "横にスワイプして下のだるまを叩き抜きます。タワーを崩さず全てのだるまを取り除けばクリア！スピードが命で、ゆっくりだと上のだるまが崩れます。" } },
+        { "@type": "Question", "name": "デイリーチャレンジとは何ですか？", "acceptedAnswer": { "@type": "Answer", "text": "毎日変わる特別なクリア目標です。例えば「エンドレス3段クリア」など。達成すると記録に残ります。毎日ログインする楽しみになります。" } },
+        { "@type": "Question", "name": "段位認定はどのように決まりますか？", "acceptedAnswer": { "@type": "Answer", "text": "エンドレスモードで達成した最高段数によって段位が決まります。1段=初段、3段=二段、6段=三段、10段=四段、15段=師範代、21段=師範（最高位）です。" } },
+        { "@type": "Question", "name": "スマホでも遊べますか？", "acceptedAnswer": { "@type": "Answer", "text": "はい、スマートフォン・タブレットに完全対応しています。タップ操作でも快適に遊べます。" } },
+      ],
+    },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
+      <head>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      </head>
       <body>
         {children}
         <Analytics />
