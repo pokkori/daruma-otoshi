@@ -238,6 +238,7 @@ export default function GameCanvas() {
 
   const handleClear = useCallback(() => {
     playClear();
+    triggerSlowMotion();
     setCleared(true);
     const newScore = score + currentDarumaCount * 100;
     setScore(newScore);
@@ -292,7 +293,7 @@ export default function GameCanvas() {
     setShareImageUrl(img);
   }, [playFail, isEndless, endlessStage, levelIndex, threeSec, selectedSkin, score]);
 
-  const { phase, removedCount, swipeFeedback, initGame, onTouchStart, onTouchEnd, onMouseDown, onMouseUp } =
+  const { phase, removedCount, swipeFeedback, initGame, triggerSlowMotion, onTouchStart, onTouchEnd, onMouseDown, onMouseUp } =
     usePhysicsGame({
       canvasRef,
       darumaCount: currentDarumaCount,
@@ -681,15 +682,27 @@ export default function GameCanvas() {
               {/* 崩れ瞬間シェアボタン（クリア時） */}
               {shareImageUrl && (
                 <button
-                  onClick={() => {
+                  onClick={async () => {
                     const stage = isEndless ? currentDarumaCount : levelIndex + 1;
                     const text = `ダルマ落とし ${stage}段クリア！物理演算がリアルすぎる🎪 #ダルマ落とし daruma-otoshi.vercel.app`;
+                    // Web Share API（モバイル：画像+テキスト）
+                    if (typeof navigator !== "undefined" && navigator.share && navigator.canShare) {
+                      try {
+                        const res = await fetch(shareImageUrl);
+                        const blob = await res.blob();
+                        const file = new File([blob], "daruma-clear.png", { type: "image/png" });
+                        if (navigator.canShare({ files: [file] })) {
+                          await navigator.share({ files: [file], text, url: "https://daruma-otoshi.vercel.app" });
+                          return;
+                        }
+                      } catch { /* fallthrough */ }
+                    }
                     window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, "_blank");
                   }}
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
                   style={{ background: "linear-gradient(135deg, #ff4444, #dc2626)", color: "#fff", boxShadow: "0 0 14px rgba(255,68,68,0.4)" }}
                 >
-                  🎪 この崩れ方をXでシェア
+                  🎪 この瞬間をシェア（画像付き）
                 </button>
               )}
               {/* 挑戦状ボタン */}
@@ -731,6 +744,15 @@ export default function GameCanvas() {
               )}
             </div>
             <div className="text-amber-500 text-sm mb-2">タワーが倒れました</div>
+            {/* もう一回ボタン（最優先・大きく表示） */}
+            <button onClick={handleRetry}
+              className="w-52 px-8 py-4 rounded-2xl font-black text-lg text-white transition-all active:scale-95 mb-3"
+              style={{
+                background: "linear-gradient(135deg, #ff6b2b, #dc2626)",
+                boxShadow: "0 0 24px rgba(255,107,43,0.6)",
+              }}>
+              🎎 もう一回！
+            </button>
             {/* 段位バッジ */}
             <div className="mb-3 px-5 py-2 rounded-full font-black text-sm flex items-center gap-2"
               style={{ background: "rgba(0,0,0,0.5)", border: `2px solid ${danRank.color}`, color: danRank.color, boxShadow: `0 0 15px ${danRank.color}40` }}>
@@ -769,17 +791,27 @@ export default function GameCanvas() {
               {/* 崩れ瞬間シェアボタン */}
               {shareImageUrl && (
                 <button
-                  onClick={() => {
-                    // クリップボードにURLをコピーしてXを開く
+                  onClick={async () => {
                     const stage = isEndless ? currentDarumaCount - 1 : levelIndex + 1;
-                    const text = `ダルマ落とし ${stage}段クリア！物理演算がリアルすぎる🎪 #ダルマ落とし daruma-otoshi.vercel.app`;
-                    const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-                    window.open(twitterUrl, "_blank");
+                    const text = `ダルマ落とし ${stage}段まで到達！物理演算がリアルすぎる🎪 #ダルマ落とし daruma-otoshi.vercel.app`;
+                    // Web Share API（モバイル：画像+テキスト）
+                    if (typeof navigator !== "undefined" && navigator.share && navigator.canShare) {
+                      try {
+                        const res = await fetch(shareImageUrl);
+                        const blob = await res.blob();
+                        const file = new File([blob], "daruma-result.png", { type: "image/png" });
+                        if (navigator.canShare({ files: [file] })) {
+                          await navigator.share({ files: [file], text, url: "https://daruma-otoshi.vercel.app" });
+                          return;
+                        }
+                      } catch { /* fallthrough */ }
+                    }
+                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`, "_blank");
                   }}
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
                   style={{ background: "linear-gradient(135deg, #ff4444, #dc2626)", color: "#fff", boxShadow: "0 0 14px rgba(255,68,68,0.5)" }}
                 >
-                  🎪 この崩れ方をXでシェア
+                  🎪 この瞬間をシェア（画像付き）
                 </button>
               )}
               {/* 挑戦状ボタン */}

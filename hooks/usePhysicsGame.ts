@@ -308,11 +308,23 @@ export function usePhysicsGame({ canvasRef, darumaCount, difficulty = "normal", 
     swipeStartRef.current = null;
   }, [handleSwipe]);
 
+  // スロー演出: クリア時にtimescaleを下げる
+  const triggerSlowMotion = useCallback(() => {
+    const engine = engineRef.current;
+    const Matter = matterRef.current;
+    if (!engine || !Matter) return;
+    engine.timing.timeScale = 0.2;
+    setTimeout(() => {
+      if (engineRef.current) engineRef.current.timing.timeScale = 1.0;
+    }, 800);
+  }, []);
+
   return {
     phase,
     removedCount,
     swipeFeedback,
     initGame,
+    triggerSlowMotion,
     onTouchStart,
     onTouchEnd,
     onMouseDown,
