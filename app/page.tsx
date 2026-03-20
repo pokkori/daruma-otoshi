@@ -76,6 +76,13 @@ export default function HomePage() {
         <p className="mt-3 text-xs" style={{ color: "rgba(255,150,100,0.6)" }}>
           インストール不要 • ブラウザで今すぐ遊べる
         </p>
+        <div className="mt-4">
+          <Link href="/ranking"
+            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold transition-all hover:scale-105"
+            style={{ background: "rgba(251,191,36,0.15)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.4)" }}>
+            🏆 ランキング・段位認定を確認する
+          </Link>
+        </div>
       </section>
 
       {/* Feature Cards */}
