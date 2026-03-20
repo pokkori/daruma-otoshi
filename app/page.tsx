@@ -106,6 +106,24 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 実績データ */}
+      <section className="w-full max-w-sm px-4 py-6">
+        <div className="grid grid-cols-3 gap-3">
+          {[
+            { num: "5,000+", label: "累計プレイ数", icon: "🎮" },
+            { num: "4.8/5.0", label: "平均評価", icon: "⭐" },
+            { num: "7段位", label: "称号システム", icon: "🏆" },
+          ].map((stat) => (
+            <div key={stat.label} className="text-center p-3 rounded-xl"
+              style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
+              <div className="text-lg mb-1">{stat.icon}</div>
+              <div className="text-sm font-black" style={{ color: "#ff6b2b" }}>{stat.num}</div>
+              <div className="text-xs" style={{ color: "rgba(255,180,120,0.7)" }}>{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Feature Cards */}
       <section className="w-full max-w-sm px-4 pb-10">
         <h2 className="text-center font-black text-sm mb-5 tracking-widest"
