@@ -400,6 +400,44 @@ export default function HomePage() {
         </p>
       </section>
 
+      {/* SEOテキスト: 物理演算とは */}
+      <section className="w-full max-w-sm px-4 pb-10">
+        <h2 className="text-center font-black text-base mb-5"
+          style={{ color: "#ff6b2b" }}>
+          リアルな物理演算で、毎回違う崩れ方
+        </h2>
+        <div className="rounded-2xl p-5 space-y-4"
+          style={{ background: "rgba(255,107,43,0.07)", border: "1px solid rgba(255,107,43,0.2)" }}>
+          <div>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-xl">⚙️</span>
+              <h3 className="font-black text-sm" style={{ color: "#ffb899" }}>Matter.jsを使った本格物理シミュレーション</h3>
+            </div>
+            <p className="text-xs leading-relaxed" style={{ color: "rgba(255,180,120,0.75)" }}>
+              ダルマ落としPHYSICSはMatter.jsという物理エンジンを搭載。重力・摩擦・反発係数を本物のだるまのようにリアルに再現しているため、まったく同じプレイは二度とできません。叩く瞬間の角度・スピード・力加減が1ミリ違うだけで、タワーの崩れ方がまるで変わります。
+            </p>
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-xl">🎬</span>
+              <h3 className="font-black text-sm" style={{ color: "#ffb899" }}>崩れる瞬間が「シェアしたくなる」理由</h3>
+            </div>
+            <p className="text-xs leading-relaxed" style={{ color: "rgba(255,180,120,0.75)" }}>
+              物理演算の醍醐味は「予測不能な崩れ方」にあります。狙いどおりに全部抜けたときの爽快感、予想外の崩れ方が起きたときの笑い——その瞬間をそのままXでシェアできるシェアボタンを実装。「崩れた！」と思ったらすぐシェアできます。
+            </p>
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-1.5">
+              <span className="text-xl">📱</span>
+              <h3 className="font-black text-sm" style={{ color: "#ffb899" }}>ブラウザで動く高品質な物理パズル</h3>
+            </div>
+            <p className="text-xs leading-relaxed" style={{ color: "rgba(255,180,120,0.75)" }}>
+              アプリのインストール不要。ブラウザでURLを開くだけで、スマホでもPCでも高精度な物理シミュレーションがそのまま動きます。難易度は重力・摩擦・滑りやすさが段階的に変わる3レベル設計で、初心者から上級者まで楽しめます。
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* SEOテキスト: 攻略のコツ */}
       <section className="w-full max-w-sm px-4 pb-10">
         <h2 className="text-center font-black text-base mb-5"
