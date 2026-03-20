@@ -138,6 +138,84 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* CSS animation だるまデモ */}
+      <section className="w-full max-w-sm px-4 pb-6">
+        <div className="rounded-2xl p-5 text-center overflow-hidden relative"
+          style={{ background: "linear-gradient(135deg, rgba(220,38,38,0.15), rgba(255,107,43,0.08))", border: "1px solid rgba(255,107,43,0.3)", minHeight: "140px" }}>
+          <style>{`
+            @keyframes daruma-stack {
+              0%   { transform: translateY(0) rotate(0deg); }
+              20%  { transform: translateY(-8px) rotate(-3deg); }
+              40%  { transform: translateY(0) rotate(2deg); }
+              60%  { transform: translateY(-4px) rotate(-1deg); }
+              80%  { transform: translateY(0) rotate(0deg); }
+              100% { transform: translateY(0) rotate(0deg); }
+            }
+            @keyframes daruma-fall-left {
+              0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+              30%  { transform: translateY(0) rotate(-15deg); opacity: 1; }
+              100% { transform: translateY(60px) rotate(-90deg) translateX(-40px); opacity: 0; }
+            }
+            @keyframes daruma-fall-right {
+              0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+              30%  { transform: translateY(0) rotate(15deg); opacity: 1; }
+              100% { transform: translateY(60px) rotate(90deg) translateX(40px); opacity: 0; }
+            }
+            @keyframes hammer-swing {
+              0%   { transform: rotate(0deg); }
+              30%  { transform: rotate(-60deg) translateX(-10px); }
+              50%  { transform: rotate(20deg); }
+              80%  { transform: rotate(0deg); }
+              100% { transform: rotate(0deg); }
+            }
+            .d-top    { animation: daruma-stack 2.5s ease-in-out infinite; display: inline-block; }
+            .d-mid    { animation: daruma-stack 2.5s ease-in-out infinite 0.3s; display: inline-block; }
+            .d-bot    { animation: daruma-stack 2.5s ease-in-out infinite 0.6s; display: inline-block; }
+            .d-target { animation: daruma-fall-left 2.5s ease-in-out infinite 0.8s; display: inline-block; }
+            .d-top2   { animation: daruma-fall-right 2.5s ease-in-out infinite 1.0s; display: inline-block; }
+            .hammer   { animation: hammer-swing 2.5s ease-in-out infinite 0.5s; display: inline-block; transform-origin: right bottom; }
+          `}</style>
+          <p className="text-xs font-bold mb-3" style={{ color: "rgba(255,150,100,0.6)" }}>⬇ 物理演算デモ — だるまが崩れる瞬間</p>
+          <div className="flex justify-center items-end gap-1 h-20 mb-3">
+            <span className="hammer text-4xl" style={{ fontSize: "2.5rem" }}>🔨</span>
+            <div className="flex flex-col items-center">
+              <span className="d-top text-3xl">🔴</span>
+              <span className="d-top2 text-3xl">🔴</span>
+              <span className="d-target text-3xl">🟡</span>
+              <span className="d-bot text-3xl">🔴</span>
+            </div>
+          </div>
+          <p className="text-xs" style={{ color: "rgba(255,180,120,0.7)" }}>毎回違う崩れ方で無限に楽しめる</p>
+          <Link href="/game"
+            className="inline-block mt-2 font-black text-xs px-8 py-2 rounded-full transition-all hover:scale-105"
+            style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)", color: "#fff" }}>
+            今すぐ崩す →
+          </Link>
+        </div>
+      </section>
+
+      {/* 難易度別チャレンジリンク */}
+      <section className="w-full max-w-sm px-4 pb-8">
+        <h2 className="text-center font-black text-sm mb-4 tracking-widest" style={{ color: "rgba(255,150,100,0.7)" }}>
+          難易度別 攻略ガイド
+        </h2>
+        <div className="grid grid-cols-3 gap-2">
+          {[
+            { label: "かんたん", emoji: "🟢", color: "#22c55e", href: "/challenge/easy", desc: "初心者攻略" },
+            { label: "ふつう", emoji: "🟡", color: "#f59e0b", href: "/game", desc: "標準設定" },
+            { label: "むずかしい", emoji: "🔴", color: "#ef4444", href: "/challenge/hard", desc: "上級者向け" },
+          ].map((d) => (
+            <Link key={d.label} href={d.href}
+              className="rounded-xl p-3 text-center transition-all hover:scale-105"
+              style={{ background: `${d.color}15`, border: `1px solid ${d.color}44` }}>
+              <div className="text-2xl mb-1">{d.emoji}</div>
+              <div className="font-bold text-xs" style={{ color: d.color }}>{d.label}</div>
+              <div className="text-xs mt-0.5" style={{ color: `${d.color}99` }}>{d.desc}</div>
+            </Link>
+          ))}
+        </div>
+      </section>
+
       {/* Feature Cards */}
       <section className="w-full max-w-sm px-4 pb-10">
         <h2 className="text-center font-black text-sm mb-5 tracking-widest"
