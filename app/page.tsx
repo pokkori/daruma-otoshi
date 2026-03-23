@@ -79,13 +79,14 @@ export default function HomePage() {
         </div>
 
         <Link href="/game"
-          className="group relative inline-block px-16 py-5 rounded-2xl text-2xl font-black transition-all active:scale-95 hover:scale-105"
+          className="group relative inline-block px-16 py-5 rounded-2xl text-2xl font-black transition-all active:scale-95 hover:scale-105 min-h-[44px]"
+          aria-label="ダルマ落としゲームを今すぐプレイする"
           style={{
             background: "linear-gradient(135deg, #ff6b2b, #dc2626, #991b1b)",
             color: "#fff",
             boxShadow: "0 0 50px rgba(255,80,0,0.6), 0 0 100px rgba(220,38,38,0.3), 0 8px 32px rgba(0,0,0,0.4)",
           }}>
-          <span className="relative z-10">今すぐプレイ ⚡</span>
+          <span className="relative z-10">今すぐプレイ</span>
           <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"
             style={{ background: "linear-gradient(135deg, rgba(255,255,255,0.15), transparent)" }} />
         </Link>
@@ -108,14 +109,16 @@ export default function HomePage() {
         <p className="mt-1 text-xs" style={{ color: "rgba(255,120,70,0.5)" }}>3段階の難易度から選択できます</p>
         <div className="mt-4 flex flex-wrap gap-2 justify-center">
           <Link href="/ranking"
-            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold transition-all hover:scale-105"
+            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold transition-all hover:scale-105 min-h-[44px]"
+            aria-label="ランキングと段位認定を見る"
             style={{ background: "rgba(251,191,36,0.15)", color: "#fbbf24", border: "1px solid rgba(251,191,36,0.4)" }}>
-            🏆 ランキング・段位認定
+            ランキング・段位認定
           </Link>
           <Link href="/how-to"
-            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold transition-all hover:scale-105"
+            className="inline-flex items-center gap-1.5 px-5 py-2 rounded-full text-sm font-bold transition-all hover:scale-105 min-h-[44px]"
+            aria-label="ダルマ落としの攻略ガイドを読む"
             style={{ background: "rgba(255,107,43,0.15)", color: "#ffb899", border: "1px solid rgba(255,107,43,0.4)" }}>
-            📖 攻略ガイド
+            攻略ガイド
           </Link>
         </div>
       </section>
