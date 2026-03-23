@@ -158,12 +158,12 @@ export default function HomePage() {
       <section className="w-full max-w-sm px-4 py-6">
         <div className="grid grid-cols-3 gap-3">
           {[
-            { num: "5,000+", label: "累計プレイ数", icon: "🎮" },
-            { num: "4.8/5.0", label: "平均評価", icon: "⭐" },
-            { num: "7段位", label: "称号システム", icon: "🏆" },
+            { num: "5,000+", label: "累計プレイ数", icon: "5000" },
+            { num: "4.8/5.0", label: "平均評価", icon: "4.8" },
+            { num: "7段位", label: "称号システム", icon: "7" },
           ].map((stat) => (
             <div key={stat.label} className="text-center p-3 rounded-xl"
-              style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
+              style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
               <div className="text-lg mb-1">{stat.icon}</div>
               <div className="text-sm font-black" style={{ color: "#ff6b2b" }}>{stat.num}</div>
               <div className="text-xs" style={{ color: "rgba(255,180,120,0.7)" }}>{stat.label}</div>
@@ -282,6 +282,8 @@ export default function HomePage() {
               style={{
                 background: "rgba(255,107,43,0.07)",
                 border: `1px solid rgba(255,107,43,0.2)`,
+                backdropFilter: "blur(12px)",
+                WebkitBackdropFilter: "blur(12px)",
               }}>
               <div className="text-3xl flex-shrink-0">{item.icon}</div>
               <div>
@@ -324,7 +326,7 @@ export default function HomePage() {
       {/* Story / Character Section */}
       <section className="w-full max-w-sm px-4 pb-10">
         <div className="rounded-2xl p-5 text-center"
-          style={{ background: "linear-gradient(135deg, rgba(220,38,38,0.12), rgba(255,107,43,0.08))", border: "1px solid rgba(220,38,38,0.25)" }}>
+          style={{ background: "linear-gradient(135deg, rgba(220,38,38,0.12), rgba(255,107,43,0.08))", border: "1px solid rgba(220,38,38,0.25)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
           <div className="text-4xl mb-3">🎎</div>
           <h2 className="text-lg font-black mb-2" style={{ color: "#ff6b2b" }}>守護神だるまの伝説</h2>
           <p className="text-sm leading-relaxed" style={{ color: "rgba(255,200,150,0.8)" }}>
@@ -350,7 +352,7 @@ export default function HomePage() {
             { icon: "💥", title: "崩れたらゲームオーバー", desc: "物理演算で毎回違う崩れ方。予測不能なのが醍醐味" },
           ].map((item, i) => (
             <div key={i} className="flex gap-3 items-center p-3 rounded-xl"
-              style={{ background: "rgba(255,107,43,0.06)", border: "1px solid rgba(255,107,43,0.15)" }}>
+              style={{ background: "rgba(255,107,43,0.06)", border: "1px solid rgba(255,107,43,0.15)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
               <span className="text-2xl">{item.icon}</span>
               <div>
                 <div className="font-bold text-sm" style={{ color: "#ffb899" }}>{item.title}</div>
@@ -364,7 +366,7 @@ export default function HomePage() {
       {/* 新機能: デイリーチャレンジ・ランキング・ストリーク訴求 */}
       <section className="w-full max-w-sm px-4 pb-10">
         <div className="rounded-2xl p-5"
-          style={{ background: "linear-gradient(135deg, rgba(255,107,43,0.12), rgba(220,38,38,0.08))", border: "1px solid rgba(255,107,43,0.3)" }}>
+          style={{ background: "linear-gradient(135deg, rgba(255,107,43,0.12), rgba(220,38,38,0.08))", border: "1px solid rgba(255,107,43,0.3)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
           <div className="text-center mb-4">
             <span className="inline-block text-xs font-black px-3 py-1 rounded-full mb-2"
               style={{ background: "rgba(255,107,43,0.3)", color: "#ff6b2b" }}>新機能3選</span>
@@ -377,7 +379,7 @@ export default function HomePage() {
               { icon: "🔥", title: "連続プレイストリーク", desc: "毎日プレイするとストリークが積み上がる。何日連続でプレイできるか挑戦！" },
             ].map((item) => (
               <div key={item.title} className="flex gap-3 items-start p-3 rounded-xl"
-                style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
+                style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
                 <span className="text-xl flex-shrink-0">{item.icon}</span>
                 <div>
                   <div className="font-bold text-sm mb-0.5" style={{ color: "#ff6b2b" }}>{item.title}</div>
@@ -392,7 +394,7 @@ export default function HomePage() {
       {/* Premium Section */}
       <section className="w-full max-w-sm px-4 pb-10">
         <div className="rounded-2xl p-5"
-          style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(220,38,38,0.1))", border: "1px solid rgba(124,58,237,0.3)" }}>
+          style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(220,38,38,0.1))", border: "1px solid rgba(124,58,237,0.3)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
           <div className="text-center mb-3">
             <span className="text-2xl">👑</span>
             <h2 className="text-base font-black mt-1" style={{ color: "#c4b5fd" }}>プレミアムプラン</h2>
@@ -498,7 +500,7 @@ export default function HomePage() {
             { badge: "👑", rank: "師範（最高位）", condition: "エンドレス21段達成", color: "#fbbf24" },
           ].map((r) => (
             <div key={r.rank} className="flex items-center gap-3 rounded-xl px-4 py-2.5"
-              style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
+              style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
               <span className="text-2xl flex-shrink-0">{r.badge}</span>
               <div className="flex-1">
                 <div className="font-black text-sm" style={{ color: r.color }}>{r.rank}</div>
@@ -564,7 +566,7 @@ export default function HomePage() {
             { icon: "🟢", title: "初心者はかんたんモードから", desc: "難易度「かんたん」では重力が弱く摩擦が大きいため、タワーが安定します。まずかんたんモードでコツをつかみましょう。" },
           ].map((tip, i) => (
             <div key={i} className="flex gap-3 items-start p-3 rounded-xl"
-              style={{ background: "rgba(255,107,43,0.06)", border: "1px solid rgba(255,107,43,0.15)" }}>
+              style={{ background: "rgba(255,107,43,0.06)", border: "1px solid rgba(255,107,43,0.15)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
               <span className="text-xl flex-shrink-0">{tip.icon}</span>
               <div>
                 <div className="font-bold text-sm mb-0.5" style={{ color: "#ffb899" }}>{tip.title}</div>
@@ -595,7 +597,7 @@ export default function HomePage() {
             { icon: "💭", text: "友達や家族と一緒に盛り上がれるゲームが欲しい..." },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-3 p-3 rounded-xl"
-              style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
+              style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
               <span className="text-2xl">{item.icon}</span>
               <p className="text-sm font-medium" style={{ color: "rgba(255,200,150,0.85)" }}>{item.text}</p>
             </div>
