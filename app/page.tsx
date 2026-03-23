@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
+import { updateStreak, loadStreak, getStreakMilestoneMessage, type StreakData } from "@/lib/streak";
 
 function ChallengeBanner() {
   const searchParams = useSearchParams();
@@ -31,12 +32,42 @@ function ChallengeBanner() {
 }
 
 export default function HomePage() {
+  const [streak, setStreak] = useState<StreakData | null>(null);
+  const [streakMsg, setStreakMsg] = useState<string | null>(null);
+
+  useEffect(() => {
+    const s = loadStreak("daruma");
+    setStreak(s);
+    const updated = updateStreak("daruma");
+    setStreak(updated);
+    const msg = getStreakMilestoneMessage(updated.count);
+    if (msg) setStreakMsg(msg);
+  }, []);
+
   return (
     <div className="min-h-dvh flex flex-col items-center"
       style={{ background: "linear-gradient(160deg, #1a0005, #3b0010, #1a0a00)" }}>
       <Suspense fallback={null}>
         <ChallengeBanner />
       </Suspense>
+
+      {/* Streak Badge */}
+      {(streak && streak.count > 0) || streakMsg ? (
+        <div className="flex items-center gap-2 mt-3 px-4">
+          {streak && streak.count > 0 && (
+            <span
+              className="text-amber-400 text-xs font-medium px-3 py-1 rounded-full"
+              aria-label={`${streak.count}日連続プレイ中`}
+              style={{ background: "rgba(251,191,36,0.15)", border: "1px solid rgba(251,191,36,0.4)" }}
+            >
+              {streak.count}日ストリーク
+            </span>
+          )}
+          {streakMsg && (
+            <span className="text-orange-400 text-xs animate-bounce">{streakMsg}</span>
+          )}
+        </div>
+      ) : null}
 
       {/* Hero Section */}
       <section className="w-full text-center px-4 pt-14 pb-10"
