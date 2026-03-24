@@ -440,7 +440,7 @@ export default function GameCanvas() {
           </div>
 
           {/* スキン選択 */}
-          <div className="mb-5">
+          <div className="mb-5 backdrop-blur-md rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,107,43,0.15)" }}>
             <div className="text-xs font-black mb-2 tracking-widest" style={{ color: "rgba(255,180,120,0.6)" }}> だるまスキン</div>
             <div className="grid grid-cols-4 gap-2">
               {DARUMA_SKINS.map((skin) => {
@@ -455,6 +455,8 @@ export default function GameCanvas() {
                         saveSkin(skin.id);
                       }
                     }}
+                    aria-label={`${skin.label}スキンを選択する${isLocked ? "（プレミアム限定）" : ""}`}
+                    aria-pressed={isSelected}
                     className="relative flex flex-col items-center py-3 rounded-xl transition-all active:scale-95"
                     style={{
                       background: isSelected ? "rgba(255,107,43,0.25)" : "rgba(255,107,43,0.06)",
@@ -488,6 +490,8 @@ export default function GameCanvas() {
                   setDifficulty(d);
                   setShowDifficultySelect(false);
                 }}
+                aria-label={`難易度を${DIFFICULTY_LABELS[d]}に設定する`}
+                aria-pressed={difficulty === d}
                 className="w-full py-4 rounded-2xl font-black text-lg transition-all active:scale-95 hover:scale-105 flex items-center justify-between px-6"
                 style={{
                   background: difficulty === d
@@ -505,8 +509,8 @@ export default function GameCanvas() {
               </button>
             ))}
           </div>
-          <div className="rounded-xl p-4 text-xs space-y-1.5"
-            style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
+          <div className="rounded-xl p-4 text-xs space-y-1.5 backdrop-blur-md"
+            style={{ background: "rgba(255,107,43,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
             <div className="font-bold mb-2" style={{ color: "#ffb899" }}>難易度の違い</div>
             <div style={{ color: "rgba(255,180,120,0.7)" }}> かんたん — 重力弱め・摩擦大。初心者・子どもにおすすめ</div>
             <div style={{ color: "rgba(255,180,120,0.7)" }}> ふつう — バランス型。物理演算の醍醐味を楽しめる</div>
@@ -542,6 +546,7 @@ export default function GameCanvas() {
         </span>
         <button
           onClick={() => setShowDifficultySelect(true)}
+          aria-label="難易度設定を開く"
           className="text-xs px-2 py-1 rounded-full font-bold"
           style={{ background: `${DIFFICULTY_COLORS[difficulty]}22`, color: DIFFICULTY_COLORS[difficulty], border: `1px solid ${DIFFICULTY_COLORS[difficulty]}55` }}
         >
@@ -662,18 +667,21 @@ export default function GameCanvas() {
             <div className="space-y-2 w-52">
               {isEndless ? (
                 <button onClick={handleEndlessNext}
+                  aria-label="次の段へ進む"
                   className="w-full py-3 rounded-xl font-bold text-white text-sm transition-all active:scale-95"
                   style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)", boxShadow: "0 0 20px rgba(255,107,43,0.5)" }}>
-                  次の段へ 
+                  次の段へ
                 </button>
               ) : levelIndex < LEVELS.length - 1 ? (
                 <button onClick={handleNext}
+                  aria-label="次のレベルへ進む"
                   className="w-full py-3 rounded-xl font-bold text-white text-sm transition-all active:scale-95"
                   style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)" }}>
                   次のレベルへ &rarr;
                 </button>
               ) : (
                 <button onClick={handleEnterEndless}
+                  aria-label="エンドレスモードに突入する"
                   className="w-full py-3 rounded-xl font-bold text-white text-sm transition-all active:scale-95 animate-pulse"
                   style={{ background: "linear-gradient(135deg, #ff6b2b, #7c3aed)", boxShadow: "0 0 20px rgba(124,58,237,0.5)" }}>
                    エンドレスモード突入！
@@ -682,6 +690,7 @@ export default function GameCanvas() {
               {/* 崩れ瞬間シェアボタン（クリア時） */}
               {shareImageUrl && (
                 <button
+                  aria-label="この瞬間をシェアする（画像付き）"
                   onClick={async () => {
                     const stage = isEndless ? currentDarumaCount : levelIndex + 1;
                     const text = `ダルマ落とし ${stage}段クリア！物理演算がリアルすぎる #ダルマ落とし daruma-otoshi.vercel.app`;
@@ -746,6 +755,7 @@ export default function GameCanvas() {
             <div className="text-amber-500 text-sm mb-2">タワーが倒れました</div>
             {/* もう一回ボタン（最優先・大きく表示） */}
             <button onClick={handleRetry}
+              aria-label="もう一回プレイする"
               className="w-52 px-8 py-4 rounded-2xl font-black text-lg text-white transition-all active:scale-95 mb-3"
               style={{
                 background: "linear-gradient(135deg, #ff6b2b, #dc2626)",
@@ -791,6 +801,7 @@ export default function GameCanvas() {
               {/* 崩れ瞬間シェアボタン */}
               {shareImageUrl && (
                 <button
+                  aria-label="この瞬間をシェアする（画像付き）"
                   onClick={async () => {
                     const stage = isEndless ? currentDarumaCount - 1 : levelIndex + 1;
                     const text = `ダルマ落とし ${stage}段まで到達！物理演算がリアルすぎる #ダルマ落とし daruma-otoshi.vercel.app`;
@@ -829,6 +840,7 @@ export default function GameCanvas() {
                 {isEndless ? `${currentDarumaCount - 1}段達成をシェア ` : "結果をXでシェア"}
               </a>
               <button onClick={handleRetry}
+                aria-label="もう一度プレイする"
                 className="w-full px-8 py-4 rounded-2xl font-black text-lg text-white transition-all active:scale-95"
                 style={{
                   background: "linear-gradient(135deg, #ff6b2b, #dc2626)",
@@ -840,6 +852,7 @@ export default function GameCanvas() {
               <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={handleStart3Sec}
+                  aria-label="3秒チャレンジを開始する"
                   className="py-2.5 rounded-xl font-black text-xs transition-all active:scale-95"
                   style={{ background: "linear-gradient(135deg, #0ea5e9, #0284c7)", color: "#fff" }}
                 >
@@ -847,6 +860,7 @@ export default function GameCanvas() {
                 </button>
                 <button
                   onClick={handleStart30Sec}
+                  aria-label="30秒高得点チャレンジを開始する"
                   className="py-2.5 rounded-xl font-black text-xs transition-all active:scale-95"
                   style={{ background: "linear-gradient(135deg, #10b981, #059669)", color: "#fff" }}
                 >
@@ -860,6 +874,7 @@ export default function GameCanvas() {
               )}
               <button
                 onClick={() => window.dispatchEvent(new Event("daruma:openPayjp"))}
+                aria-label="プレミアムプランに登録する（¥480/月）"
                 className="w-full py-2.5 rounded-xl font-bold text-sm transition-all active:scale-95"
                 style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#1a0a00" }}
               >
@@ -867,6 +882,7 @@ export default function GameCanvas() {
               </button>
               {isEndless && (
                 <button onClick={handleRetryFromStart}
+                  aria-label="最初からやり直す"
                   className="w-full py-2 rounded-xl text-xs text-amber-600 underline">
                   最初からやり直す
                 </button>
