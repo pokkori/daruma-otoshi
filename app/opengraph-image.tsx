@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "🎎 ダルマ落とし PHYSICS | 物理だるまタワー";
+export const alt = " ダルマ落とし PHYSICS | 物理だるまタワー";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -20,7 +20,7 @@ export default function Image() {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ fontSize: 120, marginBottom: 20, filter: "drop-shadow(0 0 40px rgba(255,100,0,0.7))" }}>🎎</div>
+        <div style={{ fontSize: 120, marginBottom: 20, filter: "drop-shadow(0 0 40px rgba(255,100,0,0.7))" }}></div>
         <div style={{ fontSize: 72, fontWeight: 900, color: "#ff6b2b", marginBottom: 12, textShadow: "0 0 30px rgba(255,107,43,0.5)" }}>
           ダルマ落とし
         </div>

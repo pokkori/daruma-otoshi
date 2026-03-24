@@ -111,31 +111,31 @@ export default function HowToPage() {
           <div className="space-y-4">
             {[
               {
-                icon: "⚡",
+                icon: "",
                 title: "スピード最優先",
                 desc: "物理演算では、叩くスピードが速いほど上段への衝撃が少なくなる。特に5段以上のタワーでは「速く叩く」ことが最重要。",
                 level: "基本",
               },
               {
-                icon: "📐",
+                icon: "",
                 title: "角度を意識する",
                 desc: "真横ではなく、少し下向きの角度でスワイプすると摩擦が減る。タワーの形状によって最適な角度が変わるので、まず試してみよう。",
                 level: "中級",
               },
               {
-                icon: "🧲",
+                icon: "",
                 title: "摩擦を利用する",
                 desc: "だるまは木や石の上に置かれると摩擦が増える。その場合は少し力を入れてスワイプする必要がある。素材の違いを感じ取ろう。",
                 level: "中級",
               },
               {
-                icon: "🎯",
+                icon: "",
                 title: "中心を正確に叩く",
                 desc: "だるまの中心を外れると回転が生じてタワーが揺れやすくなる。スワイプの始点はだるまの中心を狙おう。",
                 level: "上級",
               },
               {
-                icon: "👀",
+                icon: "",
                 title: "タワーのバランスを予測",
                 desc: "どのだるまを抜くかによって次の崩れ方が変わる。下から順番に抜くのが基本だが、タワーのバランスによっては上から抜いたほうがいいケースも。",
                 level: "上級",
@@ -164,13 +164,13 @@ export default function HowToPage() {
           <h2 className="text-xl font-black mb-6" style={{ color: "#ff6b2b" }}>段位認定システム（全7段位）</h2>
           <div className="space-y-3">
             {[
-              { badge: "🥋", rank: "見習い叩き師", condition: "エンドレス0段〜", desc: "ゲームを始めたばかりの初心者。基本ルールをマスターしよう。", color: "#94a3b8" },
-              { badge: "⚡", rank: "初段", condition: "エンドレス1段達成", desc: "安定して1段クリアできるようになった。スピードの基本を習得。", color: "#f97316" },
-              { badge: "🔥", rank: "二段", condition: "エンドレス3段達成", desc: "3段タワーを安定してクリア。角度と力加減を習得した証。", color: "#ef4444" },
-              { badge: "💥", rank: "三段", condition: "エンドレス6段達成", desc: "6段の高さでも動じない安定感。上級者の仲間入り。", color: "#a855f7" },
-              { badge: "🌟", rank: "四段", condition: "エンドレス10段達成", desc: "10段はかなりの難関。物理演算の特性を熟知した証。", color: "#f59e0b" },
-              { badge: "🏆", rank: "師範代", condition: "エンドレス15段達成", desc: "15段到達は実力者の証。もはや「師範」まであと一歩。", color: "#d97706" },
-              { badge: "👑", rank: "師範（最高位）", condition: "エンドレス21段達成", desc: "伝説の段位。21段をクリアできる者はごくわずか。", color: "#fbbf24" },
+              { badge: "", rank: "見習い叩き師", condition: "エンドレス0段〜", desc: "ゲームを始めたばかりの初心者。基本ルールをマスターしよう。", color: "#94a3b8" },
+              { badge: "", rank: "初段", condition: "エンドレス1段達成", desc: "安定して1段クリアできるようになった。スピードの基本を習得。", color: "#f97316" },
+              { badge: "", rank: "二段", condition: "エンドレス3段達成", desc: "3段タワーを安定してクリア。角度と力加減を習得した証。", color: "#ef4444" },
+              { badge: "", rank: "三段", condition: "エンドレス6段達成", desc: "6段の高さでも動じない安定感。上級者の仲間入り。", color: "#a855f7" },
+              { badge: "", rank: "四段", condition: "エンドレス10段達成", desc: "10段はかなりの難関。物理演算の特性を熟知した証。", color: "#f59e0b" },
+              { badge: "", rank: "師範代", condition: "エンドレス15段達成", desc: "15段到達は実力者の証。もはや「師範」まであと一歩。", color: "#d97706" },
+              { badge: "", rank: "師範（最高位）", condition: "エンドレス21段達成", desc: "伝説の段位。21段をクリアできる者はごくわずか。", color: "#fbbf24" },
             ].map((r) => (
               <div key={r.rank} className="flex items-start gap-3 rounded-xl px-4 py-3"
                 style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
@@ -200,21 +200,21 @@ export default function HowToPage() {
           <div className="space-y-4">
             {[
               {
-                emoji: "🟢",
+                emoji: "",
                 label: "かんたん",
                 color: "#22c55e",
                 for: "初心者・お子さま向け",
                 desc: "重力が弱くだるまが安定します。摩擦が大きいためスワイプ後のだるまが滑りにくく、コントロールしやすい。まず「かんたん」で遊び方をマスターしよう。",
               },
               {
-                emoji: "🟡",
+                emoji: "",
                 label: "ふつう",
                 color: "#f59e0b",
                 for: "標準・バランス型",
                 desc: "物理演算の醍醐味を最もバランスよく楽しめる難易度。程よい重力と摩擦で、スピードと角度の判断が問われます。物理パズルを本格的に楽しみたい方に。",
               },
               {
-                emoji: "🔴",
+                emoji: "",
                 label: "むずかしい",
                 color: "#ef4444",
                 for: "上級者・段位認定狙い向け",
@@ -242,9 +242,9 @@ export default function HowToPage() {
           <h2 className="text-lg font-black mb-4" style={{ color: "#ff6b2b" }}>デイリーチャレンジ・ランキングシステム</h2>
           <div className="space-y-3">
             {[
-              { icon: "📅", title: "デイリーチャレンジ", desc: "毎日変わる特別なクリア目標。「今日は3段クリアを目指せ！」などの目標が毎朝更新。達成するとランキングに記録される。" },
-              { icon: "🏆", title: "ローカルランキング", desc: "あなたのプレイ記録がTOP10まで自動保存。日付・スコア・段位が記録される。過去の自己ベストを超え続けよう。" },
-              { icon: "⚔️", title: "友達への挑戦状", desc: "ゲームオーバー後に「挑戦状を送る」ボタンでスコア入りURLを生成。友達がそのURLを開くとあなたのスコアが表示され、対決ムードに！" },
+              { icon: "", title: "デイリーチャレンジ", desc: "毎日変わる特別なクリア目標。「今日は3段クリアを目指せ！」などの目標が毎朝更新。達成するとランキングに記録される。" },
+              { icon: "", title: "ローカルランキング", desc: "あなたのプレイ記録がTOP10まで自動保存。日付・スコア・段位が記録される。過去の自己ベストを超え続けよう。" },
+              { icon: "️", title: "友達への挑戦状", desc: "ゲームオーバー後に「挑戦状を送る」ボタンでスコア入りURLを生成。友達がそのURLを開くとあなたのスコアが表示され、対決ムードに！" },
             ].map((item) => (
               <div key={item.title} className="flex gap-3 items-start p-3 rounded-xl"
                 style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>

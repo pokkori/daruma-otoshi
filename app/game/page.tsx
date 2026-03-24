@@ -40,7 +40,7 @@ function GamePageInner() {
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none w-full max-w-sm px-4">
           <div className="px-5 py-3 rounded-2xl font-black text-center shadow-2xl"
             style={{ background: "linear-gradient(135deg, #7c3aed, #dc2626)", color: "#fff", boxShadow: "0 0 30px rgba(124,58,237,0.7)" }}>
-            <div className="text-sm mb-1">⚔️ 挑戦状が届いた！</div>
+            <div className="text-sm mb-1">️ 挑戦状が届いた！</div>
             <div className="text-xl">{challengerRank ?? "叩き師"} のスコア <span style={{ color: "#fbbf24" }}>{challengerScore.toLocaleString()}点</span> を超えろ！</div>
           </div>
         </div>
@@ -52,15 +52,15 @@ function GamePageInner() {
               onClick={() => setShowUpgradeModal(false)}
               className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl"
             >
-              ✕
+              
             </button>
-            <div className="text-4xl mb-3">🎯</div>
+            <div className="text-4xl mb-3"></div>
             <h2 className="text-lg font-bold text-gray-900 mb-2">プレミアムプラン</h2>
             <p className="text-sm text-gray-500 mb-4">月額¥480で無制限プレイ・記録保存・新レベル優先解放</p>
             <ul className="text-sm text-gray-600 space-y-1 mb-5 text-left">
-              <li>✓ 無制限プレイ（制限なし）</li>
-              <li>✓ スコア記録・ランキング</li>
-              <li>✓ 新レベル優先解放</li>
+              <li> 無制限プレイ（制限なし）</li>
+              <li> スコア記録・ランキング</li>
+              <li> 新レベル優先解放</li>
             </ul>
             <KomojuButton
               planId="standard"

@@ -14,7 +14,7 @@ export const LEVELS: Level[] = [
   { id: 6, name: "伝説", darumas: 8, hint: "一撃必殺" },
 ];
 
-export const DARUMA_EMOJIS = ["🎎", "😄", "😤", "😱", "😠", "🥺", "😎", "👺"];
+export const DARUMA_EMOJIS = ["", "", "", "", "", "", "", ""];
 export const DARUMA_COLORS = [
   "#dc2626", "#ea580c", "#d97706", "#16a34a",
   "#2563eb", "#7c3aed", "#db2777", "#0f172a",

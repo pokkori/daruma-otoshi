@@ -19,12 +19,12 @@ function ChallengeBanner() {
     <div className="w-full px-4 pt-4">
       <div className="rounded-2xl p-4 text-center font-black"
         style={{ background: "linear-gradient(135deg, #7c3aed, #dc2626)", color: "#fff", boxShadow: "0 0 30px rgba(124,58,237,0.7)" }}>
-        <div className="text-sm mb-1">⚔️ 挑戦状が届いた！</div>
+        <div className="text-sm mb-1">️ 挑戦状が届いた！</div>
         <div className="text-lg">{challenge.rank} のスコア <span style={{ color: "#fbbf24" }}>{challenge.score.toLocaleString()}点</span> を超えろ！</div>
         <Link href="/game"
           className="inline-block mt-2 px-6 py-2 rounded-full text-sm font-bold"
           style={{ background: "#fbbf24", color: "#1a0a00" }}>
-          今すぐ挑戦する ⚡
+          今すぐ挑戦する 
         </Link>
       </div>
     </div>
@@ -84,7 +84,7 @@ export default function HomePage() {
           style={{ color: "#fff", textShadow: "0 0 40px rgba(255,80,0,0.8), 0 2px 0 rgba(0,0,0,0.5)" }}>
           落とす快感、<br />
           <span style={{ color: "#ff6b2b" }}>積み重ねる緊張</span>
-          <span className="text-4xl"> 🎯</span>
+          <span className="text-4xl"> </span>
         </h1>
         <p className="text-base mb-3 font-bold" style={{ color: "#fca5a5" }}>
           守護神だるまを守れ！タワーを崩さず下から叩き抜け
@@ -97,15 +97,15 @@ export default function HomePage() {
         <div className="flex flex-wrap justify-center gap-2 mb-7">
           <span className="text-xs font-bold px-3 py-1.5 rounded-full"
             style={{ background: "rgba(255,107,43,0.25)", color: "#ffb899", border: "1px solid rgba(255,107,43,0.5)" }}>
-            🎮 累計5,000回以上プレイ
+             累計5,000回以上プレイ
           </span>
           <span className="text-xs font-bold px-3 py-1.5 rounded-full"
             style={{ background: "rgba(255,107,43,0.25)", color: "#ffb899", border: "1px solid rgba(255,107,43,0.5)" }}>
-            ⭐ 満足度 4.8/5.0
+             満足度 4.8/5.0
           </span>
           <span className="text-xs font-bold px-3 py-1.5 rounded-full"
             style={{ background: "rgba(255,107,43,0.25)", color: "#ffb899", border: "1px solid rgba(255,107,43,0.5)" }}>
-            📱 インストール不要
+             インストール不要
           </span>
         </div>
 
@@ -127,9 +127,9 @@ export default function HomePage() {
         {/* 難易度バッジ訴求 */}
         <div className="mt-3 flex gap-2 justify-center">
           {[
-            { label: "かんたん", color: "#22c55e", emoji: "🟢" },
-            { label: "ふつう", color: "#f59e0b", emoji: "🟡" },
-            { label: "むずかしい", color: "#ef4444", emoji: "🔴" },
+            { label: "かんたん", color: "#22c55e", emoji: "" },
+            { label: "ふつう", color: "#f59e0b", emoji: "" },
+            { label: "むずかしい", color: "#ef4444", emoji: "" },
           ].map((d) => (
             <span key={d.label} className="text-xs font-bold px-2.5 py-1 rounded-full"
               style={{ background: `${d.color}22`, color: d.color, border: `1px solid ${d.color}44` }}>
@@ -163,7 +163,7 @@ export default function HomePage() {
             { num: "7段位", label: "称号システム", icon: "7" },
           ].map((stat) => (
             <div key={stat.label} className="text-center p-3 rounded-xl"
-              style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
+              style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,107,43,0.2)", borderRadius: "12px" }}>
               <div className="text-lg mb-1">{stat.icon}</div>
               <div className="text-sm font-black" style={{ color: "#ff6b2b" }}>{stat.num}</div>
               <div className="text-xs" style={{ color: "rgba(255,180,120,0.7)" }}>{stat.label}</div>
@@ -211,12 +211,12 @@ export default function HomePage() {
           `}</style>
           <p className="text-xs font-bold mb-3" style={{ color: "rgba(255,150,100,0.6)" }}>⬇ 物理演算デモ — だるまが崩れる瞬間</p>
           <div className="flex justify-center items-end gap-1 h-20 mb-3">
-            <span className="hammer text-4xl" style={{ fontSize: "2.5rem" }}>🔨</span>
+            <span className="hammer text-4xl" style={{ fontSize: "2.5rem" }}></span>
             <div className="flex flex-col items-center">
-              <span className="d-top text-3xl">🔴</span>
-              <span className="d-top2 text-3xl">🔴</span>
-              <span className="d-target text-3xl">🟡</span>
-              <span className="d-bot text-3xl">🔴</span>
+              <span className="d-top text-3xl"></span>
+              <span className="d-top2 text-3xl"></span>
+              <span className="d-target text-3xl"></span>
+              <span className="d-bot text-3xl"></span>
             </div>
           </div>
           <p className="text-xs" style={{ color: "rgba(255,180,120,0.7)" }}>毎回違う崩れ方で無限に楽しめる</p>
@@ -235,9 +235,9 @@ export default function HomePage() {
         </h2>
         <div className="grid grid-cols-3 gap-2">
           {[
-            { label: "かんたん", emoji: "🟢", color: "#22c55e", href: "/challenge/easy", desc: "初心者攻略" },
-            { label: "ふつう", emoji: "🟡", color: "#f59e0b", href: "/game", desc: "標準設定" },
-            { label: "むずかしい", emoji: "🔴", color: "#ef4444", href: "/challenge/hard", desc: "上級者向け" },
+            { label: "かんたん", emoji: "", color: "#22c55e", href: "/challenge/easy", desc: "初心者攻略" },
+            { label: "ふつう", emoji: "", color: "#f59e0b", href: "/game", desc: "標準設定" },
+            { label: "むずかしい", emoji: "", color: "#ef4444", href: "/challenge/hard", desc: "上級者向け" },
           ].map((d) => (
             <Link key={d.label} href={d.href}
               className="rounded-xl p-3 text-center transition-all hover:scale-105"
@@ -259,19 +259,19 @@ export default function HomePage() {
         <div className="grid grid-cols-1 gap-3">
           {[
             {
-              icon: "⚙️",
+              icon: "️",
               title: "本格物理演算",
               desc: "Matter.jsによるリアルな物理シミュレーション。摩擦・重力・反発が本物のだるまのように動く",
               accent: "#ff6b2b",
             },
             {
-              icon: "♾️",
+              icon: "️",
               title: "無限に続くエンドレスモード",
               desc: "通常レベルをクリアしたらエンドレスへ突入！段数が増えるほどタワーが高くなり難易度も上昇",
               accent: "#dc2626",
             },
             {
-              icon: "⏱️",
+              icon: "️",
               title: "1分でルールを理解できる",
               desc: "スワイプするだけ。左右に弾いてタワーを崩さず下のだるまを叩き抜く — それだけ",
               accent: "#ff8c42",
@@ -309,10 +309,10 @@ export default function HomePage() {
             { star: 5, text: "インストール不要でブラウザですぐ遊べるのが最高。通勤中の暇つぶしにぴったり。", name: "40代・会社員" },
           ].map((v, i) => (
             <div key={i} className="rounded-2xl p-4"
-              style={{ background: "rgba(255,107,43,0.07)", border: "1px solid rgba(255,107,43,0.2)" }}>
+              style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,107,43,0.2)", borderRadius: "16px" }}>
               <div className="flex items-center gap-1 mb-2">
                 {Array.from({ length: v.star }).map((_, si) => (
-                  <span key={si} style={{ color: "#fbbf24", fontSize: "14px" }}>★</span>
+                  <span key={si} style={{ color: "#fbbf24", fontSize: "14px" }}></span>
                 ))}
               </div>
               <p className="text-xs leading-relaxed mb-2" style={{ color: "rgba(255,200,150,0.85)" }}>「{v.text}」</p>
@@ -327,7 +327,7 @@ export default function HomePage() {
       <section className="w-full max-w-sm px-4 pb-10">
         <div className="rounded-2xl p-5 text-center"
           style={{ background: "linear-gradient(135deg, rgba(220,38,38,0.12), rgba(255,107,43,0.08))", border: "1px solid rgba(220,38,38,0.25)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
-          <div className="text-4xl mb-3">🎎</div>
+          <div className="text-4xl mb-3"></div>
           <h2 className="text-lg font-black mb-2" style={{ color: "#ff6b2b" }}>守護神だるまの伝説</h2>
           <p className="text-sm leading-relaxed" style={{ color: "rgba(255,200,150,0.8)" }}>
             古来より、だるまは魔除けの守護神として人々を守ってきた。<br />
@@ -346,10 +346,10 @@ export default function HomePage() {
         </h2>
         <div className="space-y-3">
           {[
-            { icon: "👇", title: "黄色のだるまをスワイプ", desc: "横にスワイプして力の方向と強さを決める" },
-            { icon: "⚡", title: "素早く叩き抜く", desc: "スピードが命。ゆっくりだと上のだるまが崩れる" },
-            { icon: "🏆", title: "全部抜けばクリア", desc: "積み上がった全てのだるまを叩き抜いてクリア" },
-            { icon: "💥", title: "崩れたらゲームオーバー", desc: "物理演算で毎回違う崩れ方。予測不能なのが醍醐味" },
+            { icon: "", title: "黄色のだるまをスワイプ", desc: "横にスワイプして力の方向と強さを決める" },
+            { icon: "", title: "素早く叩き抜く", desc: "スピードが命。ゆっくりだと上のだるまが崩れる" },
+            { icon: "", title: "全部抜けばクリア", desc: "積み上がった全てのだるまを叩き抜いてクリア" },
+            { icon: "", title: "崩れたらゲームオーバー", desc: "物理演算で毎回違う崩れ方。予測不能なのが醍醐味" },
           ].map((item, i) => (
             <div key={i} className="flex gap-3 items-center p-3 rounded-xl"
               style={{ background: "rgba(255,107,43,0.06)", border: "1px solid rgba(255,107,43,0.15)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
@@ -374,9 +374,9 @@ export default function HomePage() {
           </div>
           <div className="space-y-3">
             {[
-              { icon: "📅", title: "デイリーチャレンジ", desc: "毎日違う目標（例：3段クリア）が出現。達成すると特別な報酬が解放！" },
-              { icon: "🏆", title: "ローカルランキング", desc: "自分のプレイ記録TOP10を自動保存。過去の自己ベストに挑戦し続けよう。" },
-              { icon: "🔥", title: "連続プレイストリーク", desc: "毎日プレイするとストリークが積み上がる。何日連続でプレイできるか挑戦！" },
+              { icon: "", title: "デイリーチャレンジ", desc: "毎日違う目標（例：3段クリア）が出現。達成すると特別な報酬が解放！" },
+              { icon: "", title: "ローカルランキング", desc: "自分のプレイ記録TOP10を自動保存。過去の自己ベストに挑戦し続けよう。" },
+              { icon: "", title: "連続プレイストリーク", desc: "毎日プレイするとストリークが積み上がる。何日連続でプレイできるか挑戦！" },
             ].map((item) => (
               <div key={item.title} className="flex gap-3 items-start p-3 rounded-xl"
                 style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
@@ -396,19 +396,20 @@ export default function HomePage() {
         <div className="rounded-2xl p-5"
           style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(220,38,38,0.1))", border: "1px solid rgba(124,58,237,0.3)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
           <div className="text-center mb-3">
-            <span className="text-2xl">👑</span>
+            <span className="text-2xl"></span>
             <h2 className="text-base font-black mt-1" style={{ color: "#c4b5fd" }}>プレミアムプラン</h2>
-            <div style={{ display: "inline-block", background: "#16a34a", color: "#fff", fontSize: "10px", fontWeight: "700", padding: "2px 10px", borderRadius: "999px", margin: "6px 0" }}>🛡️ 30日返金保証</div>
+            <div style={{ display: "inline-block", background: "#16a34a", color: "#fff", fontSize: "10px", fontWeight: "700", padding: "2px 10px", borderRadius: "999px", margin: "6px 0" }}>️ 30日返金保証</div>
             <p className="text-2xl font-black mt-1" style={{ color: "#fff" }}>¥480<span className="text-sm font-normal" style={{ color: "#a78bfa" }}>/月</span></p>
           </div>
           <ul className="space-y-1.5 text-sm mb-4">
             {["無制限プレイ（無料は1日3回まで）", "エンドレスモードのベスト記録保存", "新レベル優先解放", "段位認定証SNSシェア"].map(f => (
               <li key={f} className="flex items-center gap-2" style={{ color: "#ddd6fe" }}>
-                <span style={{ color: "#a78bfa" }}>✓</span>{f}
+                <span style={{ color: "#a78bfa" }}></span>{f}
               </li>
             ))}
           </ul>
           <button
+            aria-label="プレミアムプランを今すぐ始める"
             onClick={() => window.location.href = '/game?upgrade=1'}
             className="w-full py-3 rounded-xl text-sm font-black transition-all active:scale-95 hover:scale-105"
             style={{
@@ -417,7 +418,7 @@ export default function HomePage() {
               boxShadow: "0 0 20px rgba(124,58,237,0.4)",
             }}
           >
-            👑 プレミアムを今すぐ始める
+             プレミアムを今すぐ始める
           </button>
           <p className="text-center text-xs mt-2" style={{ color: "rgba(167,139,250,0.6)" }}>
             いつでもキャンセル可 • 安全に決済
@@ -429,13 +430,13 @@ export default function HomePage() {
       <section className="w-full max-w-sm px-4 pb-10">
         <div className="rounded-2xl p-4 text-center"
           style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)" }}>
-          <p className="font-bold text-sm mb-2" style={{ color: "#ffb899" }}>⚔️ 友達に挑戦状を送ろう</p>
+          <p className="font-bold text-sm mb-2" style={{ color: "#ffb899" }}>️ 友達に挑戦状を送ろう</p>
           <p className="text-xs mb-3" style={{ color: "rgba(255,180,120,0.65)" }}>
             ゲーム後に「友達に挑戦状を送る」ボタンでスコア入りURLをシェア。<br/>友達が開くとあなたのスコアが表示されます！
           </p>
           <div className="space-y-2">
             <a
-              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("ダルマ落としPHYSICSにハマってる🎎⚔️ 友達よ、このスコアに勝ってみろ！ → https://daruma-otoshi.vercel.app #ダルマ落とし #物理パズル #挑戦状")}`}
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("ダルマ落としPHYSICSにハマってる️ 友達よ、このスコアに勝ってみろ！ → https://daruma-otoshi.vercel.app #ダルマ落とし #物理パズル #挑戦状")}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-bold text-white transition-all active:scale-95"
@@ -461,7 +462,7 @@ export default function HomePage() {
             <Link href="/game"
               className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
               style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)", color: "#fff" }}>
-              🎮 今すぐプレイしてスコアを作る →
+               今すぐプレイしてスコアを作る →
             </Link>
           </div>
         </div>
@@ -476,7 +477,7 @@ export default function HomePage() {
             color: "#fff",
             boxShadow: "0 0 40px rgba(255,80,0,0.5), 0 8px 24px rgba(0,0,0,0.3)",
           }}>
-          ゲームスタート ⚡
+          ゲームスタート 
         </Link>
         <p className="mt-3 text-xs" style={{ color: "rgba(255,150,100,0.5)" }}>
           無料でプレイ • 登録不要
@@ -491,13 +492,13 @@ export default function HomePage() {
         </h2>
         <div className="space-y-2">
           {[
-            { badge: "🥋", rank: "見習い叩き師", condition: "エンドレス0段〜", color: "#94a3b8" },
-            { badge: "⚡", rank: "初段", condition: "エンドレス1段達成", color: "#f97316" },
-            { badge: "🔥", rank: "二段", condition: "エンドレス3段達成", color: "#ef4444" },
-            { badge: "💥", rank: "三段", condition: "エンドレス6段達成", color: "#a855f7" },
-            { badge: "🌟", rank: "四段", condition: "エンドレス10段達成", color: "#f59e0b" },
-            { badge: "🏆", rank: "師範代", condition: "エンドレス15段達成", color: "#d97706" },
-            { badge: "👑", rank: "師範（最高位）", condition: "エンドレス21段達成", color: "#fbbf24" },
+            { badge: "", rank: "見習い叩き師", condition: "エンドレス0段〜", color: "#94a3b8" },
+            { badge: "", rank: "初段", condition: "エンドレス1段達成", color: "#f97316" },
+            { badge: "", rank: "二段", condition: "エンドレス3段達成", color: "#ef4444" },
+            { badge: "", rank: "三段", condition: "エンドレス6段達成", color: "#a855f7" },
+            { badge: "", rank: "四段", condition: "エンドレス10段達成", color: "#f59e0b" },
+            { badge: "", rank: "師範代", condition: "エンドレス15段達成", color: "#d97706" },
+            { badge: "", rank: "師範（最高位）", condition: "エンドレス21段達成", color: "#fbbf24" },
           ].map((r) => (
             <div key={r.rank} className="flex items-center gap-3 rounded-xl px-4 py-2.5"
               style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
@@ -524,7 +525,7 @@ export default function HomePage() {
           style={{ background: "rgba(255,107,43,0.07)", border: "1px solid rgba(255,107,43,0.2)" }}>
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-xl">⚙️</span>
+              <span className="text-xl">️</span>
               <h3 className="font-black text-sm" style={{ color: "#ffb899" }}>Matter.jsを使った本格物理シミュレーション</h3>
             </div>
             <p className="text-xs leading-relaxed" style={{ color: "rgba(255,180,120,0.75)" }}>
@@ -533,7 +534,7 @@ export default function HomePage() {
           </div>
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-xl">🎬</span>
+              <span className="text-xl"></span>
               <h3 className="font-black text-sm" style={{ color: "#ffb899" }}>崩れる瞬間が「シェアしたくなる」理由</h3>
             </div>
             <p className="text-xs leading-relaxed" style={{ color: "rgba(255,180,120,0.75)" }}>
@@ -542,7 +543,7 @@ export default function HomePage() {
           </div>
           <div>
             <div className="flex items-center gap-2 mb-1.5">
-              <span className="text-xl">📱</span>
+              <span className="text-xl"></span>
               <h3 className="font-black text-sm" style={{ color: "#ffb899" }}>ブラウザで動く高品質な物理パズル</h3>
             </div>
             <p className="text-xs leading-relaxed" style={{ color: "rgba(255,180,120,0.75)" }}>
@@ -560,10 +561,10 @@ export default function HomePage() {
         </h2>
         <div className="space-y-3">
           {[
-            { icon: "⚡", title: "スピードが命", desc: "スワイプが速いほど上のだるまへの衝撃が少なくなります。ゆっくり叩くとタワーが崩れやすいので、素早くスワイプしましょう。" },
-            { icon: "📐", title: "真横を狙う", desc: "だるまの中心を正確に真横にスワイプすることで、安定してだるまを抜き取れます。斜めに当たると回転が生じて崩れやすくなります。" },
-            { icon: "🎯", title: "下から順番に", desc: "基本は下のだるまから順番に叩き抜くのが安定します。ただし、タワーのバランスによっては柔軟に対応しましょう。" },
-            { icon: "🟢", title: "初心者はかんたんモードから", desc: "難易度「かんたん」では重力が弱く摩擦が大きいため、タワーが安定します。まずかんたんモードでコツをつかみましょう。" },
+            { icon: "", title: "スピードが命", desc: "スワイプが速いほど上のだるまへの衝撃が少なくなります。ゆっくり叩くとタワーが崩れやすいので、素早くスワイプしましょう。" },
+            { icon: "", title: "真横を狙う", desc: "だるまの中心を正確に真横にスワイプすることで、安定してだるまを抜き取れます。斜めに当たると回転が生じて崩れやすくなります。" },
+            { icon: "", title: "下から順番に", desc: "基本は下のだるまから順番に叩き抜くのが安定します。ただし、タワーのバランスによっては柔軟に対応しましょう。" },
+            { icon: "", title: "初心者はかんたんモードから", desc: "難易度「かんたん」では重力が弱く摩擦が大きいため、タワーが安定します。まずかんたんモードでコツをつかみましょう。" },
           ].map((tip, i) => (
             <div key={i} className="flex gap-3 items-start p-3 rounded-xl"
               style={{ background: "rgba(255,107,43,0.06)", border: "1px solid rgba(255,107,43,0.15)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
@@ -579,7 +580,7 @@ export default function HomePage() {
           <Link href="/how-to"
             className="inline-block font-bold text-xs px-5 py-2.5 rounded-xl transition-all hover:scale-105"
             style={{ background: "rgba(255,107,43,0.15)", color: "#ffb899", border: "1px solid rgba(255,107,43,0.35)" }}>
-            📖 完全攻略ガイドを読む →
+             完全攻略ガイドを読む →
           </Link>
         </div>
       </section>
@@ -592,9 +593,9 @@ export default function HomePage() {
         </h2>
         <div className="space-y-3">
           {[
-            { icon: "😓", text: "スマホゲームが複雑すぎて、シンプルに楽しめるものが欲しい..." },
-            { icon: "😤", text: "暇つぶしに気軽に遊べるゲームがなかなか見つからない..." },
-            { icon: "💭", text: "友達や家族と一緒に盛り上がれるゲームが欲しい..." },
+            { icon: "", text: "スマホゲームが複雑すぎて、シンプルに楽しめるものが欲しい..." },
+            { icon: "", text: "暇つぶしに気軽に遊べるゲームがなかなか見つからない..." },
+            { icon: "", text: "友達や家族と一緒に盛り上がれるゲームが欲しい..." },
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-3 p-3 rounded-xl"
               style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
@@ -629,12 +630,12 @@ export default function HomePage() {
               </thead>
               <tbody>
                 {[
-                  { feature: "インストール不要", us: "✅ ブラウザのみ", a: "⚠️ 一部", b: "❌ DL必須" },
-                  { feature: "本格物理演算", us: "✅ Matter.js", a: "❌ 簡易のみ", b: "⚠️ まちまち" },
-                  { feature: "段位・称号制", us: "✅ 7段位", a: "❌ なし", b: "⚠️ レベル制" },
-                  { feature: "友達挑戦状", us: "✅ URLシェア", a: "❌ なし", b: "⚠️ 要アカウント" },
-                  { feature: "デイリー更新", us: "✅ 毎日目標", a: "❌ なし", b: "⚠️ 一部" },
-                  { feature: "完全無料", us: "✅ 無料プレイ", a: "⚠️ 広告多い", b: "❌ 課金前提" },
+                  { feature: "インストール不要", us: " ブラウザのみ", a: "️ 一部", b: " DL必須" },
+                  { feature: "本格物理演算", us: " Matter.js", a: " 簡易のみ", b: "️ まちまち" },
+                  { feature: "段位・称号制", us: " 7段位", a: " なし", b: "️ レベル制" },
+                  { feature: "友達挑戦状", us: " URLシェア", a: " なし", b: "️ 要アカウント" },
+                  { feature: "デイリー更新", us: " 毎日目標", a: " なし", b: "️ 一部" },
+                  { feature: "完全無料", us: " 無料プレイ", a: "️ 広告多い", b: " 課金前提" },
                 ].map((row, i) => (
                   <tr key={i} style={{ background: i % 2 === 0 ? "rgba(68,64,60,0.5)" : "rgba(68,64,60,0.3)", borderBottom: "1px solid rgba(255,107,43,0.1)" }}>
                     <td className="px-3 py-2.5 font-semibold" style={{ color: "#e7e5e4" }}>{row.feature}</td>
@@ -679,7 +680,7 @@ export default function HomePage() {
       <section className="w-full max-w-sm px-4 pb-8">
         <div className="rounded-2xl p-4"
           style={{ background: "rgba(255,107,43,0.07)", border: "1px solid rgba(255,107,43,0.2)" }}>
-          <p className="text-sm font-bold mb-3" style={{ color: "#ffb899" }}>🛍️ ゲームが好きなら、グッズ販売も。</p>
+          <p className="text-sm font-bold mb-3" style={{ color: "#ffb899" }}>️ ゲームが好きなら、グッズ販売も。</p>
           <a
             href="https://px.a8.net/svt/ejp?a8mat=4AZIOF+8ZAE9E+2QQG+62MDD"
             target="_blank"
@@ -705,9 +706,9 @@ export default function HomePage() {
         </h2>
         <ol className="space-y-3">
           {[
-            { icon: "⚔️", title: "叩き師ランクを全制覇", desc: "見習い→叩き師→名人の3段階ランク。10段に挑戦して伝説の叩き師を目指せ！" },
-            { icon: "🏆", title: "友達と最高段位を競争", desc: "ゲームオーバー後にXでスコアシェアして誰が名人になれるか競争しよう。" },
-            { icon: "🎯", title: "物理演算パズルを極める", desc: "毎回違う挙動が楽しい。木槌の角度・力加減で無限のパターンを体験！" },
+            { icon: "️", title: "叩き師ランクを全制覇", desc: "見習い→叩き師→名人の3段階ランク。10段に挑戦して伝説の叩き師を目指せ！" },
+            { icon: "", title: "友達と最高段位を競争", desc: "ゲームオーバー後にXでスコアシェアして誰が名人になれるか競争しよう。" },
+            { icon: "", title: "物理演算パズルを極める", desc: "毎回違う挙動が楽しい。木槌の角度・力加減で無限のパターンを体験！" },
           ].map((item, i) => (
             <li key={i} className="flex items-start gap-3" style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)", borderRadius: "12px", padding: "12px 14px" }}>
               <span style={{ fontSize: "22px", lineHeight: "1" }}>{item.icon}</span>
@@ -723,12 +724,12 @@ export default function HomePage() {
       <footer className="mt-2 text-center text-xs pb-6" style={{ color: "rgba(255,100,50,0.4)" }}>
         <p>© 2026 ポッコリラボ</p>
         <div className="flex justify-center gap-4 mt-1">
-          <a href="/legal" className="underline hover:opacity-70">特定商取引法</a>
-          <a href="/privacy" className="underline hover:opacity-70">プライバシーポリシー</a>
-          <a href="/terms" className="underline hover:opacity-70">利用規約</a>
+          <a href="/legal" aria-label="特定商取引法に基づく表示" className="underline hover:opacity-70">特定商取引法</a>
+          <a href="/privacy" aria-label="プライバシーポリシーを見る" className="underline hover:opacity-70">プライバシーポリシー</a>
+          <a href="/terms" aria-label="利用規約を見る" className="underline hover:opacity-70">利用規約</a>
         </div>
         <p className="mt-1">
-          <a href="https://twitter.com/levona_design" className="underline hover:opacity-70">お問い合わせ: X @levona_design</a>
+          <a href="https://twitter.com/levona_design" aria-label="X (Twitter) でお問い合わせ" className="underline hover:opacity-70">お問い合わせ: X @levona_design</a>
         </p>
       </footer>
     </div>

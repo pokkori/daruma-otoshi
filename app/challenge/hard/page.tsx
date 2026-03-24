@@ -12,27 +12,27 @@ export default function HardChallengePage() {
       style={{ background: "linear-gradient(160deg, #1a0005, #3b0010, #1a0a00)" }}>
       <div className="w-full max-w-sm px-4 pt-6 pb-2 flex items-center gap-3">
         <Link href="/" className="text-orange-400 hover:text-orange-200 text-sm transition-colors">← トップ</Link>
-        <h1 className="text-base font-black flex-1 text-center" style={{ color: "#ffb899" }}>🔴 むずかしいモード攻略</h1>
+        <h1 className="text-base font-black flex-1 text-center" style={{ color: "#ffb899" }}> むずかしいモード攻略</h1>
         <Link href="/game" className="text-orange-400 hover:text-orange-200 text-sm transition-colors">プレイ →</Link>
       </div>
 
       <div className="w-full max-w-sm px-4 pb-12">
         {/* ヒーロー */}
         <div className="text-center py-8">
-          <div className="text-6xl mb-4" style={{ animation: "pulse 1s infinite" }}>🔴</div>
+          <div className="text-6xl mb-4" style={{ animation: "pulse 1s infinite" }}></div>
           <h2 className="text-2xl font-black mb-2" style={{ color: "#ef4444" }}>むずかしいモード</h2>
           <p className="text-sm mb-2" style={{ color: "rgba(255,180,120,0.8)" }}>
             重力MAX・摩擦ミニマムの物理地獄<br />師範達成者は上位1%の猛者のみ！
           </p>
           <div className="inline-block px-4 py-1 rounded-full mb-4 text-xs font-bold"
             style={{ background: "rgba(239,68,68,0.2)", color: "#fca5a5", border: "1px solid rgba(239,68,68,0.4)" }}>
-            ⚠️ 上級者向け — かんたん・ふつうをマスターしてから
+            ️ 上級者向け — かんたん・ふつうをマスターしてから
           </div>
           <br />
           <Link href="/game"
             className="inline-block font-black px-10 py-3 rounded-2xl text-sm transition-all hover:scale-105 active:scale-95"
             style={{ background: "linear-gradient(135deg, #ef4444, #b91c1c)", color: "#fff", boxShadow: "0 0 20px rgba(239,68,68,0.5)" }}>
-            むずかしいに挑む ⚡
+            むずかしいに挑む 
           </Link>
         </div>
 
@@ -43,9 +43,9 @@ export default function HardChallengePage() {
           </h2>
           <div className="space-y-3">
             {[
-              { icon: "💥", title: "重力が1.4倍", desc: "通常の1.4倍の重力設定。少しの衝撃でもタワーが大きく揺れます。1段のミスが即崩壊に繋がります。" },
-              { icon: "🌊", title: "摩擦が極小", desc: "だるまが滑りやすい設定。叩いた後に残っただるまがズレやすく、連鎖的な崩れが起きやすいです。" },
-              { icon: "⚡", title: "反発係数が高い", desc: "だるまが弾みやすい設定。少しの力でも大きな動きになるため、微妙な力加減が求められます。" },
+              { icon: "", title: "重力が1.4倍", desc: "通常の1.4倍の重力設定。少しの衝撃でもタワーが大きく揺れます。1段のミスが即崩壊に繋がります。" },
+              { icon: "", title: "摩擦が極小", desc: "だるまが滑りやすい設定。叩いた後に残っただるまがズレやすく、連鎖的な崩れが起きやすいです。" },
+              { icon: "", title: "反発係数が高い", desc: "だるまが弾みやすい設定。少しの力でも大きな動きになるため、微妙な力加減が求められます。" },
             ].map((item, i) => (
               <div key={i} className="flex gap-3 items-start p-4 rounded-2xl"
                 style={{ background: "rgba(239,68,68,0.08)", border: "1px solid rgba(239,68,68,0.25)" }}>
@@ -66,10 +66,10 @@ export default function HardChallengePage() {
           </h2>
           <div className="space-y-3">
             {[
-              { icon: "⚡", title: "限界まで速くスワイプ", desc: "むずかしいモードでは通常以上のスピードが必要。スワイプを思い切り速くして衝撃を最小化。" },
-              { icon: "🎯", title: "完璧な中心狙い必須", desc: "少しのズレで上が崩れます。毎回だるまの中心に正確にスワイプする精度が求められます。" },
-              { icon: "👁️", title: "タワーのバランスを読む", desc: "叩く前にタワーの重心を確認。偏りがある場合は反対方向から補正するように叩くのがコツ。" },
-              { icon: "🧘", title: "焦らず一発一発集中", desc: "焦りが最大の敵。1段ずつ丁寧に叩き抜くことで師範達成が見えてきます。" },
+              { icon: "", title: "限界まで速くスワイプ", desc: "むずかしいモードでは通常以上のスピードが必要。スワイプを思い切り速くして衝撃を最小化。" },
+              { icon: "", title: "完璧な中心狙い必須", desc: "少しのズレで上が崩れます。毎回だるまの中心に正確にスワイプする精度が求められます。" },
+              { icon: "️", title: "タワーのバランスを読む", desc: "叩く前にタワーの重心を確認。偏りがある場合は反対方向から補正するように叩くのがコツ。" },
+              { icon: "", title: "焦らず一発一発集中", desc: "焦りが最大の敵。1段ずつ丁寧に叩き抜くことで師範達成が見えてきます。" },
             ].map((tip, i) => (
               <div key={i} className="flex gap-3 items-start p-3 rounded-xl"
                 style={{ background: "rgba(255,107,43,0.06)", border: "1px solid rgba(255,107,43,0.15)" }}>
@@ -90,14 +90,14 @@ export default function HardChallengePage() {
             <Link href="/challenge/easy"
               className="rounded-xl p-4 text-center transition-all hover:scale-105"
               style={{ background: "rgba(34,197,94,0.12)", border: "1px solid rgba(34,197,94,0.3)" }}>
-              <div className="text-2xl mb-1">🟢</div>
+              <div className="text-2xl mb-1"></div>
               <div className="font-bold text-sm" style={{ color: "#86efac" }}>かんたん</div>
               <div className="text-xs mt-0.5" style={{ color: "rgba(134,239,172,0.6)" }}>初心者向け</div>
             </Link>
             <Link href="/game"
               className="rounded-xl p-4 text-center transition-all hover:scale-105"
               style={{ background: "rgba(245,158,11,0.12)", border: "1px solid rgba(245,158,11,0.3)" }}>
-              <div className="text-2xl mb-1">🟡</div>
+              <div className="text-2xl mb-1"></div>
               <div className="font-bold text-sm" style={{ color: "#fbbf24" }}>ふつう</div>
               <div className="text-xs mt-0.5" style={{ color: "rgba(251,191,36,0.6)" }}>バランス設定</div>
             </Link>
@@ -109,7 +109,7 @@ export default function HardChallengePage() {
           <div className="rounded-2xl p-5"
             style={{ background: "linear-gradient(135deg, rgba(251,191,36,0.1), rgba(239,68,68,0.08))", border: "1px solid rgba(251,191,36,0.3)" }}>
             <div className="text-center mb-3">
-              <span className="text-3xl">👑</span>
+              <span className="text-3xl"></span>
               <h2 className="font-black text-base mt-1" style={{ color: "#fbbf24" }}>師範（最高位）への道</h2>
             </div>
             <p className="text-xs leading-relaxed text-center" style={{ color: "rgba(251,191,36,0.8)" }}>
@@ -121,7 +121,7 @@ export default function HardChallengePage() {
               <Link href="/game"
                 className="inline-block font-black text-xs px-8 py-2.5 rounded-xl transition-all hover:scale-105"
                 style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)", color: "#fff" }}>
-                師範を目指す ⚡
+                師範を目指す 
               </Link>
             </div>
           </div>

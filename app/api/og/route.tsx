@@ -6,7 +6,7 @@ export const runtime = "edge";
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const rank = searchParams.get("rank") ?? "見習い叩き師";
-  const emoji = searchParams.get("emoji") ?? "🥋";
+  const emoji = searchParams.get("emoji") ?? "";
   const stage = searchParams.get("stage") ?? "0";
   const color = searchParams.get("color") ?? "#94a3b8";
 
@@ -64,7 +64,7 @@ export async function GET(req: NextRequest) {
               textTransform: "uppercase",
             }}
           >
-            🎎 ダルマ落とし PHYSICS
+             ダルマ落とし PHYSICS
           </div>
 
           <div
@@ -77,7 +77,7 @@ export async function GET(req: NextRequest) {
               textShadow: `0 0 30px ${color}88`,
             }}
           >
-            ── 段位認定証 ──
+             段位認定証 
           </div>
 
           {/* 絵文字 + 段位名 */}
