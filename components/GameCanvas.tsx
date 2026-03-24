@@ -440,7 +440,7 @@ export default function GameCanvas() {
           </div>
 
           {/* スキン選択 */}
-          <div className="mb-5 backdrop-blur-md rounded-2xl p-4" style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,107,43,0.15)" }}>
+          <div className="mb-5 backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-4" style={{ border: "1px solid rgba(255,107,43,0.15)" }}>
             <div className="text-xs font-black mb-2 tracking-widest" style={{ color: "rgba(255,180,120,0.6)" }}> だるまスキン</div>
             <div className="grid grid-cols-4 gap-2">
               {DARUMA_SKINS.map((skin) => {
@@ -634,7 +634,7 @@ export default function GameCanvas() {
         )}
 
         {cleared && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bounce-in"
+          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bounce-in backdrop-blur-md"
             style={{ background: "rgba(0,0,0,0.82)" }}>
             {/* GIF感クリア演出 */}
             <div className="text-6xl mb-2 animate-bounce">{isEndless ? "" : ""}</div>
@@ -733,7 +733,7 @@ export default function GameCanvas() {
         )}
 
         {failed && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl shake overflow-y-auto py-4"
+          <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl shake overflow-y-auto py-4 backdrop-blur-md"
             style={{ background: "rgba(0,0,0,0.88)" }}>
             {/* GIF感スコア演出 */}
             <div className="relative mb-3 text-center">
