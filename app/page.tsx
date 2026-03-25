@@ -221,6 +221,7 @@ export default function HomePage() {
           </div>
           <p className="text-xs" style={{ color: "rgba(255,180,120,0.7)" }}>毎回違う崩れ方で無限に楽しめる</p>
           <Link href="/game"
+            aria-label="物理演算デモを体験してゲームをプレイする"
             className="inline-block mt-2 font-black text-xs px-8 py-2 rounded-full transition-all hover:scale-105"
             style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)", color: "#fff" }}>
             今すぐ崩す →
@@ -240,6 +241,7 @@ export default function HomePage() {
             { label: "むずかしい", emoji: "", color: "#ef4444", href: "/challenge/hard", desc: "上級者向け" },
           ].map((d) => (
             <Link key={d.label} href={d.href}
+              aria-label={`${d.label}難易度でダルマ落としを攻略する`}
               className="rounded-xl p-3 text-center transition-all hover:scale-105"
               style={{ background: `${d.color}15`, border: `1px solid ${d.color}44` }}>
               <div className="text-2xl mb-1">{d.emoji}</div>
@@ -439,6 +441,7 @@ export default function HomePage() {
               href={`https://twitter.com/intent/tweet?text=${encodeURIComponent("ダルマ落としPHYSICSにハマってる️ 友達よ、このスコアに勝ってみろ！ → https://daruma-otoshi.vercel.app #ダルマ落とし #物理パズル #挑戦状")}`}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="X（Twitter）でダルマ落としの挑戦状をシェアする"
               className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-bold text-white transition-all active:scale-95"
               style={{ background: "#000" }}
             >
@@ -451,6 +454,7 @@ export default function HomePage() {
               href={`https://line.me/R/msg/text/?${encodeURIComponent("ダルマ落としPHYSICSで遊んでみて！物理演算でだるまがリアルに崩れるブラウザゲーム。インストール不要ですぐ遊べるよ → https://daruma-otoshi.vercel.app")}`}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="LINEでダルマ落としを友達に紹介する"
               className="flex items-center justify-center gap-2 w-full py-2 rounded-xl text-sm font-bold text-white transition-all active:scale-95"
               style={{ background: "#06C755" }}
             >
@@ -460,6 +464,7 @@ export default function HomePage() {
               LINEで友達を誘う
             </a>
             <Link href="/game"
+              aria-label="今すぐプレイしてスコアを作る"
               className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
               style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)", color: "#fff" }}>
                今すぐプレイしてスコアを作る →
@@ -471,13 +476,14 @@ export default function HomePage() {
       {/* Bottom CTA */}
       <section className="w-full max-w-sm px-4 pb-12 text-center">
         <Link href="/game"
+          aria-label="ダルマ落としゲームをスタートする"
           className="inline-block w-full py-4 rounded-2xl text-xl font-black transition-all active:scale-95 hover:scale-[1.02]"
           style={{
             background: "linear-gradient(135deg, #ff6b2b, #dc2626)",
             color: "#fff",
             boxShadow: "0 0 40px rgba(255,80,0,0.5), 0 8px 24px rgba(0,0,0,0.3)",
           }}>
-          ゲームスタート 
+          ゲームスタート
         </Link>
         <p className="mt-3 text-xs" style={{ color: "rgba(255,150,100,0.5)" }}>
           無料でプレイ • 登録不要
