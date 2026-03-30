@@ -5,6 +5,88 @@ import { useEffect, useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { updateStreak, loadStreak, getStreakMilestoneMessage, type StreakData } from "@/lib/streak";
 
+/* --- SVG Icons --- */
+function DarumaSvg({ size = 40 }: { size?: number }) {
+  return (
+    <svg viewBox="0 0 40 40" width={size} height={size} aria-hidden="true">
+      <ellipse cx="20" cy="24" rx="16" ry="14" fill="#DC2626" />
+      <ellipse cx="20" cy="20" rx="12" ry="10" fill="#FEE2E2" />
+      <circle cx="15" cy="18" r="3" fill="#1F2937" />
+      <circle cx="25" cy="18" r="3" fill="#1F2937" />
+      <circle cx="15" cy="17" r="1" fill="#fff" />
+      <circle cx="25" cy="17" r="1" fill="#fff" />
+      <path d="M16 24c2 2 6 2 8 0" stroke="#1F2937" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+      <ellipse cx="20" cy="24" rx="16" ry="14" fill="none" stroke="#991B1B" strokeWidth="1.5" />
+    </svg>
+  );
+}
+function HammerSvg() {
+  return (
+    <svg viewBox="0 0 32 32" width={28} height={28} aria-hidden="true">
+      <rect x="14" y="12" width="4" height="16" rx="1" fill="#92400E" />
+      <rect x="6" y="4" width="20" height="10" rx="3" fill="#6B7280" />
+      <rect x="6" y="4" width="20" height="10" rx="3" fill="none" stroke="#4B5563" strokeWidth="1" />
+    </svg>
+  );
+}
+function PhysicsSvg() {
+  return (
+    <svg viewBox="0 0 32 32" width={28} height={28} aria-hidden="true">
+      <circle cx="16" cy="16" r="12" fill="none" stroke="#FF6B2B" strokeWidth="2" strokeDasharray="4 2" />
+      <circle cx="16" cy="10" r="3" fill="#FF6B2B" />
+      <path d="M16 13v6" stroke="#FF6B2B" strokeWidth="2" />
+      <circle cx="16" cy="22" r="3" fill="#DC2626" />
+    </svg>
+  );
+}
+function InfinitySvg() {
+  return (
+    <svg viewBox="0 0 32 32" width={28} height={28} aria-hidden="true">
+      <path d="M8 16c0-4 4-6 8-2s8-2 8-2-4 6-8 2-8 2-8 2z" fill="none" stroke="#DC2626" strokeWidth="2.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+function EasySvg() {
+  return (
+    <svg viewBox="0 0 32 32" width={28} height={28} aria-hidden="true">
+      <polygon points="16,2 20,12 31,12 22,19 25,30 16,23 7,30 10,19 1,12 12,12" fill="#22C55E" />
+    </svg>
+  );
+}
+function StarSvg({ filled = true }: { filled?: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" width={14} height={14} aria-hidden="true">
+      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"
+        fill={filled ? "#fbbf24" : "rgba(251,191,36,0.25)"} />
+    </svg>
+  );
+}
+
+/* --- Floating particles --- */
+function FloatingEmbers() {
+  return (
+    <>
+      <style>{`
+        @keyframes emberRise {
+          0% { transform: translateY(0) scale(1); opacity: 0.5; }
+          50% { transform: translateY(-40px) scale(1.3); opacity: 0.9; }
+          100% { transform: translateY(-80px) scale(0.6); opacity: 0; }
+        }
+      `}</style>
+      {[8, 22, 40, 58, 75, 90].map((left, i) => (
+        <div key={i} className="fixed pointer-events-none z-0" style={{
+          left: `${left}%`, bottom: '5%',
+          width: 4 + i % 3 * 2, height: 4 + i % 3 * 2,
+          borderRadius: '50%',
+          background: `radial-gradient(circle, ${['#FF6B2B', '#DC2626', '#FF8C42'][i % 3]}, transparent)`,
+          animation: `emberRise ${4 + i}s ease-in-out ${i * 0.5}s infinite`,
+          boxShadow: `0 0 6px ${['rgba(255,107,43,0.5)', 'rgba(220,38,38,0.5)', 'rgba(255,140,66,0.5)'][i % 3]}`,
+        }} />
+      ))}
+    </>
+  );
+}
+
 function ChallengeBanner() {
   const searchParams = useSearchParams();
   const [challenge, setChallenge] = useState<{ score: number; rank: string } | null>(null);
@@ -45,8 +127,9 @@ export default function HomePage() {
   }, []);
 
   return (
-    <div className="min-h-dvh flex flex-col items-center"
-      style={{ background: "linear-gradient(160deg, #1a0005, #3b0010, #1a0a00)" }}>
+    <div className="min-h-dvh flex flex-col items-center relative overflow-hidden"
+      style={{ background: 'radial-gradient(ellipse at 30% 20%, rgba(220,38,38,0.1) 0%, transparent 50%), radial-gradient(ellipse at 70% 80%, rgba(255,107,43,0.08) 0%, transparent 50%), linear-gradient(160deg, #1a0005, #3b0010, #1a0a00)' }}>
+      <FloatingEmbers />
       <Suspense fallback={null}>
         <ChallengeBanner />
       </Suspense>
@@ -80,11 +163,14 @@ export default function HomePage() {
         </div>
         <img src="/images/daruma_stack.png" alt="ダルマ" className="w-32 h-32 mx-auto mb-5"
           style={{ filter: "drop-shadow(0 0 30px rgba(255,60,0,0.8))" }} />
-        <h1 className="text-5xl font-black mb-4 leading-tight"
-          style={{ color: "#fff", textShadow: "0 0 40px rgba(255,80,0,0.8), 0 2px 0 rgba(0,0,0,0.5)" }}>
+        <h1 className="text-5xl font-black mb-4 leading-tight" style={{
+          background: 'linear-gradient(135deg, #FFF 0%, #FF6B2B 50%, #DC2626 100%)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          filter: 'drop-shadow(0 0 30px rgba(255,80,0,0.6))',
+        }}>
           落とす快感、<br />
-          <span style={{ color: "#ff6b2b" }}>積み重ねる緊張</span>
-          <span className="text-4xl"> </span>
+          積み重ねる緊張
         </h1>
         <p className="text-base mb-3 font-bold" style={{ color: "#fca5a5" }}>
           守護神だるまを守れ！タワーを崩さず下から叩き抜け
@@ -127,13 +213,16 @@ export default function HomePage() {
         {/* 難易度バッジ訴求 */}
         <div className="mt-3 flex gap-2 justify-center">
           {[
-            { label: "かんたん", color: "#22c55e", emoji: "" },
-            { label: "ふつう", color: "#f59e0b", emoji: "" },
-            { label: "むずかしい", color: "#ef4444", emoji: "" },
+            { label: "かんたん", color: "#22c55e", stars: 1 },
+            { label: "ふつう", color: "#f59e0b", stars: 2 },
+            { label: "むずかしい", color: "#ef4444", stars: 3 },
           ].map((d) => (
-            <span key={d.label} className="text-xs font-bold px-2.5 py-1 rounded-full"
+            <span key={d.label} className="text-xs font-bold px-2.5 py-1 rounded-full inline-flex items-center gap-1"
               style={{ background: `${d.color}22`, color: d.color, border: `1px solid ${d.color}44` }}>
-              {d.emoji} {d.label}
+              {Array.from({ length: d.stars }).map((_, i) => (
+                <svg key={i} viewBox="0 0 12 12" width={10} height={10}><polygon points="6,0 7.5,4 12,4.5 8.5,7.5 9.5,12 6,9.5 2.5,12 3.5,7.5 0,4.5 4.5,4" fill={d.color} /></svg>
+              ))}
+              {d.label}
             </span>
           ))}
         </div>
@@ -211,12 +300,12 @@ export default function HomePage() {
           `}</style>
           <p className="text-xs font-bold mb-3" style={{ color: "rgba(255,150,100,0.6)" }}>⬇ 物理演算デモ — だるまが崩れる瞬間</p>
           <div className="flex justify-center items-end gap-1 h-20 mb-3">
-            <span className="hammer text-4xl" style={{ fontSize: "2.5rem" }}></span>
+            <span className="hammer" style={{ fontSize: "2.5rem" }}><HammerSvg /></span>
             <div className="flex flex-col items-center">
-              <span className="d-top text-3xl"></span>
-              <span className="d-top2 text-3xl"></span>
-              <span className="d-target text-3xl"></span>
-              <span className="d-bot text-3xl"></span>
+              <span className="d-top"><DarumaSvg size={30} /></span>
+              <span className="d-top2"><DarumaSvg size={30} /></span>
+              <span className="d-target"><DarumaSvg size={30} /></span>
+              <span className="d-bot"><DarumaSvg size={30} /></span>
             </div>
           </div>
           <p className="text-xs" style={{ color: "rgba(255,180,120,0.7)" }}>毎回違う崩れ方で無限に楽しめる</p>
@@ -236,15 +325,15 @@ export default function HomePage() {
         </h2>
         <div className="grid grid-cols-3 gap-2">
           {[
-            { label: "かんたん", emoji: "", color: "#22c55e", href: "/challenge/easy", desc: "初心者攻略" },
-            { label: "ふつう", emoji: "", color: "#f59e0b", href: "/game", desc: "標準設定" },
-            { label: "むずかしい", emoji: "", color: "#ef4444", href: "/challenge/hard", desc: "上級者向け" },
+            { label: "かんたん", stars: 1, color: "#22c55e", href: "/challenge/easy", desc: "初心者攻略" },
+            { label: "ふつう", stars: 2, color: "#f59e0b", href: "/game", desc: "標準設定" },
+            { label: "むずかしい", stars: 3, color: "#ef4444", href: "/challenge/hard", desc: "上級者向け" },
           ].map((d) => (
             <Link key={d.label} href={d.href}
               aria-label={`${d.label}難易度でダルマ落としを攻略する`}
               className="rounded-xl p-3 text-center transition-all hover:scale-105"
               style={{ background: `${d.color}15`, border: `1px solid ${d.color}44` }}>
-              <div className="text-2xl mb-1">{d.emoji}</div>
+              <div className="mb-1 flex justify-center gap-0.5">{Array.from({ length: d.stars }).map((_, i) => (<svg key={i} viewBox="0 0 16 16" width={14} height={14}><polygon points="8,0 10,6 16,6 11,10 13,16 8,12 3,16 5,10 0,6 6,6" fill={d.color} /></svg>))}</div>
               <div className="font-bold text-xs" style={{ color: d.color }}>{d.label}</div>
               <div className="text-xs mt-0.5" style={{ color: `${d.color}99` }}>{d.desc}</div>
             </Link>
@@ -261,21 +350,21 @@ export default function HomePage() {
         <div className="grid grid-cols-1 gap-3">
           {[
             {
-              icon: "️",
+              iconEl: <PhysicsSvg />,
               title: "本格物理演算",
               desc: "Matter.jsによるリアルな物理シミュレーション。摩擦・重力・反発が本物のだるまのように動く",
               accent: "#ff6b2b",
             },
             {
-              icon: "️",
+              iconEl: <InfinitySvg />,
               title: "無限に続くエンドレスモード",
               desc: "通常レベルをクリアしたらエンドレスへ突入！段数が増えるほどタワーが高くなり難易度も上昇",
               accent: "#dc2626",
             },
             {
-              icon: "️",
+              iconEl: <HammerSvg />,
               title: "1分でルールを理解できる",
-              desc: "スワイプするだけ。左右に弾いてタワーを崩さず下のだるまを叩き抜く — それだけ",
+              desc: "スワイプするだけ。左右に弾いてタワーを崩さず下のだるまを叩き抜く -- それだけ",
               accent: "#ff8c42",
             },
           ].map((item) => (
@@ -287,7 +376,7 @@ export default function HomePage() {
                 backdropFilter: "blur(12px)",
                 WebkitBackdropFilter: "blur(12px)",
               }}>
-              <div className="text-3xl flex-shrink-0">{item.icon}</div>
+              <div className="flex-shrink-0">{item.iconEl}</div>
               <div>
                 <div className="font-black text-sm mb-1" style={{ color: item.accent }}>{item.title}</div>
                 <div className="text-xs leading-relaxed" style={{ color: "rgba(255,200,150,0.75)" }}>{item.desc}</div>
@@ -314,7 +403,7 @@ export default function HomePage() {
               style={{ background: "rgba(255,255,255,0.08)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)", border: "1px solid rgba(255,107,43,0.2)", borderRadius: "16px" }}>
               <div className="flex items-center gap-1 mb-2">
                 {Array.from({ length: v.star }).map((_, si) => (
-                  <span key={si} style={{ color: "#fbbf24", fontSize: "14px" }}></span>
+                  <StarSvg key={si} />
                 ))}
               </div>
               <p className="text-xs leading-relaxed mb-2" style={{ color: "rgba(255,200,150,0.85)" }}>「{v.text}」</p>
@@ -329,7 +418,7 @@ export default function HomePage() {
       <section className="w-full max-w-sm px-4 pb-10">
         <div className="rounded-2xl p-5 text-center"
           style={{ background: "linear-gradient(135deg, rgba(220,38,38,0.12), rgba(255,107,43,0.08))", border: "1px solid rgba(220,38,38,0.25)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
-          <div className="text-4xl mb-3"></div>
+          <div className="mb-3 flex justify-center"><DarumaSvg size={48} /></div>
           <h2 className="text-lg font-black mb-2" style={{ color: "#ff6b2b" }}>守護神だるまの伝説</h2>
           <p className="text-sm leading-relaxed" style={{ color: "rgba(255,200,150,0.8)" }}>
             古来より、だるまは魔除けの守護神として人々を守ってきた。<br />
@@ -348,14 +437,14 @@ export default function HomePage() {
         </h2>
         <div className="space-y-3">
           {[
-            { icon: "", title: "黄色のだるまをスワイプ", desc: "横にスワイプして力の方向と強さを決める" },
-            { icon: "", title: "素早く叩き抜く", desc: "スピードが命。ゆっくりだと上のだるまが崩れる" },
-            { icon: "", title: "全部抜けばクリア", desc: "積み上がった全てのだるまを叩き抜いてクリア" },
-            { icon: "", title: "崩れたらゲームオーバー", desc: "物理演算で毎回違う崩れ方。予測不能なのが醍醐味" },
+            { iconEl: <svg viewBox="0 0 24 24" width={24} height={24}><path d="M4 12h16M16 8l4 4-4 4" stroke="#FF6B2B" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>, title: "黄色のだるまをスワイプ", desc: "横にスワイプして力の方向と強さを決める" },
+            { iconEl: <HammerSvg />, title: "素早く叩き抜く", desc: "スピードが命。ゆっくりだと上のだるまが崩れる" },
+            { iconEl: <svg viewBox="0 0 24 24" width={24} height={24}><circle cx="12" cy="12" r="9" fill="none" stroke="#22C55E" strokeWidth="2" /><path d="M8 12l3 3 5-6" stroke="#22C55E" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>, title: "全部抜けばクリア", desc: "積み上がった全てのだるまを叩き抜いてクリア" },
+            { iconEl: <PhysicsSvg />, title: "崩れたらゲームオーバー", desc: "物理演算で毎回違う崩れ方。予測不能なのが醍醐味" },
           ].map((item, i) => (
             <div key={i} className="flex gap-3 items-center p-3 rounded-xl"
               style={{ background: "rgba(255,107,43,0.06)", border: "1px solid rgba(255,107,43,0.15)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
-              <span className="text-2xl">{item.icon}</span>
+              <span className="flex-shrink-0">{item.iconEl}</span>
               <div>
                 <div className="font-bold text-sm" style={{ color: "#ffb899" }}>{item.title}</div>
                 <div className="text-xs" style={{ color: "rgba(255,180,120,0.65)" }}>{item.desc}</div>
@@ -376,13 +465,13 @@ export default function HomePage() {
           </div>
           <div className="space-y-3">
             {[
-              { icon: "", title: "デイリーチャレンジ", desc: "毎日違う目標（例：3段クリア）が出現。達成すると特別な報酬が解放！" },
-              { icon: "", title: "ローカルランキング", desc: "自分のプレイ記録TOP10を自動保存。過去の自己ベストに挑戦し続けよう。" },
-              { icon: "", title: "連続プレイストリーク", desc: "毎日プレイするとストリークが積み上がる。何日連続でプレイできるか挑戦！" },
+              { iconEl: <svg viewBox="0 0 24 24" width={22} height={22}><rect x="3" y="3" width="18" height="18" rx="3" fill="none" stroke="#FF6B2B" strokeWidth="2" /><path d="M8 12l3 3 5-6" stroke="#FF6B2B" strokeWidth="2" fill="none" strokeLinecap="round" /></svg>, title: "デイリーチャレンジ", desc: "毎日違う目標（例：3段クリア）が出現。達成すると特別な報酬が解放！" },
+              { iconEl: <svg viewBox="0 0 24 24" width={22} height={22}><path d="M4 18l4-4 4 2 4-6 4 3" stroke="#FBBF24" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round" /><path d="M4 20h16" stroke="#FBBF24" strokeWidth="1.5" /></svg>, title: "ローカルランキング", desc: "自分のプレイ記録TOP10を自動保存。過去の自己ベストに挑戦し続けよう。" },
+              { iconEl: <svg viewBox="0 0 24 24" width={22} height={22}><path d="M12 4v4M12 16v4M4 12h4M16 12h4" stroke="#F97316" strokeWidth="2" strokeLinecap="round" /><circle cx="12" cy="12" r="4" fill="#F97316" /></svg>, title: "連続プレイストリーク", desc: "毎日プレイするとストリークが積み上がる。何日連続でプレイできるか挑戦！" },
             ].map((item) => (
               <div key={item.title} className="flex gap-3 items-start p-3 rounded-xl"
                 style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
-                <span className="text-xl flex-shrink-0">{item.icon}</span>
+                <span className="flex-shrink-0">{item.iconEl}</span>
                 <div>
                   <div className="font-bold text-sm mb-0.5" style={{ color: "#ff6b2b" }}>{item.title}</div>
                   <div className="text-xs leading-relaxed" style={{ color: "rgba(255,180,120,0.8)" }}>{item.desc}</div>
@@ -398,7 +487,7 @@ export default function HomePage() {
         <div className="rounded-2xl p-5"
           style={{ background: "linear-gradient(135deg, rgba(124,58,237,0.15), rgba(220,38,38,0.1))", border: "1px solid rgba(124,58,237,0.3)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
           <div className="text-center mb-3">
-            <span className="text-2xl"></span>
+            <span aria-hidden="true"><svg viewBox="0 0 32 32" width={28} height={28}><polygon points="16,2 20,12 31,12 22,19 25,30 16,23 7,30 10,19 1,12 12,12" fill="#C4B5FD" /></svg></span>
             <h2 className="text-base font-black mt-1" style={{ color: "#c4b5fd" }}>プレミアムプラン</h2>
             <div style={{ display: "inline-block", background: "#16a34a", color: "#fff", fontSize: "10px", fontWeight: "700", padding: "2px 10px", borderRadius: "999px", margin: "6px 0" }}>️ 30日返金保証</div>
             <p className="text-2xl font-black mt-1" style={{ color: "#fff" }}>¥480<span className="text-sm font-normal" style={{ color: "#a78bfa" }}>/月</span></p>
@@ -605,7 +694,7 @@ export default function HomePage() {
           ].map((item, i) => (
             <div key={i} className="flex items-center gap-3 p-3 rounded-xl"
               style={{ background: "rgba(255,107,43,0.08)", border: "1px solid rgba(255,107,43,0.2)", backdropFilter: "blur(12px)", WebkitBackdropFilter: "blur(12px)" }}>
-              <span className="text-2xl">{item.icon}</span>
+              <span className="flex-shrink-0">{item.icon}</span>
               <p className="text-sm font-medium" style={{ color: "rgba(255,200,150,0.85)" }}>{item.text}</p>
             </div>
           ))}

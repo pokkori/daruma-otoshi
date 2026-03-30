@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { Noto_Sans_JP } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
+
+const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: ["400", "700"], display: "swap" });
 
 const SITE_URL = "https://daruma-otoshi.vercel.app";
 const TITLE = "ダルマ落とし PHYSICS | 物理だるまタワー — 毎日プレイで段位認定";
@@ -23,6 +26,7 @@ export const metadata: Metadata = {
   twitter: { card: "summary_large_image", title: TITLE, description: DESC },
   alternates: { canonical: SITE_URL },
   robots: { index: true, follow: true },
+  other: { "theme-color": "#1a0a00" },
 };
 
 const jsonLd = {
@@ -58,7 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
-      <body>
+      <body className={`${notoSansJP.className} text-slate-100 antialiased`}>
         {children}
         <Analytics />
       </body>
