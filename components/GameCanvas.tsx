@@ -4,14 +4,17 @@ import { useRef, useEffect, useState, useCallback } from "react";
 import { usePhysicsGame, DifficultyLevel } from "@/hooks/usePhysicsGame";
 import { LEVELS } from "@/lib/levels";
 import { useGameSounds } from "@/hooks/useGameSounds";
+import { useDarmaBGM } from "@/hooks/useDarmaBGM";
+import OrbBackground from "@/components/OrbBackground";
+import DarmaMascot, { type DarumaPose } from "@/components/DarmaMascot";
 
 //  スキン定義 
 type DarumaSkin = { id: string; emoji: string; label: string; desc: string; premium: boolean };
 const DARUMA_SKINS: DarumaSkin[] = [
-  { id: "red",    emoji: "", label: "赤だるま",   desc: "定番の守護神",         premium: false },
-  { id: "gold",   emoji: "", label: "金だるま",   desc: "10連勝で解除",         premium: true },
-  { id: "oni",    emoji: "", label: "鬼だるま",   desc: "ホラー感MAX",          premium: true },
-  { id: "neko",   emoji: "", label: "招き猫",     desc: "縁起物バージョン",     premium: true },
+  { id: "red",    emoji: "red",    label: "赤だるま",   desc: "定番の守護神",         premium: false },
+  { id: "gold",   emoji: "gold",   label: "金だるま",   desc: "10連勝で解除",         premium: true },
+  { id: "oni",    emoji: "oni",    label: "鬼だるま",   desc: "ホラー感MAX",          premium: true },
+  { id: "neko",   emoji: "neko",   label: "招き猫",     desc: "縁起物バージョン",     premium: true },
 ];
 const SKIN_KEY = "daruma_skin";
 function loadSkin(): string {
@@ -56,13 +59,13 @@ function generateShareImage(stage: number, score: number, skin: DarumaSkin): str
 //  段位認定 
 type DanRank = { name: string; nameEn: string; emoji: string; color: string; minStage: number };
 const DAN_RANKS: DanRank[] = [
-  { name: "見習い叩き師", nameEn: "Apprentice", emoji: "", color: "#94a3b8", minStage: 0 },
-  { name: "初段", nameEn: "1st Dan", emoji: "", color: "#f97316", minStage: 1 },
-  { name: "二段", nameEn: "2nd Dan", emoji: "", color: "#ef4444", minStage: 3 },
-  { name: "三段", nameEn: "3rd Dan", emoji: "", color: "#a855f7", minStage: 6 },
-  { name: "四段", nameEn: "4th Dan", emoji: "", color: "#f59e0b", minStage: 10 },
-  { name: "師範代", nameEn: "Senior", emoji: "", color: "#d97706", minStage: 15 },
-  { name: "師範", nameEn: "Master", emoji: "", color: "#fbbf24", minStage: 21 },
+  { name: "見習い叩き師", nameEn: "Apprentice", emoji: "beginner", color: "#94a3b8", minStage: 0 },
+  { name: "初段", nameEn: "1st Dan", emoji: "dan1", color: "#f97316", minStage: 1 },
+  { name: "二段", nameEn: "2nd Dan", emoji: "dan2", color: "#ef4444", minStage: 3 },
+  { name: "三段", nameEn: "3rd Dan", emoji: "dan3", color: "#a855f7", minStage: 6 },
+  { name: "四段", nameEn: "4th Dan", emoji: "dan4", color: "#f59e0b", minStage: 10 },
+  { name: "師範代", nameEn: "Senior", emoji: "senior", color: "#d97706", minStage: 15 },
+  { name: "師範", nameEn: "Master", emoji: "master", color: "#fbbf24", minStage: 21 },
 ];
 function getDanRank(bestEndlessStage: number): DanRank {
   for (let i = DAN_RANKS.length - 1; i >= 0; i--) {
@@ -142,9 +145,9 @@ const DIFFICULTY_COLORS: Record<DifficultyLevel, string> = {
   hard: "#ef4444",
 };
 const DIFFICULTY_EMOJIS: Record<DifficultyLevel, string> = {
-  easy: "",
-  normal: "",
-  hard: "",
+  easy: "◎",
+  normal: "●",
+  hard: "★",
 };
 
 //  3秒チャレンジタイマーUI 
@@ -212,6 +215,10 @@ export default function GameCanvas() {
 
   const level = LEVELS[Math.min(levelIndex, LEVELS.length - 1)];
   const { playKnock, playClear, playFail } = useGameSounds();
+  const { start: bgmStart, stop: bgmStop, setMuted: bgmSetMuted } = useDarmaBGM();
+  const [bgmMuted, setBgmMuted] = useState(false);
+  const [mascotPose, setMascotPose] = useState<DarumaPose>("idle");
+  const bgmStartedRef = useRef(false);
 
   useEffect(() => {
     const bs = localStorage.getItem("daruma_best");
@@ -234,11 +241,30 @@ export default function GameCanvas() {
     // 3秒チャレンジベスト
     const tsb = localStorage.getItem("daruma_3sec_best");
     if (tsb) setThreeSecBest(parseFloat(tsb));
+
+    // BGM: 初回ユーザーインタラクションで起動
+    const startBgmOnce = () => {
+      if (!bgmStartedRef.current) {
+        bgmStartedRef.current = true;
+        bgmStart();
+      }
+      document.removeEventListener("click", startBgmOnce);
+      document.removeEventListener("touchstart", startBgmOnce);
+    };
+    document.addEventListener("click", startBgmOnce);
+    document.addEventListener("touchstart", startBgmOnce);
+    return () => {
+      document.removeEventListener("click", startBgmOnce);
+      document.removeEventListener("touchstart", startBgmOnce);
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleClear = useCallback(() => {
     playClear();
     triggerSlowMotion();
+    setMascotPose("happy");
+    setTimeout(() => setMascotPose("excited"), 500);
     setCleared(true);
     const newScore = score + currentDarumaCount * 100;
     setScore(newScore);
@@ -277,6 +303,8 @@ export default function GameCanvas() {
 
   const handleFail = useCallback(() => {
     playFail();
+    bgmStop();
+    setMascotPose("crying");
     setFailed(true);
     // 3秒チャレンジ計測キャンセル
     if (threeSec) {
@@ -306,6 +334,8 @@ export default function GameCanvas() {
   useEffect(() => {
     if (removedCount > prevRemovedRef.current) {
       playKnock();
+      setMascotPose("excited");
+      setTimeout(() => setMascotPose("idle"), 600);
       prevRemovedRef.current = removedCount;
     }
   }, [removedCount, playKnock]);
@@ -397,18 +427,18 @@ export default function GameCanvas() {
   // 挑戦状URL生成（友達がこのURLを開くとスコアとランクが表示される）
   const challengeUrl = `${siteUrl}/game?challenge_score=${score}&challenge_rank=${encodeURIComponent(danRank.name)}`;
   const challengeShareText = isEndless
-    ? ` ${danRank.name} ${danRank.emoji} のオレに勝てるか？\nダルマ落としPHYSICS エンドレス${currentDarumaCount}段・スコア${score}点\n挑戦受付中\n#ダルマ落とし #物理パズル`
-    : ` ${danRank.name} ${danRank.emoji} のオレのスコア${score}点に勝てるか？\nダルマ落としPHYSICS\n挑戦受付中\n#ダルマ落とし #物理パズル`;
+    ? `【${danRank.name}】のオレに勝てるか？\nダルマ落としPHYSICS エンドレス${currentDarumaCount}段・スコア${score}点\n挑戦受付中\n#ダルマ落とし #物理パズル`
+    : `【${danRank.name}】のオレのスコア${score}点に勝てるか？\nダルマ落としPHYSICS\n挑戦受付中\n#ダルマ落とし #物理パズル`;
   const challengeShareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(challengeShareText)}&url=${encodeURIComponent(challengeUrl)}`;
 
   // エンドレスモード時: 段位認定証OGP画像URLを生成
   const ogImageUrl = isEndless
-    ? `${siteUrl}/api/og?rank=${encodeURIComponent(danRank.name)}&emoji=${encodeURIComponent(danRank.emoji)}&stage=${encodeURIComponent(String(9 + bestEndlessStage))}&color=${encodeURIComponent(danRank.color)}`
+    ? `${siteUrl}/api/og?rank=${encodeURIComponent(danRank.name)}&stage=${encodeURIComponent(String(9 + bestEndlessStage))}&color=${encodeURIComponent(danRank.color)}`
     : null;
 
   const shareText = isEndless
-    ? ` ダルマ落としPHYSICS【${danRank.name} ${danRank.emoji}】エンドレスモード ${currentDarumaCount}段タワー攻略！\nスコア: ${score}点 / 最高: ${9 + bestEndlessStage}段\n#ダルマ落とし #物理パズル #${danRank.name}`
-    : ` ダルマ落としPHYSICSで${level.name}レベルクリア！\nスコア: ${score}点\n段位: ${danRank.name} ${danRank.emoji}\n#ダルマ落とし #物理パズル\n${siteUrl}`;
+    ? `ダルマ落としPHYSICS【${danRank.name}】エンドレスモード ${currentDarumaCount}段タワー攻略！\nスコア: ${score}点 / 最高: ${9 + bestEndlessStage}段\n#ダルマ落とし #物理パズル #${danRank.name}`
+    : `ダルマ落としPHYSICSで${level.name}レベルクリア！\nスコア: ${score}点\n段位: ${danRank.name}\n#ダルマ落とし #物理パズル\n${siteUrl}`;
 
   // エンドレスモード時はOGP画像URLをurlパラメータとして渡す（Twitter Cardに表示）
   const shareUrl = isEndless && ogImageUrl
@@ -430,18 +460,21 @@ export default function GameCanvas() {
   // 難易度選択スタート画面
   if (showDifficultySelect) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-dvh py-4 px-4 overflow-y-auto"
-        style={{ background: "linear-gradient(160deg, #1a0a00, #2d1500)" }}>
-        <div className="w-full max-w-sm">
+      <div className="flex flex-col items-center justify-center min-h-dvh py-4 px-4 overflow-y-auto" style={{ position: "relative" }}>
+        <OrbBackground />
+        <div className="w-full max-w-sm" style={{ position: "relative", zIndex: 1 }}>
           <div className="text-center mb-6">
-            <div className="text-6xl mb-3"></div>
+            {/* だるまSVGマスコット */}
+            <div className="flex justify-center mb-3">
+              <DarmaMascot pose="idle" size={90} />
+            </div>
             <h1 className="text-3xl font-black mb-2" style={{ color: "#ff6b2b" }}>ダルマ落とし</h1>
             <p className="text-sm" style={{ color: "rgba(255,180,120,0.7)" }}>難易度とスキンを選んでスタート！</p>
           </div>
 
           {/* スキン選択 */}
           <div className="mb-5 backdrop-blur-md bg-white/5 border border-white/10 rounded-2xl p-4" style={{ border: "1px solid rgba(255,107,43,0.15)" }}>
-            <div className="text-xs font-black mb-2 tracking-widest" style={{ color: "rgba(255,180,120,0.6)" }}> だるまスキン</div>
+            <div className="text-xs font-black mb-2 tracking-widest" style={{ color: "rgba(255,180,120,0.6)" }}>だるまスキン</div>
             <div className="grid grid-cols-4 gap-2">
               {DARUMA_SKINS.map((skin) => {
                 const isSelected = selectedSkin === skin.id;
@@ -465,21 +498,26 @@ export default function GameCanvas() {
                       opacity: isLocked ? 0.6 : 1,
                     }}
                   >
-                    <span className="text-3xl mb-1">{skin.emoji}</span>
+                    <div className="mb-1" style={{ width: 40, height: 40 }}>
+                      <DarmaMascot pose={isSelected ? "happy" : "idle"} size={40} />
+                    </div>
                     <span className="text-xs font-bold" style={{ color: isSelected ? "#ff6b2b" : "rgba(255,200,150,0.7)" }}>
                       {skin.label}
                     </span>
                     {isLocked && (
-                      <span className="absolute top-1 right-1 text-xs"></span>
+                      <span className="absolute top-1 right-1 text-xs font-black" style={{ color: "#94a3b8" }}>鍵</span>
                     )}
                     {isSelected && !isLocked && (
-                      <span className="absolute top-1 right-1 text-xs text-amber-400"></span>
+                      <svg className="absolute top-1 right-1" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+                        <circle cx="6" cy="6" r="5" fill="#d97706" />
+                        <path d="M3 6 L5.5 8.5 L9 4" stroke="white" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+                      </svg>
                     )}
                   </button>
                 );
               })}
             </div>
-            <p className="text-xs mt-1.5" style={{ color: "rgba(255,120,70,0.45)" }}> プレミアムで解放（金・鬼・招き猫）</p>
+            <p className="text-xs mt-1.5" style={{ color: "rgba(255,120,70,0.45)" }}>プレミアムで解放（金・鬼・招き猫）</p>
           </div>
 
           <div className="space-y-3 mb-5">
@@ -512,9 +550,9 @@ export default function GameCanvas() {
           <div className="rounded-xl p-4 text-xs space-y-1.5 backdrop-blur-md"
             style={{ background: "rgba(255,107,43,0.06)", border: "1px solid rgba(255,255,255,0.08)" }}>
             <div className="font-bold mb-2" style={{ color: "#ffb899" }}>難易度の違い</div>
-            <div style={{ color: "rgba(255,180,120,0.7)" }}> かんたん — 重力弱め・摩擦大。初心者・子どもにおすすめ</div>
-            <div style={{ color: "rgba(255,180,120,0.7)" }}> ふつう — バランス型。物理演算の醍醐味を楽しめる</div>
-            <div style={{ color: "rgba(255,180,120,0.7)" }}> むずかしい — 重力強め・滑りやすい。上級者向け</div>
+            <div style={{ color: "rgba(255,180,120,0.7)" }}>◎ かんたん — 重力弱め・摩擦大。初心者・子どもにおすすめ</div>
+            <div style={{ color: "rgba(255,180,120,0.7)" }}>● ふつう — バランス型。物理演算の醍醐味を楽しめる</div>
+            <div style={{ color: "rgba(255,180,120,0.7)" }}>★ むずかしい — 重力強め・滑りやすい。上級者向け</div>
           </div>
           <p className="text-center text-xs mt-4" style={{ color: "rgba(255,120,70,0.5)" }}>
             ゲーム中も設定から難易度変更できます
@@ -525,32 +563,72 @@ export default function GameCanvas() {
   }
 
   return (
-    <div className="flex flex-col items-center min-h-dvh py-2 px-2"
-      style={{ background: "linear-gradient(160deg, #1a0a00, #2d1500)" }}>
+    <div className="flex flex-col items-center min-h-dvh py-2 px-2" style={{ position: "relative" }}>
+      <OrbBackground />
 
       {/* ストリークバナー */}
       {showStreakBanner && (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 pointer-events-none">
           <div className="px-6 py-3 rounded-2xl font-black text-lg shadow-2xl animate-bounce"
             style={{ background: "linear-gradient(135deg, #ff6b2b, #dc2626)", color: "#fff", boxShadow: "0 0 30px rgba(255,107,43,0.7)" }}>
-             {darumaStreak}日連続！叩き師の証！
+            {darumaStreak}日連続！叩き師の証！
           </div>
         </div>
       )}
 
-      <div className="w-full max-w-sm flex items-center justify-between mb-2">
-        <a href="/" className="text-amber-500 text-sm">&larr; トップ</a>
+      <div className="w-full max-w-sm flex items-center justify-between mb-2" style={{ position: "relative", zIndex: 10 }}>
+        <a href="/" className="text-amber-500 text-sm" style={{ minHeight: 44, display: "flex", alignItems: "center" }}>&larr; トップ</a>
         <span className="font-black text-lg" style={{ color: "#ff6b2b" }}>
-          {isEndless ? "" : ""} {displayName}
+          {displayName}
           {darumaStreak >= 2 && <span className="text-xs ml-1 text-amber-400">{darumaStreak}日</span>}
         </span>
         <button
           onClick={() => setShowDifficultySelect(true)}
           aria-label="難易度設定を開く"
           className="text-xs px-2 py-1 rounded-full font-bold"
-          style={{ background: `${DIFFICULTY_COLORS[difficulty]}22`, color: DIFFICULTY_COLORS[difficulty], border: `1px solid ${DIFFICULTY_COLORS[difficulty]}55` }}
+          style={{ minHeight: 44, minWidth: 44, background: `${DIFFICULTY_COLORS[difficulty]}22`, color: DIFFICULTY_COLORS[difficulty], border: `1px solid ${DIFFICULTY_COLORS[difficulty]}55` }}
         >
           {DIFFICULTY_EMOJIS[difficulty]} {DIFFICULTY_LABELS[difficulty]}
+        </button>
+      </div>
+
+      {/* DarmaMascot + BGMミュートボタン */}
+      <div className="w-full max-w-sm flex items-center justify-between mb-1" style={{ position: "relative", zIndex: 10 }}>
+        <DarmaMascot pose={mascotPose} size={60} />
+        <button
+          onClick={() => {
+            const next = !bgmMuted;
+            setBgmMuted(next);
+            bgmSetMuted(next);
+          }}
+          style={{
+            minHeight: 44,
+            minWidth: 44,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            borderRadius: 12,
+            border: "1px solid rgba(255,255,255,0.15)",
+            background: "rgba(255,255,255,0.07)",
+            backdropFilter: "blur(8px)",
+            cursor: "pointer",
+            padding: "0 10px",
+          }}
+          aria-label={bgmMuted ? "BGMをオンにする" : "BGMをオフにする"}
+        >
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            {bgmMuted ? (
+              <>
+                <path d="M9 9v6h4l5 5V4l-5 5H9z" fill="rgba(255,255,255,0.3)" />
+                <line x1="3" y1="3" x2="21" y2="21" stroke="#ef4444" strokeWidth="2" strokeLinecap="round" />
+              </>
+            ) : (
+              <>
+                <path d="M9 9v6h4l5 5V4l-5 5H9z" fill="#ff6b2b" />
+                <path d="M15.5 8.5a5 5 0 0 1 0 7" stroke="#ff6b2b" strokeWidth="2" strokeLinecap="round" fill="none" />
+              </>
+            )}
+          </svg>
         </button>
       </div>
 
@@ -567,7 +645,7 @@ export default function GameCanvas() {
               : "rgba(120,53,15,0.4)",
             boxShadow: dailyChallengeCleared ? "0 0 12px rgba(245,158,11,0.4)" : "none",
           }}>
-          <span>{dailyChallengeCleared ? "" : ""} 今日のチャレンジ: {dailyChallenge.label}</span>
+          <span>今日のチャレンジ: {dailyChallenge.label}</span>
           {dailyChallengeCleared ? (
             <span className="text-amber-300 font-black animate-pulse">達成！</span>
           ) : (
@@ -636,8 +714,10 @@ export default function GameCanvas() {
         {cleared && (
           <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl bounce-in backdrop-blur-md"
             style={{ background: "rgba(0,0,0,0.82)" }}>
-            {/* GIF感クリア演出 */}
-            <div className="text-6xl mb-2 animate-bounce">{isEndless ? "" : ""}</div>
+            {/* クリア演出: DarmaMascot happy */}
+            <div className="flex justify-center mb-2 animate-bounce">
+              <DarmaMascot pose="happy" size={70} />
+            </div>
             <div className="text-4xl font-black mb-1"
               style={{ color: "#ff6b2b", textShadow: "0 0 30px rgba(255,107,43,0.9)" }}>
               {isEndless ? `${currentDarumaCount}段クリア！` : "クリア！"}
@@ -652,14 +732,14 @@ export default function GameCanvas() {
 
             {isEndless && (
               <div className="text-amber-400 text-sm mb-3 font-bold animate-pulse">
-                次: {currentDarumaCount + 1}段タワーに挑戦！ 
+                次: {currentDarumaCount + 1}段タワーに挑戦！
               </div>
             )}
 
             {/* 段位バッジ */}
             <div className="mb-3 px-5 py-2 rounded-full font-black text-sm flex items-center gap-2"
               style={{ background: "rgba(0,0,0,0.5)", border: `2px solid ${danRank.color}`, color: danRank.color, boxShadow: `0 0 15px ${danRank.color}40` }}>
-              <span>{danRank.emoji}</span>
+              <div style={{ width: 16, height: 16, borderRadius: "50%", background: danRank.color, flexShrink: 0 }} />
               <span>{danRank.name}</span>
               <span className="text-xs opacity-70">/ {danRank.nameEn}</span>
             </div>
@@ -684,7 +764,7 @@ export default function GameCanvas() {
                   aria-label="エンドレスモードに突入する"
                   className="w-full py-3 rounded-xl font-bold text-white text-sm transition-all active:scale-95 animate-pulse"
                   style={{ background: "linear-gradient(135deg, #ff6b2b, #7c3aed)", boxShadow: "0 0 20px rgba(124,58,237,0.5)" }}>
-                   エンドレスモード突入！
+                  エンドレスモード突入！
                 </button>
               )}
               {/* 崩れ瞬間シェアボタン（クリア時） */}
@@ -711,14 +791,14 @@ export default function GameCanvas() {
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
                   style={{ background: "linear-gradient(135deg, #ff4444, #dc2626)", color: "#fff", boxShadow: "0 0 14px rgba(255,68,68,0.4)" }}
                 >
-                   この瞬間をシェア（画像付き）
+                  この瞬間をシェア（画像付き）
                 </button>
               )}
               {/* 挑戦状ボタン */}
               <a href={challengeShareUrl} target="_blank" rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
                 style={{ background: "linear-gradient(135deg, #7c3aed, #4c1d95)", color: "#fff", boxShadow: "0 0 12px rgba(124,58,237,0.5)" }}>
-                ️ 友達に挑戦状を送る
+                友達に挑戦状を送る
               </a>
               <a href={shareUrl} target="_blank" rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
@@ -726,7 +806,7 @@ export default function GameCanvas() {
                 <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
-                {isEndless ? `${currentDarumaCount}段達成をシェア ` : "クリアをXでシェア"}
+                {isEndless ? `${currentDarumaCount}段達成をシェア` : "クリアをXでシェア"}
               </a>
             </div>
           </div>
@@ -735,9 +815,11 @@ export default function GameCanvas() {
         {failed && (
           <div className="absolute inset-0 flex flex-col items-center justify-center rounded-2xl shake overflow-y-auto py-4 backdrop-blur-md"
             style={{ background: "rgba(0,0,0,0.88)" }}>
-            {/* GIF感スコア演出 */}
+            {/* 失敗演出: DarmaMascot crying */}
             <div className="relative mb-3 text-center">
-              <div className="text-6xl mb-1 animate-bounce"></div>
+              <div className="flex justify-center mb-2">
+                <DarmaMascot pose="crying" size={70} />
+              </div>
               <div className="text-4xl font-black animate-pulse"
                 style={{ color: "#ff6b2b", textShadow: "0 0 20px rgba(255,107,43,0.8)" }}>
                 {isEndless ? `${currentDarumaCount - 1}段` : `スコア ${score}`}
@@ -761,12 +843,12 @@ export default function GameCanvas() {
                 background: "linear-gradient(135deg, #ff6b2b, #dc2626)",
                 boxShadow: "0 0 24px rgba(255,107,43,0.6)",
               }}>
-               もう一回！
+              もう一回！
             </button>
             {/* 段位バッジ */}
             <div className="mb-3 px-5 py-2 rounded-full font-black text-sm flex items-center gap-2"
               style={{ background: "rgba(0,0,0,0.5)", border: `2px solid ${danRank.color}`, color: danRank.color, boxShadow: `0 0 15px ${danRank.color}40` }}>
-              <span>{danRank.emoji}</span>
+              <div style={{ width: 16, height: 16, borderRadius: "50%", background: danRank.color, flexShrink: 0 }} />
               <span>現在: {danRank.name}</span>
               {danRank.minStage < DAN_RANKS[DAN_RANKS.length - 1].minStage && (
                 <span className="text-xs opacity-60">次段まであと{(DAN_RANKS[Math.min(DAN_RANKS.findIndex(d => d.name === danRank.name) + 1, DAN_RANKS.length - 1)].minStage - bestEndlessStage)}段</span>
@@ -781,12 +863,12 @@ export default function GameCanvas() {
               return (
                 <div className="w-52 mb-3 rounded-xl overflow-hidden" style={{ border: "1px solid rgba(251,191,36,0.4)", background: "rgba(0,0,0,0.5)" }}>
                   <div className="px-3 py-1.5 text-xs font-black flex items-center gap-1" style={{ background: "rgba(251,191,36,0.15)", color: "#fbbf24" }}>
-                     ハイスコアTOP5（{modeLabel}）
+                    ハイスコアTOP5（{modeLabel}）
                   </div>
                   {top5.map((r, i) => (
                     <div key={i} className="flex items-center justify-between px-3 py-1 text-xs" style={{ borderTop: i > 0 ? "1px solid rgba(255,255,255,0.06)" : "none" }}>
                       <span style={{ color: i === 0 ? "#fbbf24" : i === 1 ? "#94a3b8" : i === 2 ? "#d97706" : "#6b7280", fontWeight: "bold" }}>
-                        {i === 0 ? "" : i === 1 ? "" : i === 2 ? "" : `${i + 1}.`}
+                        {`${i + 1}.`}
                       </span>
                       <span className="font-bold" style={{ color: "#fde68a" }}>
                         {isEndless ? `${r.stage}段` : `Lv.${r.stage + 1}`}
@@ -822,31 +904,32 @@ export default function GameCanvas() {
                   className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
                   style={{ background: "linear-gradient(135deg, #ff4444, #dc2626)", color: "#fff", boxShadow: "0 0 14px rgba(255,68,68,0.5)" }}
                 >
-                   この瞬間をシェア（画像付き）
+                  この瞬間をシェア（画像付き）
                 </button>
               )}
               {/* 挑戦状ボタン */}
               <a href={challengeShareUrl} target="_blank" rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-3 rounded-xl text-sm font-bold transition-all active:scale-95"
-                style={{ background: "linear-gradient(135deg, #7c3aed, #4c1d95)", color: "#fff", boxShadow: "0 0 15px rgba(124,58,237,0.5)" }}>
-                ️ 友達に挑戦状を送る
+                style={{ minHeight: 44, background: "linear-gradient(135deg, #7c3aed, #4c1d95)", color: "#fff", boxShadow: "0 0 15px rgba(124,58,237,0.5)" }}>
+                友達に挑戦状を送る
               </a>
               <a href={shareUrl} target="_blank" rel="noopener noreferrer"
                 className="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl text-sm font-bold transition-all active:scale-95"
-                style={{ background: "linear-gradient(135deg, #1a1a2e, #000)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)" }}>
+                style={{ minHeight: 44, background: "linear-gradient(135deg, #1a1a2e, #000)", color: "#fff", border: "1px solid rgba(255,255,255,0.15)" }}>
                 <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current">
                   <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
                 </svg>
-                {isEndless ? `${currentDarumaCount - 1}段達成をシェア ` : "結果をXでシェア"}
+                {isEndless ? `${currentDarumaCount - 1}段達成をシェア` : "結果をXでシェア"}
               </a>
               <button onClick={handleRetry}
                 aria-label="もう一度プレイする"
                 className="w-full px-8 py-4 rounded-2xl font-black text-lg text-white transition-all active:scale-95"
                 style={{
+                  minHeight: 44,
                   background: "linear-gradient(135deg, #ff6b2b, #dc2626)",
                   boxShadow: "0 0 20px rgba(255,107,43,0.5)",
                 }}>
-                 もう一度！
+                もう一度！
               </button>
               {/* 3秒 / 30秒チャレンジボタン */}
               <div className="grid grid-cols-2 gap-2">
@@ -854,31 +937,31 @@ export default function GameCanvas() {
                   onClick={handleStart3Sec}
                   aria-label="3秒チャレンジを開始する"
                   className="py-2.5 rounded-xl font-black text-xs transition-all active:scale-95"
-                  style={{ background: "linear-gradient(135deg, #0ea5e9, #0284c7)", color: "#fff" }}
+                  style={{ minHeight: 44, background: "linear-gradient(135deg, #0ea5e9, #0284c7)", color: "#fff" }}
                 >
-                  ️ 3秒チャレンジ
+                  3秒チャレンジ
                 </button>
                 <button
                   onClick={handleStart30Sec}
                   aria-label="30秒高得点チャレンジを開始する"
                   className="py-2.5 rounded-xl font-black text-xs transition-all active:scale-95"
-                  style={{ background: "linear-gradient(135deg, #10b981, #059669)", color: "#fff" }}
+                  style={{ minHeight: 44, background: "linear-gradient(135deg, #10b981, #059669)", color: "#fff" }}
                 >
-                   30秒高得点
+                  30秒高得点
                 </button>
               </div>
               {threeSecBest !== null && (
                 <p className="text-center text-xs" style={{ color: "#38bdf8" }}>
-                  ️ 3秒ベスト: {(threeSecBest / 1000).toFixed(2)}秒
+                  3秒ベスト: {(threeSecBest / 1000).toFixed(2)}秒
                 </p>
               )}
               <button
                 onClick={() => window.dispatchEvent(new Event("daruma:openPayjp"))}
                 aria-label="プレミアムプランに登録する（¥480/月）"
                 className="w-full py-2.5 rounded-xl font-bold text-sm transition-all active:scale-95"
-                style={{ background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#1a0a00" }}
+                style={{ minHeight: 44, background: "linear-gradient(135deg, #f59e0b, #d97706)", color: "#1a0a00" }}
               >
-                 プレミアムで無制限プレイ ¥480/月
+                プレミアムで無制限プレイ ¥480/月
               </button>
               {isEndless && (
                 <button onClick={handleRetryFromStart}
@@ -901,7 +984,7 @@ export default function GameCanvas() {
             黄色のだるまを左右にスワイプして叩き抜け！
           </p>
           <p className="text-xs text-amber-700 mt-0.5">
-            {threeSec ? "️ 3秒以内に1段クリア！タイムを競え！" : isEndless ? `${currentDarumaCount}段タワーを攻略せよ！` : level.hint}
+            {threeSec ? "3秒以内に1段クリア！タイムを競え！" : isEndless ? `${currentDarumaCount}段タワーを攻略せよ！` : level.hint}
           </p>
         </div>
       )}
