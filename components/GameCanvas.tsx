@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState, useCallback } from "react";
+import { haptics } from "@/utils/haptics";
 import { usePhysicsGame, DifficultyLevel } from "@/hooks/usePhysicsGame";
 import { LEVELS } from "@/lib/levels";
 import { useGameSounds } from "@/hooks/useGameSounds";
@@ -261,6 +262,7 @@ export default function GameCanvas() {
   }, []);
 
   const handleClear = useCallback(() => {
+    haptics.success();
     playClear();
     triggerSlowMotion();
     setMascotPose("happy");
@@ -302,6 +304,7 @@ export default function GameCanvas() {
   }, [score, currentDarumaCount, bestScore, isEndless, endlessStage, bestEndlessStage, dailyChallenge.target, threeSec, threeSecBest, selectedSkin, levelIndex]);
 
   const handleFail = useCallback(() => {
+    haptics.error();
     playFail();
     bgmStop();
     setMascotPose("crying");
@@ -333,6 +336,7 @@ export default function GameCanvas() {
   const prevRemovedRef = useRef(0);
   useEffect(() => {
     if (removedCount > prevRemovedRef.current) {
+      haptics.tap();
       playKnock();
       setMascotPose("excited");
       setTimeout(() => setMascotPose("idle"), 600);
