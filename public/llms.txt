@@ -1,39 +1,27 @@
-# ダルマ落とし PHYSICS
+# ダルマ落とし
+> ダルマ落としをモチーフにしたブラウザゲーム
 
 ## サービス概要
-ダルマ落とし PHYSICSは、日本の伝統遊び「ダルマ落とし」をブラウザで楽しめる本格物理パズルゲームです。Matter.js物理演算エンジンにより毎回リアルなだるまの崩れ方を再現。
+- **カテゴリ**: Webアプリ
+- **URL**: https://daruma-otoshi.vercel.app
+- **提供形態**: Webブラウザで利用可能（登録不要で試せます）
+- **開発**: Claude Code + Next.js 16 + Vercel
 
-## 提供元
-ポッコリラボ（https://daruma-otoshi.vercel.app）
+## 主要ページ
+- [トップページ](https://daruma-otoshi.vercel.app/): メイン機能・サービス説明
+- [ツール](https://daruma-otoshi.vercel.app/tool): AI機能の利用画面（一部サービス）
+- [プライバシーポリシー](https://daruma-otoshi.vercel.app/privacy): 個人情報の取り扱い
+- [特定商取引法に基づく表記](https://daruma-otoshi.vercel.app/legal): 法的情報
 
-## 主な機能
-- 本格物理演算（Matter.js）によるリアルなだるまの動き
-- かんたん・ふつう・むずかしいの3段階難易度
-- エンドレスモード（最高難度挑戦）
-- 毎日変わるデイリーチャレンジ
-- 段位認定システム（初段〜師範）
-- ランキング機能
-- スコアXシェア機能（1200x630スコアカード付き）
-
-## 操作方法
-横にスワイプ（PCはドラッグ）して下のだるまを叩き抜きます。タワーを崩さず全てのだるまを取り除けばクリア。
-
-## 段位基準
-1段=初段 / 3段=二段 / 6段=三段 / 10段=四段 / 15段=師範代 / 21段=師範（最高位）
-
-## 対象ユーザー
-物理パズルゲームが好きな方、日本の伝統遊びに興味がある方、脳トレ・暇つぶしゲームを探している方
-
-## 料金
-無料プレイ
-
-## 利用規約・プライバシーポリシー
-- 利用規約: https://daruma-otoshi.vercel.app/terms
-- プライバシーポリシー: https://daruma-otoshi.vercel.app/privacy
-- 特定商取引法に基づく表記: https://daruma-otoshi.vercel.app/legal
+## 利用シーン
+ダルマ落としをモチーフにしたブラウザゲーム
 
 ## 技術スタック
-Next.js 15 / Matter.js / TypeScript / Vercel
+- フロントエンド: Next.js 16, React 19, TypeScript, Tailwind CSS
+- AI: Claude claude-sonnet-4-6 (Anthropic)
+- バックエンド: Vercel Edge Functions, Supabase
+- 決済: KOMOJU（クレジットカード・コンビニ払い対応）
 
-## 更新日
-2026-04-01
+## robots.txt
+AIクローラーによるインデックスを歓迎します。
+GPTBot, ClaudeBot, PerplexityBot, Googlebot-Extended のアクセスを許可しています。
