@@ -101,12 +101,12 @@ function ChallengeBanner() {
     <div className="w-full px-4 pt-4">
       <div className="rounded-2xl p-4 text-center font-black"
         style={{ background: "linear-gradient(135deg, #7c3aed, #dc2626)", color: "#fff", boxShadow: "0 0 30px rgba(124,58,237,0.7)" }}>
-        <div className="text-sm mb-1">️ 挑戦状が届いた！</div>
+        <div className="text-sm mb-1">挑戦状が届いた！</div>
         <div className="text-lg">{challenge.rank} のスコア <span style={{ color: "#fbbf24" }}>{challenge.score.toLocaleString()}点</span> を超えろ！</div>
         <Link href="/game"
           className="inline-block mt-2 px-6 py-2 rounded-full text-sm font-bold"
           style={{ background: "#fbbf24", color: "#1a0a00" }}>
-          今すぐ挑戦する 
+          今すぐ挑戦する
         </Link>
       </div>
     </div>
