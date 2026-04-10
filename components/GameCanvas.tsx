@@ -465,7 +465,7 @@ export default function GameCanvas() {
   if (showDifficultySelect) {
     return (
       <div className="flex flex-col items-center justify-center min-h-dvh py-4 px-4 overflow-y-auto" style={{ position: "relative" }}>
-        <OrbBackground />
+        <OrbBackground theme="game" />
         <div className="w-full max-w-sm" style={{ position: "relative", zIndex: 1 }}>
           <div className="text-center mb-6">
             {/* だるまSVGマスコット */}
@@ -568,7 +568,7 @@ export default function GameCanvas() {
 
   return (
     <div className="flex flex-col items-center min-h-dvh py-2 px-2" style={{ position: "relative" }}>
-      <OrbBackground />
+      <OrbBackground theme="game" />
 
       {/* ストリークバナー */}
       {showStreakBanner && (

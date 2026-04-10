@@ -64,7 +64,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       </head>
       <body className={`${notoSansJP.className} text-slate-100 antialiased`}>
-        <OrbBackground />
+        <OrbBackground theme="game" />
         {children}
         <Analytics />
       </body>
